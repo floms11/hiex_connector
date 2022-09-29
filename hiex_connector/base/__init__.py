@@ -15,8 +15,12 @@ class HiExConnectorBase:
         self.__public_key = public_key
 
     def get_request(self, method, data):
-        req = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
-        return self._get_valid_response(req.text)
+        text = self.get_request_text(method, data)
+        return self._get_valid_response(text)
+
+    def get_request_text(self, method, data):
+        r = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
+        return r.text
 
     def _pre_request_data(self, data):
         data['public_key'] = self.__public_key
