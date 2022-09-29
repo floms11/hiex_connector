@@ -33,8 +33,8 @@ class HiExConnector(HiExConnectorBase):
             logs.append(Log(**log))
         return logs
 
-    def admin_log_get(self, name):
-        resp = self.get_request('admin/log/get', {
+    def admin_logs_get(self, name):
+        resp = self.get_request_text('admin/logs/get', {
             'name': name
         })
         return resp
