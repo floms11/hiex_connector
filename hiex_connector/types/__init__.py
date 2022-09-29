@@ -24,7 +24,7 @@ class ResponseException(BaseType):
 
 
 class Coin(BaseType):
-    code: str
+    currency_code: str
     deposit_merchant: str
     withdrawal_merchant: str
     use_tag: bool
@@ -36,7 +36,7 @@ class Coin(BaseType):
     round_ndigits: int
 
     def __init__(self, **kwargs):
-        self.code = kwargs['code']
+        self.currency_code = kwargs['currency_code']
         self.deposit_merchant = kwargs['deposit_merchant']
         self.withdrawal_merchant = kwargs['withdrawal_merchant']
         self.use_tag = kwargs['use_tag']
