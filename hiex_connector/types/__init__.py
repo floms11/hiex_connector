@@ -13,15 +13,6 @@ class BaseType:
         return getattr(self, item)
 
 
-class ResponseException(BaseType):
-    code: int
-    detail: str
-
-    def __init__(self, code, detail=''):
-        self.code = code
-        self.detail = detail
-
-
 class Coin(BaseType):
     currency_code: str
     deposit_merchant: str
