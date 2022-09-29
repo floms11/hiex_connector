@@ -1,0 +1,24 @@
+class ResponseError(Exception):
+    code: int = 0
+    detail: str = ''
+    message: str = ''
+
+    def __init__(self, detail: str = None, code: int = None):
+        if detail:
+            self.message = self.detail = detail
+        if code:
+            self.code = code
+
+    def __str__(self):
+        return f"{self.__class__.__name__}, {self.code}, {self.detail}"
+
+
+class ProcessingError(Exception):
+    message: str = ''
+
+    def __init__(self, message: str = None):
+        if message:
+            self.message = message
+
+    def __str__(self):
+        return f"{self.__class__.__name__}, {self.message}"

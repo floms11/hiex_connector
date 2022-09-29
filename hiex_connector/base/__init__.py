@@ -2,7 +2,7 @@ import time
 import requests
 import hashlib
 import simplejson
-from hiex_connector.types import ResponseException
+from hiex_connector.exceptions import *
 
 
 class HiExConnectorBase:
@@ -15,12 +15,6 @@ class HiExConnectorBase:
         self.__public_key = public_key
 
     def get_request(self, method, data):
-        try:
-            return self._get_request(method, data)
-        except Exception as e:
-            return ResponseException(0, e)
-
-    def _get_request(self, method, data):
         req = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
         return self._get_valid_response(req.text)
 
@@ -34,13 +28,13 @@ class HiExConnectorBase:
         data = simplejson.loads(response)
         resp_hash = self._get_hash(data)
         if resp_hash != data['hash']:
-            return ResponseException(0, f'No verify hash {resp_hash}!={data["hash"]}')
+            raise ProcessingError(f'No verify hash {resp_hash}!={data["hash"]}')
         if data['code'] < 0:
             code = data['code']
             detail = ''
             if 'detail' in data:
                 detail = data['detail']
-            return ResponseException(code, detail)
+            raise ResponseError(detail, code)
         return data
 
     def _get_hash_data_string(self, _data):
