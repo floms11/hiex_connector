@@ -5,4 +5,4 @@ PUBLIC_KEY = 'B6kgY7EKS92Gpy6K5a5s6675dpMjcFfLiEve9E59tKFHRka9Hz4s9P237f77utUDu4
 
 hiex = HiExConnector(PRIVATE_KEY, PUBLIC_KEY)
 
-print(hiex.admin_coins_list())
+print(hiex.admin_exchange_update(exchange_id=1))
