@@ -2,6 +2,7 @@ import time
 import requests
 import hashlib
 import simplejson
+import time
 from hiex_connector.exceptions import *
 
 
@@ -20,6 +21,7 @@ class HiExConnectorBase:
 
     def get_request_text(self, method, data):
         r = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
+        time.sleep(0.05)
         return r.text
 
     def _pre_request_data(self, data):
