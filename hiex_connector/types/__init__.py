@@ -2,11 +2,6 @@ from decimal import Decimal
 
 
 class BaseType:
-    code: int
-
-    def __init__(self, code):
-        self.code = code
-
     def __repr__(self):
         return (
             f"<{self.__class__.__name__} values: "
@@ -19,10 +14,11 @@ class BaseType:
 
 
 class ResponseException(BaseType):
+    code: int
     detail: str
 
     def __init__(self, code, detail=''):
-        super().__init__(code)
+        self.code = code
         self.detail = detail
 
 
