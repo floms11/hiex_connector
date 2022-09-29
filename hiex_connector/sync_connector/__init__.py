@@ -24,3 +24,17 @@ class HiExConnector(HiExConnectorBase):
         for exchange in resp['exchanges']:
             exchanges.append(Exchange(**exchange))
         return exchanges
+
+    def admin_logs_list(self):
+        resp = self.get_request('admin/logs/list', {
+        })
+        logs = []
+        for log in resp['logs']:
+            logs.append(Log(**log))
+        return logs
+
+    def admin_log_get(self, name):
+        resp = self.get_request('admin/log/get', {
+            'name': name
+        })
+        return resp

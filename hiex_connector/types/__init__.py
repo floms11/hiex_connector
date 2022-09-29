@@ -168,3 +168,12 @@ class UserAuth(BaseType):
         self.auth_key = kwargs['auth_key']
         self.application_id = kwargs['application_id']
         self.code_attempt = kwargs['code_attempt']
+
+
+class Log(BaseType):
+    name: str
+    filesize: int
+
+    def __init__(self, **kwargs):
+        self.name = kwargs['name']
+        self.filesize = kwargs['filesize']
