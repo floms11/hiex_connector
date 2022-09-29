@@ -2,6 +2,7 @@ import time
 import requests
 import hashlib
 import simplejson
+from hiex_connector.types import ResponseException
 
 
 class HiExConnectorBase:
@@ -12,6 +13,35 @@ class HiExConnectorBase:
     def __init__(self, private_key, public_key):
         self.__private_key = private_key
         self.__public_key = public_key
+
+    def get_request(self, method, data):
+        try:
+            return self._get_request(method, data)
+        except Exception as e:
+            return ResponseException(0, e)
+
+    def _get_request(self, method, data):
+        req = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
+        return self._get_valid_response(req.text)
+
+    def _pre_request_data(self, data):
+        data['public_key'] = self.__public_key
+        data['timestamp'] = time.time()
+        data['hash'] = self._get_hash(data)
+        return data
+
+    def _get_valid_response(self, response):
+        data = simplejson.loads(response)
+        resp_hash = self._get_hash(data)
+        if resp_hash != data['hash']:
+            return ResponseException(0, f'No verify hash {resp_hash}!={data["hash"]}')
+        if data['code'] < 0:
+            code = data['code']
+            detail = ''
+            if 'detail' in data:
+                detail = data['detail']
+            return ResponseException(code, detail)
+        return data
 
     def _get_hash_data_string(self, _data):
         string_hash = ''
@@ -33,23 +63,3 @@ class HiExConnectorBase:
         hash_object = hashlib.sha512(string_hash.encode())
         hex_dig = hash_object.hexdigest()
         return hex_dig
-
-    def _get_request(self, method, data={}):
-        data['public_key'] = self.__public_key
-        data['timestamp'] = time.time()
-        data['hash'] = self._get_hash(data)
-        req = requests.post(f'{self.__basic_url}{method}', json=data)
-        return simplejson.loads(req.text)
-
-    def get_request(self, method, data={}):
-        resp = self._get_request(method, data)
-        resp_hash = self._get_hash(resp)
-        if resp_hash != resp['hash']:
-            raise Exception('No verify hash')
-        if resp['code'] < 0:
-            code = resp['code']
-            detail = ''
-            if 'detail' in resp:
-                detail = resp['detail']
-            raise Exception(f'Server error. Code={code}. Detail={detail}')
-        return resp
