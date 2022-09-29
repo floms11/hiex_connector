@@ -40,7 +40,11 @@ class HiExConnectorBase:
         req = requests.post(f'{self.__basic_url}{method}', json=data)
         resp = req.json()
         resp_hash = self.get_hash(resp)
-        if resp_hash == resp['hash']:
-            return resp
-        else:
-            return False
+        if resp_hash != resp['hash']:
+            raise Exception('No verify hash')
+        if resp['code'] < 0:
+            code = resp['code']
+            detail = ''
+            if 'detail' in resp:
+                detail = resp['detail']
+            raise Exception(f'Server error. Code={code}. Detail={detail}')
