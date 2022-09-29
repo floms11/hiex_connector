@@ -70,7 +70,7 @@ class Exchange(BaseType):
     application_interest: Decimal
     error_count: int
     payment: Payment
-    merchant_data = None
+    merchant_data = {}
 
     def __init__(self, **kwargs):
         self.exchange_id = kwargs['exchange_id']
@@ -92,3 +92,79 @@ class Exchange(BaseType):
         self.error_count = kwargs['error_count']
         self.payment = Payment(**kwargs['payment'])
         self.merchant_data = kwargs['merchant_data']
+
+
+class Pair(BaseType):
+    currency1: str
+    currency2: str
+    min_amount1: Decimal
+    max_amount1: Decimal
+    min_amount2: Decimal
+    max_amount2: Decimal
+    price: Decimal
+    comment: str
+    active: bool
+    interest: Decimal
+    kyc_required: bool
+    swap_deposit: bool
+    last_update: int
+
+    def __init__(self, **kwargs):
+        self.currency1 = kwargs['currency1']
+        self.currency2 = kwargs['currency2']
+        self.min_amount1 = Decimal(kwargs['min_amount1'])
+        self.max_amount1 = Decimal(kwargs['max_amount1'])
+        self.min_amount2 = Decimal(kwargs['min_amount2'])
+        self.max_amount2 = Decimal(kwargs['max_amount2'])
+        self.price = Decimal(kwargs['price'])
+        self.comment = kwargs['comment']
+        self.active = kwargs['active']
+        self.interest = Decimal(kwargs['interest'])
+        self.kyc_required = kwargs['kyc_required']
+        self.swap_deposit = kwargs['swap_deposit']
+        self.last_update = kwargs['last_update']
+
+
+class Stat(BaseType):
+    day: str
+    exchanges_created_count: int
+    exchanges_success_count: int
+    application_income: Decimal
+
+    def __init__(self, **kwargs):
+        self.day = kwargs['day']
+        self.exchanges_created_count = kwargs['exchanges_created_count']
+        self.exchanges_success_count = kwargs['exchanges_success_count']
+        self.application_income = Decimal(kwargs['application_income'])
+
+
+class User(BaseType):
+    user_id: int
+    kyc: bool
+    email: str
+    name: str
+    lastname: str
+    created_at: int
+    applications_data = {}
+
+    def __init__(self, **kwargs):
+        self.user_id = kwargs['user_id']
+        self.kyc = kwargs['kyc']
+        self.email = kwargs['email']
+        self.name = kwargs['name']
+        self.lastname = kwargs['lastname']
+        self.created_at = kwargs['created_at']
+        self.applications_data = kwargs['applications_data']
+
+
+class UserAuth(BaseType):
+    allow: bool
+    auth_key: str
+    application_id: int
+    code_attempt: int
+
+    def __init__(self, **kwargs):
+        self.allow = kwargs['allow']
+        self.auth_key = kwargs['auth_key']
+        self.application_id = kwargs['application_id']
+        self.code_attempt = kwargs['code_attempt']
