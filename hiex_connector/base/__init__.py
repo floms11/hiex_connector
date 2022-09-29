@@ -39,11 +39,10 @@ class HiExConnectorBase:
         data['timestamp'] = time.time()
         data['hash'] = self._get_hash(data)
         req = requests.post(f'{self.__basic_url}{method}', json=data)
-        return req.text
+        return simplejson.loads(req.text)
 
     def get_request(self, method, data={}):
         resp = self._get_request(method, data)
-        resp = simplejson.loads(resp)
         resp_hash = self._get_hash(resp)
         if resp_hash != resp['hash']:
             raise Exception('No verify hash')
