@@ -65,10 +65,11 @@ class HiExConnector(HiExConnectorBase):
         })
         return UserAuth(**resp['auth'])
 
-    def user_exchanges_history(self, limit=None, start=None, group=None):
+    def user_exchanges_history(self, auth_key, limit=None, start=None, group=None):
         """
         Отримати список обмінів користувача (за вибіркою)
 
+        :param auth_key: Ключ користувача
         :param limit: Скільки обмінів завантажувати
         :param start: З якого обміну почати завантажувати
         :param group: Група обмінів (cancel, in_process, success)
@@ -77,6 +78,7 @@ class HiExConnector(HiExConnectorBase):
         :return: list[Exchange]
         """
         resp = self.get_request('user/exchanges/history', {
+            'auth_key': auth_key,
             'limit': limit,
             'start': start,
             'group': group,
