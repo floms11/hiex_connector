@@ -3,6 +3,9 @@ from hiex_connector.types import *
 
 
 class HiExConnector(HiExConnectorBase):
+    """
+    Синхронна бібліотека для роботи з api.hiex.io
+    """
     def admin_coins_list(self):
         """
         Отримати список монет, які зараз підтримує система
