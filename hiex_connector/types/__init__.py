@@ -177,3 +177,24 @@ class Log(BaseType):
     def __init__(self, **kwargs):
         self.name = kwargs['name']
         self.filesize = kwargs['filesize']
+
+
+class Application(BaseType):
+    application_id: int
+    name: str
+    private_key: str
+    public_key: str
+    interest: Decimal
+    balance: Decimal
+    notification_url: str
+    available_methods: list
+
+    def __init__(self, **kwargs):
+        self.application_id = kwargs['application_id']
+        self.name = kwargs['name']
+        self.private_key = kwargs['private_key']
+        self.public_key = kwargs['public_key']
+        self.interest = Decimal(kwargs['interest'])
+        self.balance = Decimal(kwargs['balance'])
+        self.notification_url = kwargs['notification_url']
+        self.available_methods = kwargs['available_methods']
