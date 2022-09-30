@@ -5,6 +5,11 @@ PUBLIC_KEY = 'B6kgY7EKS92Gpy6K5a5s6675dpMjcFfLiEve9E59tKFHRka9Hz4s9P237f77utUDu4
 
 hiex = HiExConnector(PRIVATE_KEY, PUBLIC_KEY)
 
+print(hiex.admin_coins_list())
+
 logs = hiex.admin_logs_list()
 for log in logs:
-    print(hiex.admin_logs_get(log.name))
+    print(f"Логи завантажено, {len(hiex.admin_logs_get(log.name))} байт")
+
+print(hiex.admin_exchange_update(exchange_id=1))
+print(hiex.admin_exchanges_list(application_id=1))
