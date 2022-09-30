@@ -3,6 +3,8 @@ import requests
 import hashlib
 import simplejson
 import time
+import asyncio
+import aiohttp
 from hiex_connector.exceptions import *
 
 
@@ -23,6 +25,25 @@ class HiExConnectorBase:
         r = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
         time.sleep(0.05)
         return r.text
+
+    async def get_async_request(self, method, data):
+        text = await self.get_async_request_text(method, data)
+        return self._get_valid_response(text)
+
+    async def get_async_request_text(self, method, data):
+        headers = {
+            'Content-type': 'application/json',
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                    f'{self.__basic_url}{method}',
+                    json=self._pre_request_data(data),
+                    headers=headers,
+                    allow_redirects=True
+            ) as resp:
+                text = await resp.text()
+                await asyncio.sleep(0.05)
+                return text
 
     def _pre_request_data(self, data):
         new_data = {}
