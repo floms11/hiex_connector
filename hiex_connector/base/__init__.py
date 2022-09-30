@@ -25,10 +25,14 @@ class HiExConnectorBase:
         return r.text
 
     def _pre_request_data(self, data):
-        data['public_key'] = self.__public_key
-        data['timestamp'] = time.time()
-        data['hash'] = self._get_hash(data)
-        return data
+        new_data = {}
+        for key in data:
+            if data[key] is not None:
+                new_data[key] = data[key]
+        new_data['public_key'] = self.__public_key
+        new_data['timestamp'] = time.time()
+        new_data['hash'] = self._get_hash(new_data)
+        return new_data
 
     def _get_valid_response(self, response):
         data = simplejson.loads(response)
