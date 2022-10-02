@@ -20,6 +20,17 @@ class User(types.User):
         o = await self.__connector.user_exchanges_history(self.__auth_key, limit, start, group)
         return [Exchange(self.__connector, self.__auth_key, **i.get_dict()) for i in o]
 
+    async def exchange(self, exchange_id):
+        o = await self.__connector.exchange_details(self.__auth_key, exchange_id)
+        return Exchange(self.__connector, self.__auth_key, **o.get_dict())
+
+    async def data_set(self, **kwargs):
+        await self.__connector.user_data_set(self.__auth_key, **kwargs)
+        return True
+
+    async def data_get(self, key=None):
+        return await self.__connector.user_data_get(self.__auth_key, key)
+
 
 class UserAuth(types.UserAuth):
     __connector: AsyncHiExConnector
