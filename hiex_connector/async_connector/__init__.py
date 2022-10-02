@@ -1,5 +1,6 @@
 from hiex_connector.base import HiExConnectorBase
 from hiex_connector.types import *
+from decimal import Decimal
 
 
 class AsyncHiExConnector(HiExConnectorBase):

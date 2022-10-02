@@ -61,7 +61,10 @@ class Exchange(BaseType):
         self.currency2 = kwargs['currency2']
         self.address = kwargs['address']
         self.tag = kwargs['tag']
-        self.payment = Payment(**kwargs['payment'])
+        if isinstance(kwargs['payment'], Payment):
+            self.payment = kwargs['payment']
+        else:
+            self.payment = Payment(**kwargs['payment'])
         self.created_at = kwargs['created_at']
         self.closed_at = kwargs['closed_at']
 
