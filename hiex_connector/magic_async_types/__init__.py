@@ -1,5 +1,15 @@
+from decimal import Decimal
+
 from hiex_connector.async_connector import AsyncHiExConnector
 from hiex_connector import types
+
+
+class Pair(types.Pair):
+    __connector: AsyncHiExConnector
+
+    def __init__(self, connector: AsyncHiExConnector, **kwargs):
+        super().__init__(**kwargs)
+        self.__connector = connector
 
 
 class User(types.User):
@@ -22,6 +32,18 @@ class User(types.User):
 
     async def exchange(self, exchange_id):
         o = await self.__connector.exchange_details(self.__auth_key, exchange_id)
+        return Exchange(self.__connector, self.__auth_key, **o.get_dict())
+
+    async def exchange_create(self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None):
+        o = await self.__connector.exchange_create(
+            self.__auth_key,
+            pair.currency1,
+            pair.currency2,
+            address,
+            tag,
+            amount1,
+            amount2,
+        )
         return Exchange(self.__connector, self.__auth_key, **o.get_dict())
 
     async def data_set(self, **kwargs):
@@ -84,14 +106,6 @@ class Application(types.Application):
 
 
 class Stat(types.Stat):
-    __connector: AsyncHiExConnector
-
-    def __init__(self, connector: AsyncHiExConnector, **kwargs):
-        super().__init__(**kwargs)
-        self.__connector = connector
-
-
-class Pair(types.Pair):
     __connector: AsyncHiExConnector
 
     def __init__(self, connector: AsyncHiExConnector, **kwargs):
