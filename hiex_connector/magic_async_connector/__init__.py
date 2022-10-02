@@ -2,7 +2,7 @@ from hiex_connector.async_connector import AsyncHiExConnector
 from hiex_connector import magic_async_types
 
 
-class AsyncHiEMagic:
+class AsyncHiExMagic:
     """
     Асинхронна (магічна) бібліотека для роботи з api.hiex.io
     """

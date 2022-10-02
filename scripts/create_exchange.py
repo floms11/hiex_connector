@@ -1,5 +1,5 @@
 import asyncio
-from hiex_connector.magic_async_connector import AsyncHiEMagic
+from hiex_connector.magic_async_connector import AsyncHiExMagic
 
 PRIVATE_KEY = '<ПРИВАТНИЙ КЛЮЧ>'
 PUBLIC_KEY = '<ПУБЛІЧНИЙ КЛЮЧ>'
@@ -8,7 +8,7 @@ USER_AUTH_KEY = '<КЛЮЧ КОРИСТУВАЧА>'
 
 
 async def main():
-    hiex = AsyncHiEMagic(PRIVATE_KEY, PUBLIC_KEY)
+    hiex = AsyncHiExMagic(PRIVATE_KEY, PUBLIC_KEY)
 
     pairs = await hiex.pairs_list(currency1='USDT_TRC20', currency2='UAH_VISAMASTER')
     pair = pairs[0]
