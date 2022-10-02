@@ -1,10 +1,10 @@
 from hiex_connector.async_connector import AsyncHiExConnector
-from hiex_connector.magic import types
+from hiex_connector import magic_async_types
 
 
-class AsyncHiEx:
+class AsyncHiEMagic:
     """
-    Асинхронна бібліотека для роботи з api.hiex.io
+    Асинхронна (магічна) бібліотека для роботи з api.hiex.io
     """
     __connector: AsyncHiExConnector
 
@@ -21,7 +21,7 @@ class AsyncHiEx:
         :return: list[Pair]
         """
         o = await self.__connector.pairs_list(currency1, currency2)
-        return [types.Pair(self.__connector, **i.get_dict()) for i in o]
+        return [magic_async_types.Pair(self.__connector, **i.get_dict()) for i in o]
 
     async def user_get(self, auth_key):
         """
@@ -32,7 +32,7 @@ class AsyncHiEx:
         :return: User
         """
         o = await self.__connector.user_get(auth_key)
-        return types.User(self.__connector, auth_key, **o.get_dict())
+        return magic_async_types.User(self.__connector, auth_key, **o.get_dict())
 
     async def user_auth(self, email):
         """
@@ -43,7 +43,7 @@ class AsyncHiEx:
         :return: UserAuth
         """
         o = await self.__connector.user_auth(email)
-        return types.UserAuth(self.__connector, **o.get_dict())
+        return magic_async_types.UserAuth(self.__connector, **o.get_dict())
 
     async def user_auth_code(self, auth_key, code):
         """
@@ -55,7 +55,7 @@ class AsyncHiEx:
         :return: UserAuth
         """
         o = await self.__connector.user_auth_code(auth_key, code)
-        return types.UserAuth(self.__connector, **o.get_dict())
+        return magic_async_types.UserAuth(self.__connector, **o.get_dict())
 
     async def user_exchanges_history(self, auth_key, limit=None, start=None, group=None):
         """
@@ -70,7 +70,7 @@ class AsyncHiEx:
         :return: list[Exchange]
         """
         o = await self.__connector.user_exchanges_history(auth_key, limit, start, group)
-        return [types.Exchange(self.__connector, auth_key, **i.get_dict()) for i in o]
+        return [magic_async_types.Exchange(self.__connector, auth_key, **i.get_dict()) for i in o]
 
     async def user_data_get(self, auth_key, param=None):
         """
@@ -109,7 +109,7 @@ class AsyncHiEx:
         :return: Exchange
         """
         o = await self.__connector.exchange_create(auth_key, currency1, currency2, address, tag, amount1, amount2)
-        return types.Exchange(self.__connector, auth_key, **o.get_dict())
+        return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
 
     async def exchange_confirm(self, auth_key, exchange_id):
         """
@@ -121,7 +121,7 @@ class AsyncHiEx:
         :return: Exchange
         """
         o = await self.__connector.exchange_confirm(auth_key, exchange_id)
-        return types.Exchange(self.__connector, auth_key, **o.get_dict())
+        return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
 
     async def exchange_details(self, auth_key, exchange_id):
         """
@@ -133,7 +133,7 @@ class AsyncHiEx:
         :return: Exchange
         """
         o = await self.__connector.exchange_details(auth_key, exchange_id)
-        return types.Exchange(self.__connector, auth_key, **o.get_dict())
+        return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
 
     async def exchange_cancel(self, auth_key, exchange_id):
         """
@@ -172,7 +172,7 @@ class AsyncHiEx:
         :return: list[Stat]
         """
         o = await self.__connector.application_stats_get(start_time, end_time, count)
-        return [types.Stat(self.__connector, **i.get_dict()) for i in o]
+        return [magic_async_types.Stat(self.__connector, **i.get_dict()) for i in o]
 
     async def application_details(self):
         """
@@ -181,7 +181,7 @@ class AsyncHiEx:
         :return: Application
         """
         o = await self.__connector.application_details()
-        return types.Application(self.__connector, **o.get_dict())
+        return magic_async_types.Application(self.__connector, **o.get_dict())
 
     async def application_interest_set(self, interest):
         """
