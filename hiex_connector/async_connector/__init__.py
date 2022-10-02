@@ -5,7 +5,7 @@ from decimal import Decimal
 
 class AsyncHiExConnector(HiExConnectorBase):
     """
-    Синхронна бібліотека для роботи з api.hiex.io
+    Асинхронна бібліотека для роботи з api.hiex.io
     """
     async def pairs_list(self, currency1=None, currency2=None):
         """
