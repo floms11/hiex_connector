@@ -12,6 +12,10 @@ class BaseType:
     def __getitem__(self, item):
         return getattr(self, item)
 
+    def get_dict(self):
+        keys = self.__dict__.keys()
+        return {key: self[key] for key in keys}
+
 
 class Coin(BaseType):
     currency_code: str
