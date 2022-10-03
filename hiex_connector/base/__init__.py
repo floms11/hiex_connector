@@ -1,4 +1,5 @@
-import time
+from decimal import Decimal
+import os
 import requests
 import hashlib
 import simplejson
@@ -12,10 +13,12 @@ class HiExConnectorBase:
     __private_key: str = ''
     __public_key: str = ''
     __basic_url: str = 'https://api.hiex.io/'
+    __api_version: Decimal = Decimal('0')
 
     def __init__(self, private_key, public_key):
         self.__private_key = private_key
         self.__public_key = public_key
+        self.__api_version = self._get_version_api()
 
     def get_request(self, method, data):
         text = self.get_request_text(method, data)
@@ -57,6 +60,7 @@ class HiExConnectorBase:
 
     def _get_valid_response(self, response):
         data = simplejson.loads(response)
+        self.check_version(data['version'])
         resp_hash = self._get_hash(data)
         if resp_hash != data['hash']:
             raise ProcessingError(f'No verify hash {resp_hash}!={data["hash"]}')
@@ -88,3 +92,19 @@ class HiExConnectorBase:
         hash_object = hashlib.sha512(string_hash.encode())
         hex_dig = hash_object.hexdigest()
         return hex_dig
+
+    @staticmethod
+    def _get_version_api():
+        dir = os.path.dirname(os.path.abspath(__file__)) + '/../'
+        with open(f"{dir}.apiversion", "r") as f:
+            return Decimal(f.read())
+
+    def check_version(self, version):
+        version_num = version.split('_')[1]
+        version_nums = version_num.split('.')
+        _version = Decimal(f"{version_nums[0]}.{version_nums[1]}")
+        _api_version = self.__api_version
+        if _api_version >= _version:
+            return True
+        else:
+            raise VersionError(f'Бібліотека застаріла. {_version}>{_api_version}')

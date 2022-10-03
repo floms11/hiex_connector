@@ -22,3 +22,14 @@ class ProcessingError(Exception):
 
     def __str__(self):
         return f"{self.__class__.__name__}, {self.message}"
+
+
+class VersionError(Exception):
+    message: str = ''
+
+    def __init__(self, message: str = None):
+        if message:
+            self.message = message
+
+    def __str__(self):
+        return f"{self.__class__.__name__}, {self.message}"
