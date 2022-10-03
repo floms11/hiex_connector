@@ -6,7 +6,7 @@ import simplejson
 import time
 import asyncio
 import aiohttp
-from hiex_connector.exceptions import *
+from ..exceptions import *
 
 
 class HiExConnectorBase:

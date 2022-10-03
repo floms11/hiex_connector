@@ -1,5 +1,5 @@
-from hiex_connector.base import HiExConnectorBase
-from hiex_connector.types import *
+from ..base import HiExConnectorBase
+from ..types import *
 
 
 class AsyncHiExConnector(HiExConnectorBase):
