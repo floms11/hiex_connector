@@ -58,6 +58,6 @@ exchange = await hiex.exchange_details('<AUTH_KEY>', <EXCHANGE_ID>)
 * Щоб підтвердити обмін, достатньо виконати: `await exchange.confirm()`
 * Щоб відмініти обмін, достатньо виконати: `await exchange.cancel()`
 * Щоб завантажити користувача який виконав обмін, достатньо виконати: `user = await exchange.user()`
-* Щоб завантажити історію обмінів, достатньо виконати: `exchanges = await user.exchanges_history()`
+* Щоб завантажити історію обмінів, достатньо виконати: `exchanges = await user.exchanges()`
 
 ### Далі буде. Це все в розробці

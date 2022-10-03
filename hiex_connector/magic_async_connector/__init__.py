@@ -40,10 +40,10 @@ class AsyncHiExMagic:
 
         :param email: Пошта користувача
 
-        :return: UserAuth
+        :return: Auth
         """
         o = await self.__connector.user_auth(email)
-        return magic_async_types.UserAuth(self.__connector, **o.get_dict())
+        return magic_async_types.Auth(self.__connector, **o.get_dict())
 
     async def user_auth_code(self, auth_key, code):
         """
@@ -52,10 +52,10 @@ class AsyncHiExMagic:
         :param auth_key: Ключ користувача
         :param code: Код, який користвувач отримав на пошту
 
-        :return: UserAuth
+        :return: Auth
         """
         o = await self.__connector.user_auth_code(auth_key, code)
-        return magic_async_types.UserAuth(self.__connector, **o.get_dict())
+        return magic_async_types.Auth(self.__connector, **o.get_dict())
 
     async def user_exchanges_history(self, auth_key, limit=None, start=None, group=None):
         """

@@ -17,13 +17,6 @@ class BaseType:
         return {key: self[key] for key in keys}
 
 
-class Coin(BaseType):
-    currency_code: str
-
-    def __init__(self, **kwargs):
-        self.currency_code = kwargs['currency_code']
-
-
 class Payment(BaseType):
     payment_address: str
     payment_tag: str
@@ -118,7 +111,7 @@ class User(BaseType):
         self.lastname = kwargs['lastname']
 
 
-class UserAuth(BaseType):
+class Auth(BaseType):
     allow: bool
     auth_key: str
     application_id: int

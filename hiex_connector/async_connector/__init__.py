@@ -44,12 +44,12 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :param email: Пошта користувача
 
-        :return: UserAuth
+        :return: Auth
         """
         resp = await self.get_async_request('user/auth', {
             'email': email,
         })
-        return UserAuth(**resp['auth'])
+        return Auth(**resp['auth'])
 
     async def user_auth_code(self, auth_key, code):
         """
@@ -58,13 +58,13 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param auth_key: Ключ користувача
         :param code: Код, який користвувач отримав на пошту
 
-        :return: UserAuth
+        :return: Auth
         """
         resp = await self.get_async_request('user/auth/code', {
             'auth_key': auth_key,
             'code': code,
         })
-        return UserAuth(**resp['auth'])
+        return Auth(**resp['auth'])
 
     async def user_exchanges_history(self, auth_key, limit=None, start=None, group=None):
         """

@@ -31,7 +31,7 @@ class User(types.User):
         super().__init__(**o.get_dict())
         return True
 
-    async def exchanges_history(self, limit=None, start=None, group=None):
+    async def exchanges(self, limit=None, start=None, group=None):
         """
         Отримати історію обмінів користувача
 
@@ -95,7 +95,7 @@ class User(types.User):
         return await self.__connector.user_data_get(self.__auth_key, key)
 
 
-class UserAuth(types.UserAuth):
+class Auth(types.Auth):
     __connector: AsyncHiExConnector
 
     def __init__(self, connector: AsyncHiExConnector, **kwargs):
@@ -175,6 +175,51 @@ class Application(types.Application):
     def __init__(self, connector: AsyncHiExConnector, **kwargs):
         super().__init__(**kwargs)
         self.__connector = connector
+
+    async def reload(self):
+        """
+        Оновити інформацію про додаток
+
+        :return: bool
+        """
+        o = await self.__connector.application_details()
+        super().__init__(**o.get_dict())
+        return True
+
+    async def exchanges(self, user_id=None, limit=None, start=None, group=None):
+        """
+        Отримати список обмінів додатку (за вибіркою)
+
+        :param user_id: Номер користувача
+        :param limit: Скільки обмінів завантажувати
+        :param start: З якого обміну почати завантажувати
+        :param group: Група обмінів (cancel, in_process, success)
+        :return:
+        """
+        return await self.__connector.application_exchanges_get(user_id, limit, start, group)
+
+    async def stats(self, start_time=None, end_time=None, count=None):
+        """
+        Завантажити статистику (за вибіркою)
+
+        :param start_time: З якого часу завантажувати (в UNIX time)
+        :param end_time: До якого часу завантажувати (в UNIX time)
+        :param count: Кількість днів
+
+        :return:
+        """
+        o = await self.__connector.application_stats_get(start_time, end_time, count)
+        return [Stat(self.__connector, **i.get_dict()) for i in o]
+
+    async def interest_set(self, interest):
+        """
+        Змінити % від обмінів
+
+        :param interest: % від обмінів
+
+        :return: Decimal
+        """
+        return await self.__connector.application_interest_set(interest)
 
 
 class Stat(types.Stat):

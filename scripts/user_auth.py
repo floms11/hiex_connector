@@ -9,16 +9,16 @@ async def main():
     hiex = AsyncHiExMagic(PRIVATE_KEY, PUBLIC_KEY)
 
     email = input('Введи свою пошту ->')
-    user_auth = await hiex.user_auth(email)
+    auth = await hiex.user_auth(email)
 
-    while user_auth.allow is False and user_auth.code_attempt > 0:
+    while auth.allow is False and auth.code_attempt > 0:
         code = input('Введи код з листа ->')
-        await user_auth.code(code)
+        await auth.code(code)
 
-    if user_auth.allow:
-        user = await user_auth.user()
+    if auth.allow:
+        user = await auth.user()
         print('Авторизація успішна')
-        print(f'Твій auth_key: {user_auth.auth_key}')
+        print(f'Твій auth_key: {auth.auth_key}')
         print(f'Твоя пошта: {user.email}')
         print(f'Твій ID: {user.user_id}')
     else:
