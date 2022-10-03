@@ -18,7 +18,7 @@ class HiExConnectorBase:
     def __init__(self, private_key, public_key):
         self.__private_key = private_key
         self.__public_key = public_key
-        self.__api_version = self._get_version_api()
+        self.__api_version = self.get_version_api()
 
     def get_request(self, method, data):
         text = self.get_request_text(method, data)
@@ -94,7 +94,7 @@ class HiExConnectorBase:
         return hex_dig
 
     @staticmethod
-    def _get_version_api():
+    def get_version_api():
         dir = os.path.dirname(os.path.abspath(__file__)) + '/../'
         with open(f"{dir}.apiversion", "r") as f:
             return Decimal(f.read())
