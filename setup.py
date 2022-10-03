@@ -1,6 +1,7 @@
 import re
 
 from setuptools import find_packages, setup
+from hiex_connector.base import HiExConnectorBase
 
 PACKAGE_NAME = 'hiex_connector_admin'
 SOURCE_DIRECTORY = 'hiex_connector'
@@ -11,7 +12,7 @@ proj_packages = [SOURCE_PACKAGE_REGEX.sub(PACKAGE_NAME, name) for name in source
 
 setup(
     name=PACKAGE_NAME,
-    version='1.0',
+    version=HiExConnectorBase.get_version_api(),
     packages=proj_packages,
     package_dir={PACKAGE_NAME: SOURCE_DIRECTORY},
     url='https://docs.hiex.io',
