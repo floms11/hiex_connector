@@ -4,7 +4,7 @@ setup(
     name='hiex_connector_admin',
     version='1.0',
     packages=['hiex_connector_admin'],
-    package_dir={'hiex_connector_admin': 'hiex_connector_admin'},
+    package_dir={'hiex_connector_admin': 'hiex_connector'},
     url='https://docs.hiex.io',
     license='',
     author='hiex',
