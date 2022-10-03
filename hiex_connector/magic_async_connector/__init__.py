@@ -1,5 +1,5 @@
-from hiex_connector.async_connector import AsyncHiExConnector
-from hiex_connector import magic_async_types
+from ..async_connector import AsyncHiExConnector
+from .. import magic_async_types
 
 
 class AsyncHiExMagic:

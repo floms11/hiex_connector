@@ -1,7 +1,7 @@
 from decimal import Decimal
 
-from hiex_connector.async_connector import AsyncHiExConnector
-from hiex_connector import types
+from ..async_connector import AsyncHiExConnector
+from .. import types
 
 
 class Pair(types.Pair):
