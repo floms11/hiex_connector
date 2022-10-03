@@ -98,11 +98,12 @@ class HiExConnectorBase:
         with open(f"{dir}.apiversion", "r") as f:
             return Decimal(f.read())
 
-    def check_version(self, version):
+    @staticmethod
+    def check_version(version):
         version_num = version.split('_')[1]
         version_nums = version_num.split('.')
         _version = Decimal(f"{version_nums[0]}.{version_nums[1]}")
-        _api_version = __version__
+        _api_version = Decimal(__version__)
         if _api_version >= _version:
             return True
         else:
