@@ -1,3 +1,3 @@
-from hiex_connector.async_connector import AsyncHiExConnector
-from hiex_connector.sync_connector import HiExConnector
-from hiex_connector import types
+from .async_connector import AsyncHiExConnector
+from .sync_connector import HiExConnector
+from .types import *

@@ -1,4 +1,4 @@
-from hiex_connector.base import HiExConnectorBase
+from ..base import HiExConnectorBase
 
 
 class HiExConnector(HiExConnectorBase):
