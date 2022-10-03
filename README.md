@@ -33,6 +33,8 @@ exchange = await hiex.exchange_details('<AUTH_KEY>', <EXCHANGE_ID>)
 
 `exchange` – це об'єкт типу Exchange. Всі типи описані на на сторінці: https://docs.hiex.io/types/
 
+Для перегляду детальнішої інформації див. `types/` та `async_connector/`
+
 ## Розглянемо метод з "магічним конектором"
 
 Імпортуємо конектор
@@ -59,5 +61,7 @@ exchange = await hiex.exchange_details('<AUTH_KEY>', <EXCHANGE_ID>)
 * Щоб відмініти обмін, достатньо виконати: `await exchange.cancel()`
 * Щоб завантажити користувача який виконав обмін, достатньо виконати: `user = await exchange.user()`
 * Щоб завантажити історію обмінів, достатньо виконати: `exchanges = await user.exchanges()`
+
+Для перегляду детальнішої інформації про "магічні" типи див. `magic_async_types/` та `magic_async_connector/`
 
 ### Далі буде. Це все в розробці...
