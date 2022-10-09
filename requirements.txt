@@ -1,5 +1,4 @@
 setuptools
 requests
 simplejson
--i https://github.com/aio-libs/aiohttp/archive/refs/heads/master.zip
-aiohttp
+aiohttp>=3.8.0,<3.9.0
