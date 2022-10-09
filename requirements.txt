@@ -1,4 +1,4 @@
 setuptools
 requests
 simplejson
-aiohttp
+aiohttp>=3.8.3
