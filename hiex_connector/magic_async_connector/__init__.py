@@ -11,6 +11,9 @@ class AsyncHiExMagic:
     def __init__(self, private_key, public_key):
         self.__connector = AsyncHiExConnector(private_key, public_key)
 
+    def get_connector(self):
+        return self.__connector
+
     async def pairs_list(self, currency1=None, currency2=None):
         """
         Отримати список валютних пар
