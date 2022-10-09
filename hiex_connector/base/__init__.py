@@ -21,7 +21,7 @@ class HiExConnectorBase:
 
     def get_request(self, method, data):
         text = self.get_request_text(method, data)
-        return self._get_valid_response(text)
+        return self.get_valid_response(text)
 
     def get_request_text(self, method, data):
         r = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
@@ -30,7 +30,7 @@ class HiExConnectorBase:
 
     async def get_async_request(self, method, data):
         text = await self.get_async_request_text(method, data)
-        return self._get_valid_response(text)
+        return self.get_valid_response(text)
 
     async def get_async_request_text(self, method, data):
         headers = {
@@ -57,7 +57,7 @@ class HiExConnectorBase:
         new_data['hash'] = self._get_hash(new_data)
         return new_data
 
-    def _get_valid_response(self, response):
+    def get_valid_response(self, response):
         data = simplejson.loads(response)
         self.check_version(data['version'])
         resp_hash = self._get_hash(data)
