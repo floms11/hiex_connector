@@ -25,6 +25,25 @@ class AsyncHiExConnector(HiExConnectorBase):
             pairs.append(Pair(**pair))
         return pairs
 
+    async def pair_amount(self, currency1, currency2, amount1=None, amount2=None):
+        """
+        Порахувати суми обміну
+
+        :param currency1: Валюта яку купуємо
+        :param currency2: Валюта яку продаємо
+        :param amount1: Сума в currency1
+        :param amount2: Сума в currency2
+
+        :return: list[amount1, amount2]
+        """
+        resp = await self.get_async_request('pair/amount', {
+            'currency1': currency1,
+            'currency2': currency2,
+            'amount1': amount1,
+            'amount2': amount2,
+        })
+        return resp['amount1'], resp['amount2']
+
     async def user_get(self, auth_key):
         """
         Завантажити користувача

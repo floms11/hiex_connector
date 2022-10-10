@@ -11,6 +11,17 @@ class Pair(types.Pair):
         super().__init__(**kwargs)
         self.__connector = connector
 
+    async def amount(self, amount1=None, amount2=None):
+        """
+        Порахувати суми обміну
+
+        :param amount1: Сума в currency1
+        :param amount2: Сума в currency2
+
+        :return: list[amount1, amount2]
+        """
+        return await self.__connector.pair_amount(self.currency1, self.currency2, amount1, amount2)
+
 
 class User(types.User):
     __connector: AsyncHiExConnector
