@@ -107,6 +107,7 @@ class Pair(BaseType):
     max_amount1: Decimal
     min_amount2: Decimal
     max_amount2: Decimal
+    price_factor: Decimal
     price: Decimal
     comment: str
     active: bool
@@ -122,6 +123,7 @@ class Pair(BaseType):
         self.max_amount1 = Decimal(kwargs['max_amount1'])
         self.min_amount2 = Decimal(kwargs['min_amount2'])
         self.max_amount2 = Decimal(kwargs['max_amount2'])
+        self.price_factor = Decimal(kwargs['price_factor'])
         self.price = Decimal(kwargs['price'])
         self.comment = kwargs['comment']
         self.active = kwargs['active']
