@@ -27,6 +27,7 @@ class Coin(BaseType):
     max_deposit: Decimal
     min_withdrawal: Decimal
     max_withdrawal: Decimal
+    fee_withdrawal: Decimal
     round_ndigits: int
 
     def __init__(self, **kwargs):
@@ -39,6 +40,7 @@ class Coin(BaseType):
         self.max_deposit = Decimal(kwargs['max_deposit'])
         self.min_withdrawal = Decimal(kwargs['min_withdrawal'])
         self.max_withdrawal = Decimal(kwargs['max_withdrawal'])
+        self.fee_withdrawal = Decimal(kwargs['fee_withdrawal'])
         self.round_ndigits = kwargs['round_ndigits']
 
 
