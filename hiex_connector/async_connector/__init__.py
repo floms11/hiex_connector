@@ -42,7 +42,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'amount1': amount1,
             'amount2': amount2,
         })
-        return resp['amount1'], resp['amount2']
+        return Decimal(resp['amount1']), Decimal(resp['amount2'])
 
     async def user_get(self, auth_key):
         """
