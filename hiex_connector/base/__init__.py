@@ -24,7 +24,7 @@ class HiExConnectorBase:
         return self.get_valid_response(text)
 
     def get_request_text(self, method, data):
-        r = requests.post(f'{self.__basic_url}{method}', json=self._pre_request_data(data))
+        r = requests.post(f'{self.__basic_url}{method}', data=simplejson.dumps(self._pre_request_data(data)))
         time.sleep(0.05)
         return r.text
 
@@ -39,7 +39,7 @@ class HiExConnectorBase:
         async with aiohttp.ClientSession() as session:
             async with session.post(
                     f'{self.__basic_url}{method}',
-                    json=self._pre_request_data(data),
+                    data=simplejson.dumps(self._pre_request_data(data)),
                     headers=headers,
                     allow_redirects=True
             ) as resp:
