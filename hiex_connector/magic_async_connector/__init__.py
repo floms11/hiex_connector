@@ -37,6 +37,16 @@ class AsyncHiExMagic:
         o = await self.__connector.user_get(auth_key)
         return magic_async_types.User(self.__connector, auth_key, **o.get_dict())
 
+    async def user_kyc_get(self, auth_key):
+        """
+        Отримати лінк для проходження KYC (верифікації)
+
+        :param auth_key: Ключ користувача
+
+        :return: str
+        """
+        return await self.__connector.user_kyc_get(auth_key)
+
     async def user_auth(self, email):
         """
         Запит на авторизацію користувача

@@ -42,6 +42,16 @@ class User(types.User):
         super().__init__(**o.get_dict())
         return True
 
+    async def kyc_link(self):
+        """
+        Отримати лінк для проходження KYC (верифікації)
+
+        :param auth_key: Ключ користувача
+
+        :return: str
+        """
+        return await self.__connector.user_kyc_get(self.__auth_key)
+
     async def exchanges(self, limit=None, start=None, group=None):
         """
         Отримати історію обмінів користувача

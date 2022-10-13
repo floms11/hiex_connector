@@ -5,7 +5,7 @@ from aiohttp.web_response import json_response
 
 from ..async_connector import AsyncHiExConnector
 from ..magic_async_connector import AsyncHiExMagic
-from ..types import Exchange
+from ..types import Exchange, User
 
 
 class AsyncHiExNotifications:
@@ -58,6 +58,10 @@ class AsyncHiExNotifications:
                 exchange = Exchange(**data['exchange'])
                 h = handler(connector, exchange)
                 await h.handle()
+            elif data['method'] == 'user_kyc_reviewed' and issubclass(handler, AsyncHiExUserKYCReviewed):
+                user = User(**data['user'])
+                h = handler(connector, user)
+                await h.handle()
 
 
 class AsyncHiExBaseUpdate:
@@ -76,6 +80,17 @@ class AsyncHiExExchangeUpdate(AsyncHiExBaseUpdate):
     def __init__(self, connector: AsyncHiExConnector, exchange: Exchange):
         super().__init__(connector)
         self.exchange = exchange
+
+    async def handle(self):
+        pass
+
+
+class AsyncHiExUserKYCReviewed(AsyncHiExBaseUpdate):
+    user: User
+
+    def __init__(self, connector: AsyncHiExConnector, user: User):
+        super().__init__(connector)
+        self.user = user
 
     async def handle(self):
         pass
