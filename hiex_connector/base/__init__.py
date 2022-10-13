@@ -2,6 +2,7 @@ from decimal import Decimal
 import os
 import requests
 import hashlib
+import hmac
 import simplejson
 import time
 import asyncio
@@ -20,49 +21,65 @@ class HiExConnectorBase:
         self.__public_key = public_key
 
     def get_request(self, method, data):
-        text = self.get_request_text(method, data)
-        return self.get_valid_response(text)
+        text, headers = self.get_request_data(method, data)
+        return self._get_valid_response(text, headers)
 
-    def get_request_text(self, method, data):
-        r = requests.post(f'{self.__basic_url}{method}', data=simplejson.dumps(self._pre_request_data(data)))
+    def get_request_data(self, method, data):
+        data = self._pre_request_data(data)
+        timestamp = str(time.time())
+        r = requests.post(
+            f'{self.__basic_url}{method}',
+            data=data,
+            headers={
+                'Content-type': 'application/json',
+                'X-APP-PUBLIC-KEY': self.__public_key,
+                'X-APP-TIMESTAMP': timestamp,
+                'X-APP-SIGNATURE': self._get_sign(data, timestamp),
+            }
+        )
         time.sleep(0.05)
-        return r.text
+        return r.text, r.headers
 
     async def get_async_request(self, method, data):
-        text = await self.get_async_request_text(method, data)
-        return self.get_valid_response(text)
+        text, headers = await self.get_async_request_data(method, data)
+        return self._get_valid_response(text, headers)
 
-    async def get_async_request_text(self, method, data):
+    async def get_async_request_data(self, method, data):
+        data = self._pre_request_data(data)
+        timestamp = str(time.time())
         headers = {
             'Content-type': 'application/json',
+            'X-APP-PUBLIC-KEY': self.__public_key,
+            'X-APP-TIMESTAMP': timestamp,
+            'X-APP-SIGNATURE': self._get_sign(data, timestamp),
         }
         async with aiohttp.ClientSession() as session:
             async with session.post(
                     f'{self.__basic_url}{method}',
-                    data=simplejson.dumps(self._pre_request_data(data)),
+                    data=data,
                     headers=headers,
                     allow_redirects=True
             ) as resp:
                 text = await resp.text()
                 await asyncio.sleep(0.05)
-                return text
+                return text, resp.headers
 
-    def _pre_request_data(self, data):
+    @staticmethod
+    def _pre_request_data(data):
         new_data = {}
         for key in data:
             if data[key] is not None:
                 new_data[key] = data[key]
-        new_data['public_key'] = self.__public_key
-        new_data['timestamp'] = time.time()
-        new_data['hash'] = self._get_hash(new_data)
-        return new_data
+        return simplejson.dumps(new_data)
 
-    def get_valid_response(self, response):
-        data = simplejson.loads(response)
-        self.check_version(data['version'])
-        resp_hash = self._get_hash(data)
-        if resp_hash != data['hash']:
-            raise ProcessingError(f'No verify hash {resp_hash}!={data["hash"]}')
+    def _get_valid_response(self, body, headers):
+        self.check_version(headers['X-APP-VERSION'])
+        sign = self._get_sign(body, headers['X-APP-TIMESTAMP'])
+        resp_sign = headers['X-APP-SIGNATURE']
+        if resp_sign != sign:
+            raise ProcessingError(f'No verify hash {resp_sign}!={sign}')
+
+        data = simplejson.loads(body)
         if data['code'] < 0:
             code = data['code']
             detail = ''
@@ -71,26 +88,16 @@ class HiExConnectorBase:
             raise ResponseError(detail, code)
         return data
 
-    def _get_hash_data_string(self, _data):
-        string_hash = ''
-        if isinstance(_data, list):
-            data = {i: _data[i] for i in range(len(_data))}
-        else:
-            data = _data
-        for key, value in data.items():
-            if key != 'hash':
-                if type(value) in (list, dict, tuple):
-                    string_hash += str(key) + self._get_hash_data_string(value)
-                else:
-                    string_hash += str(key) + str(value)
-        return string_hash
-
-    def _get_hash(self, _data):
-        string_hash = self._get_hash_data_string(_data)
-        string_hash += self.__private_key
-        hash_object = hashlib.sha512(string_hash.encode())
-        hex_dig = hash_object.hexdigest()
-        return hex_dig
+    def _get_sign(self, body, timestamp):
+        if type(body) == str:
+            body = body.encode('utf-8')
+        if type(timestamp) == str:
+            timestamp = timestamp.encode('utf-8')
+        return hmac.new(
+            self.__private_key.encode('utf-8'),
+            body + timestamp,
+            digestmod=hashlib.sha256
+        ).hexdigest()
 
     @staticmethod
     def get_version_api():
