@@ -47,12 +47,12 @@ class AsyncHiExNotifications:
         run_app(app, host=self.host, port=self.port)
 
     async def app_handler(self, request: Request):
-        await self.update_user_handlers(self.connector, await request.text(), *self.handlers)
+        await self.update_user_handlers(self.connector, await request.text(), request.headers, *self.handlers)
         return json_response({"ok": True})
 
     @staticmethod
-    async def update_user_handlers(connector: AsyncHiExConnector, request_data: str, *handlers):
-        data = connector.get_valid_response(request_data)
+    async def update_user_handlers(connector: AsyncHiExConnector, request_data: str, headers, *handlers):
+        data = connector.get_valid_response(request_data, headers)
         for handler in handlers:
             if data['method'] == 'exchange_update' and issubclass(handler, AsyncHiExExchangeUpdate):
                 exchange = Exchange(**data['exchange'])
