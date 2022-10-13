@@ -22,7 +22,7 @@ class HiExConnectorBase:
 
     def get_request(self, method, data):
         text, headers = self.get_request_data(method, data)
-        return self._get_valid_response(text, headers)
+        return self.get_valid_response(text, headers)
 
     def get_request_data(self, method, data):
         data = self._pre_request_data(data)
@@ -42,7 +42,7 @@ class HiExConnectorBase:
 
     async def get_async_request(self, method, data):
         text, headers = await self.get_async_request_data(method, data)
-        return self._get_valid_response(text, headers)
+        return self.get_valid_response(text, headers)
 
     async def get_async_request_data(self, method, data):
         data = self._pre_request_data(data)
@@ -72,7 +72,7 @@ class HiExConnectorBase:
                 new_data[key] = data[key]
         return simplejson.dumps(new_data)
 
-    def _get_valid_response(self, body, headers):
+    def get_valid_response(self, body, headers):
         self.check_version(headers['X-APP-VERSION'])
         sign = self._get_sign(body, headers['X-APP-TIMESTAMP'])
         resp_sign = headers['X-APP-SIGNATURE']
