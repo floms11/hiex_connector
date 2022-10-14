@@ -78,7 +78,7 @@ class HiExConnector(HiExConnectorBase):
 
         :return: str
         """
-        resp = self.get_request_text('admin/logs/get', {
+        resp = self.get_request_data('admin/logs/get', {
             'name': name
         })
         return resp

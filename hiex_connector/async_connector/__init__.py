@@ -78,7 +78,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: str
         """
-        resp = await self.get_async_request_text('admin/logs/get', {
+        resp = await self.get_async_request_data('admin/logs/get', {
             'name': name
         })
         return resp
