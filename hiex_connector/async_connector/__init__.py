@@ -300,6 +300,27 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
+    async def admin_user_update(self, user_id=None, email=None, name=None, lastname=None, kyc=None):
+        """
+        Змінити інформацію про користувача
+
+        :param user_id: Номер користувача
+        :param email: Нова пошта
+        :param name: Нове ім'я
+        :param lastname: Нове прізвище
+        :param kyc: KYC
+
+        :return: User
+        """
+        resp = await self.get_async_request('admin/user/details', {
+            'user_id': user_id,
+            'email': email,
+            'name': name,
+            'lastname': lastname,
+            'kyc': kyc,
+        })
+        return User(**resp['user'])
+
     async def admin_setting(self, **kwargs):
         """
         Завантажити/змінити налаштування системи
