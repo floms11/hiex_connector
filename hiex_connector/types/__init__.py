@@ -71,6 +71,7 @@ class Pair(BaseType):
     max_amount2: Decimal
     price_factor: Decimal
     price: Decimal
+    kyc_required: bool
     comment: str
 
     def __init__(self, **kwargs):
@@ -82,6 +83,7 @@ class Pair(BaseType):
         self.max_amount2 = Decimal(kwargs['max_amount2'])
         self.price_factor = Decimal(kwargs['price_factor'])
         self.price = Decimal(kwargs['price'])
+        self.kyc_required = kwargs['kyc_required']
         self.comment = kwargs['comment']
 
 
