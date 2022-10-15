@@ -81,7 +81,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request_data('admin/logs/get', {
             'name': name
         })
-        return resp
+        return resp[0]
 
     async def admin_stats_get(self, application_id=None, start_time=None, end_time=None, count=None):
         """
