@@ -6,10 +6,10 @@
 
 В бібліотеці розроблено асинхронний та синхронний (тимчасово недоступний) методи взаємодії
 
-## Для початку взаємодії потрібно встановити бібліотеку через `pip`:
+## Для початку взаємодії потрібно встановити бібліотеку:
 
-* Завантаж архів з https://git.floms.cc/hiex/connector/-/archive/partner/connector-partner.zip
-* Встанови бібліотеку: `pip3 install connector-partner.zip`
+* для `mac/linux`: `pip3 install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`;
+* для `windows`: `pip install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`.
 
 Далі можна використовувати біблітеоку в точності, як описано в [https://docs.hiex.io](тут), або використовувати "магічний конектор"
 
