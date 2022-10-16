@@ -48,12 +48,14 @@ class Currency(BaseType):
 
 class Payment(BaseType):
     payment_address: str
+    payment_address_qr: str
     payment_tag: str
     payment_amount: Decimal
     payment_url: str
 
     def __init__(self, **kwargs):
         self.payment_address = kwargs['payment_address']
+        self.payment_address_qr = kwargs['payment_address_qr']
         self.payment_tag = kwargs['payment_tag']
         self.payment_amount = Decimal(kwargs['payment_amount'])
         self.payment_url = kwargs['payment_url']
