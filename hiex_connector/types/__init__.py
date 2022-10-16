@@ -17,6 +17,15 @@ class BaseType:
         return {key: self[key] for key in keys}
 
 
+class Currency(BaseType):
+    code: str
+    img: str = None
+
+    def __init__(self, **kwargs):
+        self.code = kwargs['code']
+        self.img = kwargs['img']
+
+
 class Payment(BaseType):
     payment_address: str
     payment_tag: str
@@ -36,8 +45,8 @@ class Exchange(BaseType):
     status: int
     amount1: Decimal
     amount2: Decimal
-    currency1: str
-    currency2: str
+    currency1: Currency
+    currency2: Currency
     address: str
     tag: str
     payment: Payment
@@ -50,21 +59,29 @@ class Exchange(BaseType):
         self.status = kwargs['status']
         self.amount1 = Decimal(kwargs['amount1'])
         self.amount2 = Decimal(kwargs['amount2'])
-        self.currency1 = kwargs['currency1']
-        self.currency2 = kwargs['currency2']
         self.address = kwargs['address']
         self.tag = kwargs['tag']
+        self.created_at = kwargs['created_at']
+        self.closed_at = kwargs['closed_at']
+
+        if isinstance(kwargs['currency1'], Currency):
+            self.currency1 = kwargs['currency1']
+        else:
+            self.currency1 = Currency(**kwargs['currency1'])
+        if isinstance(kwargs['currency2'], Currency):
+            self.currency2 = kwargs['currency2']
+        else:
+            self.currency2 = Currency(**kwargs['currency2'])
+
         if isinstance(kwargs['payment'], Payment):
             self.payment = kwargs['payment']
         else:
             self.payment = Payment(**kwargs['payment'])
-        self.created_at = kwargs['created_at']
-        self.closed_at = kwargs['closed_at']
 
 
 class Pair(BaseType):
-    currency1: str
-    currency2: str
+    currency1: Currency
+    currency2: Currency
     min_amount1: Decimal
     max_amount1: Decimal
     min_amount2: Decimal
@@ -75,8 +92,6 @@ class Pair(BaseType):
     comment: str
 
     def __init__(self, **kwargs):
-        self.currency1 = kwargs['currency1']
-        self.currency2 = kwargs['currency2']
         self.min_amount1 = Decimal(kwargs['min_amount1'])
         self.max_amount1 = Decimal(kwargs['max_amount1'])
         self.min_amount2 = Decimal(kwargs['min_amount2'])
@@ -85,6 +100,15 @@ class Pair(BaseType):
         self.price = Decimal(kwargs['price'])
         self.kyc_required = kwargs['kyc_required']
         self.comment = kwargs['comment']
+
+        if isinstance(kwargs['currency1'], Currency):
+            self.currency1 = kwargs['currency1']
+        else:
+            self.currency1 = Currency(**kwargs['currency1'])
+        if isinstance(kwargs['currency2'], Currency):
+            self.currency2 = kwargs['currency2']
+        else:
+            self.currency2 = Currency(**kwargs['currency2'])
 
 
 class Stat(BaseType):

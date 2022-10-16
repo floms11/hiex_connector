@@ -20,7 +20,7 @@ class Pair(types.Pair):
 
         :return: list[amount1, amount2]
         """
-        return await self.__connector.pair_amount(self.currency1, self.currency2, amount1, amount2)
+        return await self.__connector.pair_amount(self.currency1.code, self.currency2.code, amount1, amount2)
 
 
 class User(types.User):
@@ -87,8 +87,8 @@ class User(types.User):
         """
         o = await self.__connector.exchange_create(
             self.__auth_key,
-            pair.currency1,
-            pair.currency2,
+            pair.currency1.code,
+            pair.currency2.code,
             address,
             tag,
             amount1,
