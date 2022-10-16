@@ -33,6 +33,19 @@ class HiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
+    def admin_exchange_get(self, exchange_id):
+        """
+        Отримати обмін
+
+        :param exchange_id: Номер обміну
+
+        :return: Exchange
+        """
+        resp = self.get_request('admin/exchange/get', {
+            'exchange_id': exchange_id,
+        })
+        return Exchange(**resp['exchange'])
+
     def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, start=None, group=None):
         """
         Отримати список обмінів (за вибіркою)
