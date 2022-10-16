@@ -10,12 +10,12 @@ class HiExConnector(HiExConnectorBase):
         """
         Отримати список монет, які зараз підтримує система
 
-        :return: Coin
+        :return: Currency
         """
         resp = self.get_request('admin/coins/list', {})
         coins = []
         for coin in resp['coins']:
-            coins.append(Coin(**coin))
+            coins.append(Currency(**coin))
         return coins
 
     def admin_exchange_update(self, exchange_id, step: int = None):
