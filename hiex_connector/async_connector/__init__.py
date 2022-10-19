@@ -193,17 +193,15 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
-    async def exchange_details(self, auth_key, exchange_id):
+    async def exchange_details(self, exchange_id):
         """
         Отримати інформацію по обміну
 
-        :param auth_key: Ключ користувача
         :param exchange_id: Номер обміну
 
         :return: Exchange
         """
         resp = await self.get_async_request('exchange/details', {
-            'auth_key': auth_key,
             'exchange_id': exchange_id,
         })
         return Exchange(**resp['exchange'])

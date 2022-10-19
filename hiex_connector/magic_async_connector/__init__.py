@@ -136,17 +136,23 @@ class AsyncHiExMagic:
         o = await self.__connector.exchange_confirm(auth_key, exchange_id)
         return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
 
-    async def exchange_details(self, auth_key, exchange_id):
+    async def exchange_details(self, exchange_id, auth_key=None):
         """
-        Отримати інформацію по обміну
+        Отримати інформацію по обміну.
+        Важливо! Для магічного exchange_details потрібен auth_key.
+        Це потрібно для підтвердження і відміни обмінів
+        Якщо магічний тип не використовується, то auth_key=None
 
         :param auth_key: Ключ користувача
         :param exchange_id: Номер обміну
 
         :return: Exchange
         """
-        o = await self.__connector.exchange_details(auth_key, exchange_id)
-        return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
+        if auth_key:
+            o = await self.__connector.exchange_details(exchange_id)
+            return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
+        else:
+            return await self.__connector.exchange_details(exchange_id)
 
     async def exchange_cancel(self, auth_key, exchange_id):
         """

@@ -71,7 +71,7 @@ class User(types.User):
         :param exchange_id: Номер обміну
         :return: Exchange
         """
-        o = await self.__connector.exchange_details(self.__auth_key, exchange_id)
+        o = await self.__connector.exchange_details(exchange_id)
         return Exchange(self.__connector, self.__auth_key, **o.get_dict())
 
     async def exchange_create(self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None):
@@ -167,7 +167,7 @@ class Exchange(types.Exchange):
 
         :return: bool
         """
-        o = await self.__connector.exchange_details(self.__auth_key, self.exchange_id)
+        o = await self.__connector.exchange_details(self.exchange_id)
         super().__init__(**o.get_dict())
         return True
 

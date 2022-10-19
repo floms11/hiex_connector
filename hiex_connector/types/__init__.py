@@ -19,10 +19,12 @@ class BaseType:
 
 class Currency(BaseType):
     code: str
+    use_tag: bool = False
     img: str = None
 
     def __init__(self, **kwargs):
         self.code = kwargs['code']
+        self.use_tag = kwargs['use_tag']
         self.img = kwargs['img']
 
 
@@ -42,7 +44,7 @@ class Payment(BaseType):
 
 
 class Exchange(BaseType):
-    exchange_id: int
+    exchange_id: str
     user_id: int
     status: int
     amount1: Decimal
