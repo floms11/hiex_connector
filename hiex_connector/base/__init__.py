@@ -37,7 +37,6 @@ class HiExConnectorBase:
                 'X-APP-SIGNATURE': self._get_sign(data, timestamp),
             }
         )
-        time.sleep(0.05)
         return r.text, r.headers
 
     async def get_async_request(self, method, data):
@@ -61,7 +60,6 @@ class HiExConnectorBase:
                     allow_redirects=True
             ) as resp:
                 text = await resp.text()
-                await asyncio.sleep(0.05)
                 return text, resp.headers
 
     @staticmethod
