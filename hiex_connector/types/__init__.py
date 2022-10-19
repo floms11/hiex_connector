@@ -62,7 +62,7 @@ class Payment(BaseType):
 
 
 class Exchange(BaseType):
-    exchange_id: int
+    exchange_id: str
     application_id: int
     user_id: int
     status: int
