@@ -153,7 +153,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('user/data/set', data)
         return resp['saved']
 
-    async def exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None):
+    async def exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
         """
         Створити новий обмін
 
@@ -164,6 +164,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param tag: Тег до адреси (якщо потрібен)
         :param amount1: Сума currency1
         :param amount2: Сума currency2
+        :param return_url: URL на який користувач повернеться після оплати карткою
 
         :return: Exchange
         """
@@ -175,6 +176,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'tag': tag,
             'amount1': amount1,
             'amount2': amount2,
+            'return_url': return_url,
         })
         return Exchange(**resp['exchange'])
 

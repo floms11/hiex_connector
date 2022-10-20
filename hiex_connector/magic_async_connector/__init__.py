@@ -107,7 +107,7 @@ class AsyncHiExMagic:
         """
         return await self.__connector.user_data_set(auth_key, **kwargs)
 
-    async def exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None):
+    async def exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
         """
         Створити новий обмін
 
@@ -118,10 +118,11 @@ class AsyncHiExMagic:
         :param tag: Тег до адреси (якщо потрібен)
         :param amount1: Сума currency1
         :param amount2: Сума currency2
+        :param return_url: URL на який користувач повернеться після оплати карткою
 
         :return: Exchange
         """
-        o = await self.__connector.exchange_create(auth_key, currency1, currency2, address, tag, amount1, amount2)
+        o = await self.__connector.exchange_create(auth_key, currency1, currency2, address, tag, amount1, amount2, return_url)
         return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
 
     async def exchange_confirm(self, auth_key, exchange_id):

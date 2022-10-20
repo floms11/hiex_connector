@@ -74,7 +74,7 @@ class User(types.User):
         o = await self.__connector.exchange_details(exchange_id)
         return Exchange(self.__connector, self.__auth_key, **o.get_dict())
 
-    async def exchange_create(self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None):
+    async def exchange_create(self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None, return_url: str = None):
         """
         Створити новий обмін
 
@@ -83,6 +83,7 @@ class User(types.User):
         :param tag: Тег до адреси (якщо потрібен)
         :param amount1: Сума currency1
         :param amount2: Сума currency2
+        :param return_url: URL на який користувач повернеться після оплати карткою
         :return: Exchange
         """
         o = await self.__connector.exchange_create(
@@ -93,6 +94,7 @@ class User(types.User):
             tag,
             amount1,
             amount2,
+            return_url,
         )
         return Exchange(self.__connector, self.__auth_key, **o.get_dict())
 
