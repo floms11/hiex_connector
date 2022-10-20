@@ -78,6 +78,7 @@ class Exchange(BaseType):
     closed_at: int
     application_income: Decimal
     application_interest: Decimal
+    return_url: str
     error_count: int
     payment: Payment
     merchant_data = {}
