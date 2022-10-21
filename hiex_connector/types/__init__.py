@@ -98,6 +98,7 @@ class Exchange(BaseType):
         self.closed_at = kwargs['closed_at']
         self.application_income = Decimal(kwargs['application_income'])
         self.application_interest = Decimal(kwargs['application_interest'])
+        self.return_url = kwargs['return_url']
         self.error_count = kwargs['error_count']
         self.merchant_data = kwargs['merchant_data']
 
