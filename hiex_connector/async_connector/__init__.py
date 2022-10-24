@@ -96,22 +96,20 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return resp[0]
 
-    async def admin_stats_get(self, application_id=None, start_time=None, end_time=None, count=None):
+    async def admin_stats_get(self, application_id=None, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
         :param application_id: Номер додатку
-        :param start_time: З якого часу завантажувати (в UNIX time)
-        :param end_time: До якого часу завантажувати (в UNIX time)
-        :param count: Кількість днів
+        :param limit: Кількість днів
+        :param offset: Скільки останніх днів пропустити
 
         :return: list[Stat]
         """
         resp = await self.get_async_request('admin/stats/get', {
             'application_id': application_id,
-            'start_time': start_time,
-            'end_time': end_time,
-            'count': count,
+            'limit': limit,
+            'offset': offset,
         })
         stats = []
         for stat in resp['stats']:
