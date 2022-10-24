@@ -46,14 +46,14 @@ class HiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
-    def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, start=None, group=None):
+    def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, offset=None, group=None):
         """
         Отримати список обмінів (за вибіркою)
 
         :param application_id: Номер додатку
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
-        :param start: З якого обміну почати завантажувати
+        :param offset: Починати з рядку
         :param group: Група обмінів (fail, cancel, in_process, success)
 
         :return: list[Exchange]
@@ -62,7 +62,7 @@ class HiExConnector(HiExConnectorBase):
             'application_id': application_id,
             'user_id': user_id,
             'limit': limit,
-            'start': start,
+            'offset': offset,
             'group': group,
         })
         exchanges = []
