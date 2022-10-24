@@ -221,17 +221,16 @@ class Application(types.Application):
         """
         return await self.__connector.application_exchanges_get(user_id, limit, offset, group)
 
-    async def stats(self, start_time=None, end_time=None, count=None):
+    async def stats(self, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
-        :param start_time: З якого часу завантажувати (в UNIX time)
-        :param end_time: До якого часу завантажувати (в UNIX time)
-        :param count: Кількість днів
+        :param limit: Кількість днів
+        :param offset: Скільки останніх днів пропустити
 
         :return:
         """
-        o = await self.__connector.application_stats_get(start_time, end_time, count)
+        o = await self.__connector.application_stats_get(limit, offset)
         return [Stat(self.__connector, **i.get_dict()) for i in o]
 
     async def interest_set(self, interest):

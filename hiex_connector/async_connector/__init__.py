@@ -246,20 +246,18 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    async def application_stats_get(self, start_time=None, end_time=None, count=None):
+    async def application_stats_get(self, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
-        :param start_time: З якого часу завантажувати (в UNIX time)
-        :param end_time: До якого часу завантажувати (в UNIX time)
-        :param count: Кількість днів
+        :param limit: Кількість днів
+        :param offset: Скільки останніх днів пропустити
 
         :return: list[Stat]
         """
         resp = await self.get_async_request('application/stats/get', {
-            'start_time': start_time,
-            'end_time': end_time,
-            'count': count,
+            'limit': limit,
+            'offset': offset,
         })
         stats = []
         for stat in resp['stats']:

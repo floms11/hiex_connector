@@ -181,17 +181,16 @@ class AsyncHiExMagic:
         """
         return await self.__connector.application_exchanges_get(user_id, limit, offset, group)
 
-    async def application_stats_get(self, start_time=None, end_time=None, count=None):
+    async def application_stats_get(self, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
-        :param start_time: З якого часу завантажувати (в UNIX time)
-        :param end_time: До якого часу завантажувати (в UNIX time)
-        :param count: Кількість днів
+        :param limit: Кількість днів
+        :param offset: Скільки останніх днів пропустити
 
         :return: list[Stat]
         """
-        o = await self.__connector.application_stats_get(start_time, end_time, count)
+        o = await self.__connector.application_stats_get(limit, offset)
         return [magic_async_types.Stat(self.__connector, **i.get_dict()) for i in o]
 
     async def application_details(self):
