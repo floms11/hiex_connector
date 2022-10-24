@@ -70,19 +70,19 @@ class AsyncHiExMagic:
         o = await self.__connector.user_auth_code(auth_key, code)
         return magic_async_types.Auth(self.__connector, **o.get_dict())
 
-    async def user_exchanges_history(self, auth_key, limit=None, start=None, group=None):
+    async def user_exchanges_history(self, auth_key, limit=None, offset=None, group=None):
         """
         Отримати список обмінів користувача (за вибіркою)
 
         :param auth_key: Ключ користувача
         :param limit: Скільки обмінів завантажувати
-        :param start: З якого обміну почати завантажувати
+        :param offset: Починати з рядку
         :param group: Група обмінів (cancel, in_process, success)
 
 
         :return: list[Exchange]
         """
-        o = await self.__connector.user_exchanges_history(auth_key, limit, start, group)
+        o = await self.__connector.user_exchanges_history(auth_key, limit, offset, group)
         return [magic_async_types.Exchange(self.__connector, auth_key, **i.get_dict()) for i in o]
 
     async def user_data_get(self, auth_key, param=None):
@@ -166,20 +166,20 @@ class AsyncHiExMagic:
         """
         return await self.__connector.exchange_cancel(auth_key, exchange_id)
 
-    async def application_exchanges_get(self, user_id=None, limit=None, start=None, group=None):
+    async def application_exchanges_get(self, user_id=None, limit=None, offset=None, group=None):
         """
         Отримати список обмінів додатку (за вибіркою)
         Нюанс: цей метод повертає ЗВИЧАЙНИЙ тип Exchange
 
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
-        :param start: З якого обміну почати завантажувати
+        :param offset: Починати з рядку
         :param group: Група обмінів (cancel, in_process, success)
 
 
         :return: list[Exchange]
         """
-        return await self.__connector.application_exchanges_get(user_id, limit, start, group)
+        return await self.__connector.application_exchanges_get(user_id, limit, offset, group)
 
     async def application_stats_get(self, start_time=None, end_time=None, count=None):
         """

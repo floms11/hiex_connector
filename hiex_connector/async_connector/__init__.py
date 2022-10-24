@@ -98,13 +98,13 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Auth(**resp['auth'])
 
-    async def user_exchanges_history(self, auth_key, limit=None, start=None, group=None):
+    async def user_exchanges_history(self, auth_key, limit=None, offset=None, group=None):
         """
         Отримати список обмінів користувача (за вибіркою)
 
         :param auth_key: Ключ користувача
         :param limit: Скільки обмінів завантажувати
-        :param start: З якого обміну почати завантажувати
+        :param offset: Починати з рядку
         :param group: Група обмінів (cancel, in_process, success)
 
 
@@ -113,7 +113,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('user/exchanges/history', {
             'auth_key': auth_key,
             'limit': limit,
-            'start': start,
+            'offset': offset,
             'group': group,
         })
         exchanges = []
@@ -223,13 +223,13 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def application_exchanges_get(self, user_id=None, limit=None, start=None, group=None):
+    async def application_exchanges_get(self, user_id=None, limit=None, offset=None, group=None):
         """
         Отримати список обмінів додатку (за вибіркою)
 
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
-        :param start: З якого обміну почати завантажувати
+        :param offset: Починати з рядку
         :param group: Група обмінів (cancel, in_process, success)
 
 
@@ -238,7 +238,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('application/exchanges/get', {
             'user_id': user_id,
             'limit': limit,
-            'start': start,
+            'offset': offset,
             'group': group,
         })
         exchanges = []

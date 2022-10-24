@@ -52,16 +52,16 @@ class User(types.User):
         """
         return await self.__connector.user_kyc_get(self.__auth_key)
 
-    async def exchanges(self, limit=None, start=None, group=None):
+    async def exchanges(self, limit=None, offset=None, group=None):
         """
         Отримати історію обмінів користувача
 
         :param limit: Скільки обмінів завантажувати
-        :param start: З якого обміну почати завантажувати
+        :param offset Починати з рядку
         :param group: Група обмінів (cancel, in_process, success)
         :return:
         """
-        o = await self.__connector.user_exchanges_history(self.__auth_key, limit, start, group)
+        o = await self.__connector.user_exchanges_history(self.__auth_key, limit, offset, group)
         return [Exchange(self.__connector, self.__auth_key, **i.get_dict()) for i in o]
 
     async def exchange(self, exchange_id):
@@ -209,17 +209,17 @@ class Application(types.Application):
         super().__init__(**o.get_dict())
         return True
 
-    async def exchanges(self, user_id=None, limit=None, start=None, group=None):
+    async def exchanges(self, user_id=None, limit=None, offset=None, group=None):
         """
         Отримати список обмінів додатку (за вибіркою)
 
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
-        :param start: З якого обміну почати завантажувати
+        :param offset: Починати з рядку
         :param group: Група обмінів (cancel, in_process, success)
         :return:
         """
-        return await self.__connector.application_exchanges_get(user_id, limit, start, group)
+        return await self.__connector.application_exchanges_get(user_id, limit, offset, group)
 
     async def stats(self, start_time=None, end_time=None, count=None):
         """
