@@ -161,12 +161,14 @@ class Stat(BaseType):
     day: str
     exchanges_created_count: int
     exchanges_success_count: int
+    exchanges_success_amount: Decimal
     application_income: Decimal
 
     def __init__(self, **kwargs):
         self.day = kwargs['day']
         self.exchanges_created_count = kwargs['exchanges_created_count']
         self.exchanges_success_count = kwargs['exchanges_success_count']
+        self.exchanges_success_amount = kwargs['exchanges_success_amount']
         self.application_income = Decimal(kwargs['application_income'])
 
 
