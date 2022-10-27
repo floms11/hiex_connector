@@ -311,6 +311,23 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
+    async def admin_application_user_details(self, application_id, user_id=None, email=None):
+        """
+        Отримати інформацію про користувача в контексті додатку
+
+        :param application_id: Номер додатку
+        :param user_id: Номер користувача
+        :param email: Пошта користувача
+
+        :return: User
+        """
+        resp = await self.get_async_request('admin/application/user/details', {
+            'application_id': application_id,
+            'user_id': user_id,
+            'email': email,
+        })
+        return User(**resp['user'])
+
     async def admin_user_update(self, user_id=None, email=None, name=None, lastname=None, kyc=None):
         """
         Змінити інформацію про користувача

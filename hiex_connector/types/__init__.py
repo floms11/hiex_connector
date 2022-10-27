@@ -179,7 +179,8 @@ class User(BaseType):
     name: str
     lastname: str
     created_at: int
-    applications_data = {}
+    application_id: int = None
+    application_data = {}
 
     def __init__(self, **kwargs):
         self.user_id = kwargs['user_id']
@@ -188,7 +189,8 @@ class User(BaseType):
         self.name = kwargs['name']
         self.lastname = kwargs['lastname']
         self.created_at = kwargs['created_at']
-        self.applications_data = kwargs['applications_data']
+        self.application_id = kwargs['application_id']
+        self.application_data = kwargs['application_data']
 
 
 class UserAuth(BaseType):
