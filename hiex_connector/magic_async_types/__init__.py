@@ -42,6 +42,14 @@ class User(types.User):
         super().__init__(**o.get_dict())
         return True
 
+    async def logout(self):
+        """
+        Розлогінити користувача (деактивувати auth_key в системі)
+
+        :return: bool
+        """
+        return await self.__connector.user_logout(self.__auth_key)
+
     async def kyc_link(self):
         """
         Отримати лінк для проходження KYC (верифікації)

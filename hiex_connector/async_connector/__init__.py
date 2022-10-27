@@ -57,6 +57,19 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
+    async def user_logout(self, auth_key):
+        """
+        Розлогінити користувача (деактивувати auth_key в системі)
+
+        :param auth_key: Ключ користувача
+
+        :return: User
+        """
+        resp = await self.get_async_request('user/logout', {
+            'auth_key': auth_key,
+        })
+        return True
+
     async def user_kyc_get(self, auth_key):
         """
         Отримати лінк для проходження KYC (верифікації)
