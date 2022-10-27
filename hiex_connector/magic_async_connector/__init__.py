@@ -85,16 +85,15 @@ class AsyncHiExMagic:
         o = await self.__connector.user_exchanges_history(auth_key, limit, offset, group)
         return [magic_async_types.Exchange(self.__connector, auth_key, **i.get_dict()) for i in o]
 
-    async def user_data_get(self, auth_key, param=None):
+    async def user_data_get(self, auth_key):
         """
         Отримання даних додатку
 
         :param auth_key: Ключ користувача
-        :param param: Значення яке потрібно завантажити
 
         :return:
         """
-        return await self.__connector.user_data_get(auth_key, param)
+        return await self.__connector.user_data_get(auth_key)
 
     async def user_data_set(self, auth_key, **kwargs):
         """

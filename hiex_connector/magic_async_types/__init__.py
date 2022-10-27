@@ -108,14 +108,13 @@ class User(types.User):
         await self.__connector.user_data_set(self.__auth_key, **kwargs)
         return True
 
-    async def data_get(self, key=None):
+    async def data_get(self):
         """
         Отримати дані користувача з серверів hiex.io
 
-        :param key: Назва змінної
-        :return: str (якщо передано key), або dict
+        :return: dict
         """
-        return await self.__connector.user_data_get(self.__auth_key, key)
+        return await self.__connector.user_data_get(self.__auth_key)
 
 
 class Auth(types.Auth):

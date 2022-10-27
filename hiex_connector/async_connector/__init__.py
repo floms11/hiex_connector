@@ -121,23 +121,18 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    async def user_data_get(self, auth_key, param=None):
+    async def user_data_get(self, auth_key):
         """
         Отримання даних додатку
 
         :param auth_key: Ключ користувача
-        :param param: Значення яке потрібно завантажити
 
         :return:
         """
         resp = await self.get_async_request('user/data/get', {
             'auth_key': auth_key,
-            'param': param,
         })
-        if param is not None:
-            return resp[param]
-        else:
-            return resp['all']
+        return resp['data']
 
     async def user_data_set(self, auth_key, **kwargs):
         """
