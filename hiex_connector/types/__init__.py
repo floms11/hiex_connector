@@ -179,6 +179,9 @@ class User(BaseType):
     name: str
     lastname: str
     created_at: int
+    balance: Decimal = 0
+    referral_token: str = None
+    referral_id: int = None
     application_id: int = None
     application_data = {}
 
@@ -189,8 +192,26 @@ class User(BaseType):
         self.name = kwargs['name']
         self.lastname = kwargs['lastname']
         self.created_at = kwargs['created_at']
+        self.balance = Decimal(kwargs['balance'])
+        self.referral_token = kwargs['referral_token']
+        self.referral_id = kwargs['referral_id']
         self.application_id = kwargs['application_id']
         self.application_data = kwargs['application_data']
+
+
+class Referral(BaseType):
+    user_id: int
+    email: str
+    kyc: bool
+    created_at: int
+    amount: Decimal = 0
+
+    def __init__(self, **kwargs):
+        self.user_id = kwargs['user_id']
+        self.email = kwargs['email']
+        self.kyc = kwargs['kyc']
+        self.created_at = kwargs['created_at']
+        self.amount = Decimal(kwargs['amount'])
 
 
 class UserAuth(BaseType):

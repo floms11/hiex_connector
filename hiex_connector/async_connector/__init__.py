@@ -311,7 +311,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
-    async def admin_application_user_details(self, application_id, user_id=None, email=None):
+    async def admin_application_user_details(self, application_id, user_id, email=None):
         """
         Отримати інформацію про користувача в контексті додатку
 
@@ -325,6 +325,41 @@ class AsyncHiExConnector(HiExConnectorBase):
             'application_id': application_id,
             'user_id': user_id,
             'email': email,
+        })
+        return User(**resp['user'])
+
+    async def admin_application_user_referrals(self, application_id, user_id):
+        """
+        Отримати інформацію про рефералів користувача
+
+        :param application_id: Номер додатку
+        :param user_id: Номер користувача
+
+        :return: list[Referral]
+        """
+        resp = await self.get_async_request('admin/application/user/referrals', {
+            'application_id': application_id,
+            'user_id': user_id,
+        })
+        referrals = []
+        for referral in resp['referrals']:
+            referrals.append(Referral(**referral))
+        return referrals
+
+    async def admin_application_user_update(self, application_id, user_id, balance=None):
+        """
+        Змінити інформацію про користувача в контексті додатку
+
+        :param application_id: Номер додатку
+        :param user_id: Номер користувача
+        :param balance: Баланс
+
+        :return: User
+        """
+        resp = await self.get_async_request('admin/application/user/update', {
+            'application_id': application_id,
+            'user_id': user_id,
+            'balance': balance,
         })
         return User(**resp['user'])
 
