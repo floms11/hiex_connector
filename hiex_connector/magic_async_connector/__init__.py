@@ -37,6 +37,18 @@ class AsyncHiExMagic:
         o = await self.__connector.user_get(auth_key)
         return magic_async_types.User(self.__connector, auth_key, **o.get_dict())
 
+    async def user_referrals(self, auth_key, limit=None, offset=None):
+        """
+        Завантажити список рефералів
+
+        :param auth_key: Ключ користувача
+        :param limit: Скільки рефералів завантажувати
+        :param offset: Починати з рядку
+
+        :return: list
+        """
+        return await self.__connector.user_referrals(auth_key, limit, offset)
+
     async def user_logout(self, auth_key):
         """
         Розлогінити користувача (деактивувати auth_key в системі)
@@ -57,15 +69,16 @@ class AsyncHiExMagic:
         """
         return await self.__connector.user_kyc_get(auth_key)
 
-    async def user_auth(self, email):
+    async def user_auth(self, email, referral_token=None):
         """
         Запит на авторизацію користувача
 
         :param email: Пошта користувача
+        :param referral_token: Реферальний токен
 
         :return: Auth
         """
-        o = await self.__connector.user_auth(email)
+        o = await self.__connector.user_auth(email, referral_token)
         return magic_async_types.Auth(self.__connector, **o.get_dict())
 
     async def user_auth_code(self, auth_key, code):

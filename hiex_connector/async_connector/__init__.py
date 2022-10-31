@@ -57,6 +57,23 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
+    async def user_referrals(self, auth_key, limit=None, offset=None):
+        """
+        Завантажити список рефералів
+
+        :param auth_key: Ключ користувача
+        :param limit: Скільки рефералів завантажувати
+        :param offset: Починати з рядку
+
+        :return: list
+        """
+        resp = await self.get_async_request('user/referrals', {
+            'auth_key': auth_key,
+            'limit': limit,
+            'offset': offset,
+        })
+        return [Referral(**i['referrals']) for i in resp]
+
     async def user_logout(self, auth_key):
         """
         Розлогінити користувача (деактивувати auth_key в системі)
@@ -65,7 +82,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: User
         """
-        resp = await self.get_async_request('user/logout', {
+        await self.get_async_request('user/logout', {
             'auth_key': auth_key,
         })
         return True
@@ -83,16 +100,18 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return resp['kyc_url']
 
-    async def user_auth(self, email):
+    async def user_auth(self, email, referral_token=None):
         """
         Запит на авторизацію користувача
 
         :param email: Пошта користувача
+        :param referral_token: Реферальний токен
 
         :return: Auth
         """
         resp = await self.get_async_request('user/auth', {
             'email': email,
+            'referral_token': referral_token,
         })
         return Auth(**resp['auth'])
 

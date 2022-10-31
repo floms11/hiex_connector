@@ -42,6 +42,17 @@ class User(types.User):
         super().__init__(**o.get_dict())
         return True
 
+    async def referrals(self, limit=None, offset=None):
+        """
+        Завантажити список рефералів
+
+        :param limit: Скільки рефералів завантажувати
+        :param offset: Починати з рядку
+
+        :return: list
+        """
+        return await self.__connector.user_referrals(self.__auth_key, limit, offset)
+
     async def logout(self):
         """
         Розлогінити користувача (деактивувати auth_key в системі)
