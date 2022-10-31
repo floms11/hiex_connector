@@ -144,7 +144,7 @@ class User(BaseType):
         self.email = kwargs['email']
         self.name = kwargs['name']
         self.lastname = kwargs['lastname']
-        self.balance = kwargs['balance']
+        self.balance = Decimal(kwargs['balance'])
         self.referral_token = kwargs['referral_token']
         self.referral_id = kwargs['referral_id']
 
