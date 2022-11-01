@@ -72,7 +72,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'limit': limit,
             'offset': offset,
         })
-        return [Referral(**i['referrals']) for i in resp]
+        return [Referral(**i) for i in resp['referrals']]
 
     async def user_logout(self, auth_key):
         """
