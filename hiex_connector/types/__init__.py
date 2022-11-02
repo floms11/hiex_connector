@@ -183,6 +183,8 @@ class User(BaseType):
     referral_token: str = None
     referral_id: int = None
     application_id: int = None
+    referrals_count: int = None
+    referrals_sum_amount: Decimal = None
     application_data = {}
 
     def __init__(self, **kwargs):
@@ -197,6 +199,8 @@ class User(BaseType):
         self.referral_id = kwargs['referral_id']
         self.application_id = kwargs['application_id']
         self.application_data = kwargs['application_data']
+        self.referrals_count = kwargs['referrals_count']
+        self.referrals_sum_amount = Decimal(kwargs['referrals_sum_amount'])
 
 
 class Referral(BaseType):
