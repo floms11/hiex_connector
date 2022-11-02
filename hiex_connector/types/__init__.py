@@ -137,6 +137,8 @@ class User(BaseType):
     balance: Decimal
     referral_token: str
     referral_id: int
+    referrals_count: int
+    referrals_sum_amount: Decimal
 
     def __init__(self, **kwargs):
         self.user_id = kwargs['user_id']
@@ -147,6 +149,8 @@ class User(BaseType):
         self.balance = Decimal(kwargs['balance'])
         self.referral_token = kwargs['referral_token']
         self.referral_id = kwargs['referral_id']
+        self.referrals_count = kwargs['referrals_count']
+        self.referrals_sum_amount = Decimal(kwargs['referrals_sum_amount'])
 
 
 class Auth(BaseType):
