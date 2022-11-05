@@ -24,9 +24,9 @@
 
 Створемо екземпляр `hiex = AsyncHiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')` (ключі у тебе вже мають бути)
 
-Далі всі запити здійснюються за прикладом: `coins = await hiex.admin_coins_list()`
+Далі всі запити здійснюються за прикладом: `currencies = await hiex.admin_currencies_list()`
 
-`coins` – це об'єкт типу `Coin`.
+`currencies` – це об'єкт типу `Currency`.
 
 
 

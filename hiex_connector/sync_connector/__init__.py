@@ -6,17 +6,17 @@ class HiExConnector(HiExConnectorBase):
     """
     Синхронна бібліотека для роботи з api.hiex.io
     """
-    def admin_coins_list(self):
+    def admin_currencies_list(self):
         """
         Отримати список монет, які зараз підтримує система
 
         :return: Currency
         """
-        resp = self.get_request('admin/coins/list', {})
-        coins = []
-        for coin in resp['coins']:
-            coins.append(Currency(**coin))
-        return coins
+        resp = self.get_request('admin/currencies/list', {})
+        currencies = []
+        for currency in resp['currencies']:
+            currencies.append(Currency(**currency))
+        return currencies
 
     def admin_exchange_update(self, exchange_id, step: int = None):
         """
