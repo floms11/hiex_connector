@@ -215,7 +215,7 @@ class HiExConnector(HiExConnectorBase):
             pairs.append(Pair(**pair))
         return pairs
 
-    def admin_pair_create(self, currency1, currency2, comment, kyc_required, swap_deposit, active=None, interest=None, max_amount1=None, max_amount2=None, min_amount1=None, min_amount2=None):
+    def admin_pair_create(self, currency1, currency2, comment, kyc_required, swap_deposit, active=None, interest=None, max_amount1=None, max_amount2=None, min_amount1=None, min_amount2=None, currency_swap_auxiliary: Currency = None):
         """
         Створити валютну пару
 
@@ -230,12 +230,14 @@ class HiExConnector(HiExConnectorBase):
         :param max_amount2: Максимальна сума виплати
         :param min_amount1: Мінімальна сума депозиту
         :param min_amount2: Мінімальна сума виплати
+        :param currency_swap_auxiliary: Допоміжна валюта. Використовується для обміну
 
         :return: Pair
         """
         resp = self.get_request('admin/pair/create', {
             'currency1': currency1,
             'currency2': currency2,
+            'currency_swap_auxiliary': currency_swap_auxiliary,
             'comment': comment,
             'kyc_required': kyc_required,
             'swap_deposit': swap_deposit,
@@ -248,7 +250,7 @@ class HiExConnector(HiExConnectorBase):
         })
         return Pair(**resp['pair'])
 
-    def admin_pair_update(self, currency1, currency2, active=None, comment=None, interest=None, max_amount1=None, max_amount2=None, min_amount1=None, min_amount2=None, kyc_required=None, swap_deposit=None):
+    def admin_pair_update(self, currency1, currency2, active=None, comment=None, interest=None, max_amount1=None, max_amount2=None, min_amount1=None, min_amount2=None, kyc_required=None, swap_deposit=None, currency_swap_auxiliary: Currency = None):
         """
         Змінити валютну пару
 
@@ -263,12 +265,14 @@ class HiExConnector(HiExConnectorBase):
         :param min_amount2: Мінімальна сума виплати
         :param kyc_required: Чи потрібен KYC для обміну
         :param swap_deposit: Чи потрібно робити автоматичний обмін
+        :param currency_swap_auxiliary: Допоміжна валюта. Використовується для обміну
 
         :return: Pair
         """
         resp = self.get_request('admin/pair/update', {
             'currency1': currency1,
             'currency2': currency2,
+            'currency_swap_auxiliary': currency_swap_auxiliary,
             'active': active,
             'comment': comment,
             'interest': interest,
