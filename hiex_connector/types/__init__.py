@@ -72,7 +72,6 @@ class Exchange(BaseType):
     amount2: Decimal
     currency1: Currency
     currency2: Currency
-    currency_swap_auxiliary: Currency
     address: str
     tag: str
     created_at: int
@@ -83,6 +82,7 @@ class Exchange(BaseType):
     error_count: int
     payment: Payment
     merchant_data = {}
+    currency_swap_auxiliary: Currency = None
 
     def __init__(self, **kwargs):
         self.exchange_id = kwargs['exchange_id']
@@ -111,10 +111,11 @@ class Exchange(BaseType):
             self.currency2 = kwargs['currency2']
         else:
             self.currency2 = Currency(**kwargs['currency2'])
-        if isinstance(kwargs['currency_swap_auxiliary'], Currency):
-            self.currency_swap_auxiliary = kwargs['currency_swap_auxiliary']
-        else:
-            self.currency_swap_auxiliary = Currency(**kwargs['currency_swap_auxiliary'])
+        if kwargs['currency_swap_auxiliary'] is not None:
+            if isinstance(kwargs['currency_swap_auxiliary'], Currency):
+                self.currency_swap_auxiliary = kwargs['currency_swap_auxiliary']
+            else:
+                self.currency_swap_auxiliary = Currency(**kwargs['currency_swap_auxiliary'])
 
         if isinstance(kwargs['payment'], Payment):
             self.payment = kwargs['payment']
@@ -125,7 +126,6 @@ class Exchange(BaseType):
 class Pair(BaseType):
     currency1: Currency
     currency2: Currency
-    currency_swap_auxiliary: Currency
     min_amount1: Decimal
     max_amount1: Decimal
     min_amount2: Decimal
@@ -138,6 +138,7 @@ class Pair(BaseType):
     kyc_required: bool
     swap_deposit: bool
     last_update: int
+    currency_swap_auxiliary: Currency = None
 
     def __init__(self, **kwargs):
         self.min_amount1 = Decimal(kwargs['min_amount1'])
@@ -161,10 +162,11 @@ class Pair(BaseType):
             self.currency2 = kwargs['currency2']
         else:
             self.currency2 = Currency(**kwargs['currency2'])
-        if isinstance(kwargs['currency_swap_auxiliary'], Currency):
-            self.currency_swap_auxiliary = kwargs['currency_swap_auxiliary']
-        else:
-            self.currency_swap_auxiliary = Currency(**kwargs['currency_swap_auxiliary'])
+        if kwargs['currency_swap_auxiliary'] is not None:
+            if isinstance(kwargs['currency_swap_auxiliary'], Currency):
+                self.currency_swap_auxiliary = kwargs['currency_swap_auxiliary']
+            else:
+                self.currency_swap_auxiliary = Currency(**kwargs['currency_swap_auxiliary'])
 
 
 class Stat(BaseType):
