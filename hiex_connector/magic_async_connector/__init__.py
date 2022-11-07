@@ -37,7 +37,7 @@ class AsyncHiExMagic:
         o = await self.__connector.user_get(auth_key)
         return magic_async_types.User(self.__connector, auth_key, **o.get_dict())
 
-    async def user_referrals(self, auth_key, limit=None, offset=None):
+    async def user_referrals_get(self, auth_key, limit=None, offset=None):
         """
         Завантажити список рефералів
 
@@ -47,7 +47,7 @@ class AsyncHiExMagic:
 
         :return: list
         """
-        return await self.__connector.user_referrals(auth_key, limit, offset)
+        return await self.__connector.user_referrals_get(auth_key, limit, offset)
 
     async def user_logout(self, auth_key):
         """
@@ -93,7 +93,7 @@ class AsyncHiExMagic:
         o = await self.__connector.user_auth_code(auth_key, code)
         return magic_async_types.Auth(self.__connector, **o.get_dict())
 
-    async def user_exchanges_history(self, auth_key, limit=None, offset=None, group=None):
+    async def user_exchanges_list(self, auth_key, limit=None, offset=None, group=None):
         """
         Отримати список обмінів користувача (за вибіркою)
 
@@ -105,20 +105,10 @@ class AsyncHiExMagic:
 
         :return: list[Exchange]
         """
-        o = await self.__connector.user_exchanges_history(auth_key, limit, offset, group)
+        o = await self.__connector.user_exchanges_list(auth_key, limit, offset, group)
         return [magic_async_types.Exchange(self.__connector, auth_key, **i.get_dict()) for i in o]
 
-    async def user_data_get(self, auth_key):
-        """
-        Отримання даних додатку
-
-        :param auth_key: Ключ користувача
-
-        :return:
-        """
-        return await self.__connector.user_data_get(auth_key)
-
-    async def user_data_set(self, auth_key, **kwargs):
+    async def user_data_save(self, auth_key, **kwargs):
         """
         Запис даних додатку
 
@@ -127,7 +117,7 @@ class AsyncHiExMagic:
 
         :return:
         """
-        return await self.__connector.user_data_set(auth_key, **kwargs)
+        return await self.__connector.user_data_save(auth_key, **kwargs)
 
     async def exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
         """
@@ -159,10 +149,10 @@ class AsyncHiExMagic:
         o = await self.__connector.exchange_confirm(auth_key, exchange_id)
         return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
 
-    async def exchange_details(self, exchange_id, auth_key=None):
+    async def exchange_get(self, exchange_id, auth_key=None):
         """
         Отримати інформацію по обміну.
-        Важливо! Для магічного exchange_details потрібен auth_key.
+        Важливо! Для магічного exchange_get потрібен auth_key.
         Це потрібно для підтвердження і відміни обмінів
         Якщо магічний тип не використовується, то auth_key=None
 
@@ -172,10 +162,10 @@ class AsyncHiExMagic:
         :return: Exchange
         """
         if auth_key:
-            o = await self.__connector.exchange_details(exchange_id)
+            o = await self.__connector.exchange_get(exchange_id)
             return magic_async_types.Exchange(self.__connector, auth_key, **o.get_dict())
         else:
-            return await self.__connector.exchange_details(exchange_id)
+            return await self.__connector.exchange_get(exchange_id)
 
     async def exchange_cancel(self, auth_key, exchange_id):
         """
@@ -188,7 +178,7 @@ class AsyncHiExMagic:
         """
         return await self.__connector.exchange_cancel(auth_key, exchange_id)
 
-    async def application_exchanges_get(self, user_id=None, limit=None, offset=None, group=None):
+    async def application_exchanges_list(self, user_id=None, limit=None, offset=None, group=None):
         """
         Отримати список обмінів додатку (за вибіркою)
         Нюанс: цей метод повертає ЗВИЧАЙНИЙ тип Exchange
@@ -201,9 +191,22 @@ class AsyncHiExMagic:
 
         :return: list[Exchange]
         """
-        return await self.__connector.application_exchanges_get(user_id, limit, offset, group)
+        return await self.__connector.application_exchanges_list(user_id, limit, offset, group)
 
-    async def application_stats_get(self, limit=None, offset=None):
+    async def application_users_list(self, limit=None, offset=None):
+        """
+        Отримати список користувачів
+        Нюанс: цей метод повертає ЗВИЧАЙНИЙ тип User
+
+        :param limit: Скільки користувачів завантажувати
+        :param offset: Починати з рядку
+
+
+        :return: list[User]
+        """
+        return await self.__connector.application_users_list(limit, offset)
+
+    async def application_stats_list(self, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
@@ -212,16 +215,16 @@ class AsyncHiExMagic:
 
         :return: list[Stat]
         """
-        o = await self.__connector.application_stats_get(limit, offset)
+        o = await self.__connector.application_stats_list(limit, offset)
         return [magic_async_types.Stat(self.__connector, **i.get_dict()) for i in o]
 
-    async def application_details(self):
+    async def application_get(self):
         """
         Отримати інформацію про додаток
 
         :return: Application
         """
-        o = await self.__connector.application_details()
+        o = await self.__connector.application_get()
         return magic_async_types.Application(self.__connector, **o.get_dict())
 
     async def application_interest_set(self, interest):

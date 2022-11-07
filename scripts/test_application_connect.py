@@ -7,7 +7,7 @@ PUBLIC_KEY = '<ПУБЛІЧНИЙ КЛЮЧ>'
 
 async def main():
     hiex = AsyncHiExMagic(PRIVATE_KEY, PUBLIC_KEY)
-    application = await hiex.application_details()
+    application = await hiex.application_get()
     print("{:<20} {}".format("Назва:", application.name))
     print("{:<20} {}".format("Баланс:", application.balance))
     print("{:<20} {}".format("%:", application.interest))

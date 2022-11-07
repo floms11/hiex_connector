@@ -28,7 +28,7 @@ hiex = AsyncHiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
 
 Далі всі [запити](https://docs.hiex.io) здійснюються за прикладом: 
 `
-exchange = await hiex.exchange_details('<EXCHANGE_ID>')
+exchange = await hiex.exchange_get('<EXCHANGE_ID>')
 ` (<EXCHANGE_ID> – при створені обміну)
 
 `exchange` – це об'єкт типу Exchange. Всі типи описані на на сторінці: https://docs.hiex.io/types/
@@ -49,7 +49,7 @@ hiex = AsyncHiExMagic('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
 
 Всі [запити](https://docs.hiex.io) здійснюються за прикладом: 
 `
-exchange = await hiex.exchange_details('<EXCHANGE_ID>', '<AUTH_KEY>')
+exchange = await hiex.exchange_get('<EXCHANGE_ID>', '<AUTH_KEY>')
 `
 
 #### І тепер найцікавіше. 

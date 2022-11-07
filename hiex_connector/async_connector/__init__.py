@@ -57,7 +57,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
-    async def user_referrals(self, auth_key, limit=None, offset=None):
+    async def user_referrals_get(self, auth_key, limit=None, offset=None):
         """
         Завантажити список рефералів
 
@@ -67,7 +67,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: list
         """
-        resp = await self.get_async_request('user/referrals', {
+        resp = await self.get_async_request('user/referrals/get', {
             'auth_key': auth_key,
             'limit': limit,
             'offset': offset,
@@ -130,7 +130,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Auth(**resp['auth'])
 
-    async def user_exchanges_history(self, auth_key, limit=None, offset=None, group=None):
+    async def user_exchanges_list(self, auth_key, limit=None, offset=None, group=None):
         """
         Отримати список обмінів користувача (за вибіркою)
 
@@ -142,7 +142,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: list[Exchange]
         """
-        resp = await self.get_async_request('user/exchanges/history', {
+        resp = await self.get_async_request('user/exchanges/list', {
             'auth_key': auth_key,
             'limit': limit,
             'offset': offset,
@@ -153,20 +153,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    async def user_data_get(self, auth_key):
-        """
-        Отримання даних додатку
-
-        :param auth_key: Ключ користувача
-
-        :return:
-        """
-        resp = await self.get_async_request('user/data/get', {
-            'auth_key': auth_key,
-        })
-        return resp['data']
-
-    async def user_data_set(self, auth_key, **kwargs):
+    async def user_data_save(self, auth_key, **kwargs):
         """
         Запис даних додатку
 
@@ -177,7 +164,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         """
         data = kwargs
         data['auth_key'] = auth_key
-        resp = await self.get_async_request('user/data/set', data)
+        resp = await self.get_async_request('user/data/save', data)
         return resp['saved']
 
     async def exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
@@ -222,7 +209,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
-    async def exchange_details(self, exchange_id):
+    async def exchange_get(self, exchange_id):
         """
         Отримати інформацію по обміну
 
@@ -230,7 +217,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: Exchange
         """
-        resp = await self.get_async_request('exchange/details', {
+        resp = await self.get_async_request('exchange/get', {
             'exchange_id': exchange_id,
         })
         return Exchange(**resp['exchange'])
@@ -250,7 +237,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def application_exchanges_get(self, user_id=None, limit=None, offset=None, group=None):
+    async def application_exchanges_list(self, user_id=None, limit=None, offset=None, group=None):
         """
         Отримати список обмінів додатку (за вибіркою)
 
@@ -262,7 +249,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: list[Exchange]
         """
-        resp = await self.get_async_request('application/exchanges/get', {
+        resp = await self.get_async_request('application/exchanges/list', {
             'user_id': user_id,
             'limit': limit,
             'offset': offset,
@@ -273,7 +260,26 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    async def application_stats_get(self, limit=None, offset=None):
+    async def application_users_list(self, limit=None, offset=None):
+        """
+        Отримати список користувачів
+
+        :param limit: Скільки користувачів завантажувати
+        :param offset: Починати з рядку
+
+
+        :return: list[User]
+        """
+        resp = await self.get_async_request('application/users/list', {
+            'limit': limit,
+            'offset': offset,
+        })
+        users = []
+        for user in resp['users']:
+            users.append(User(**user))
+        return users
+
+    async def application_stats_list(self, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
@@ -282,7 +288,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: list[Stat]
         """
-        resp = await self.get_async_request('application/stats/get', {
+        resp = await self.get_async_request('application/stats/list', {
             'limit': limit,
             'offset': offset,
         })
@@ -291,13 +297,13 @@ class AsyncHiExConnector(HiExConnectorBase):
             stats.append(Stat(**stat))
         return stats
 
-    async def application_details(self):
+    async def application_get(self):
         """
         Отримати інформацію про додаток
 
         :return: Application
         """
-        resp = await self.get_async_request('application/details', {})
+        resp = await self.get_async_request('application/get', {})
         return Application(**resp['application'])
 
     async def application_interest_set(self, interest):

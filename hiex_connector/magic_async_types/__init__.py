@@ -51,7 +51,7 @@ class User(types.User):
 
         :return: list
         """
-        return await self.__connector.user_referrals(self.__auth_key, limit, offset)
+        return await self.__connector.user_referrals_get(self.__auth_key, limit, offset)
 
     async def logout(self):
         """
@@ -80,7 +80,7 @@ class User(types.User):
         :param group: Група обмінів (cancel, in_process, success)
         :return:
         """
-        o = await self.__connector.user_exchanges_history(self.__auth_key, limit, offset, group)
+        o = await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, group)
         return [Exchange(self.__connector, self.__auth_key, **i.get_dict()) for i in o]
 
     async def exchange(self, exchange_id):
@@ -90,7 +90,7 @@ class User(types.User):
         :param exchange_id: Номер обміну
         :return: Exchange
         """
-        o = await self.__connector.exchange_details(exchange_id)
+        o = await self.__connector.exchange_get(exchange_id)
         return Exchange(self.__connector, self.__auth_key, **o.get_dict())
 
     async def exchange_create(self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None, return_url: str = None):
@@ -117,23 +117,15 @@ class User(types.User):
         )
         return Exchange(self.__connector, self.__auth_key, **o.get_dict())
 
-    async def data_set(self, **kwargs):
+    async def data_save(self, **kwargs):
         """
         Записати дані користувача на серверах hiex.io
 
-        :param kwargs: Зміні які потрібно записати (мають бути типу str)
+        :param kwargs: Зміні які потрібно записати
         :return: bool
         """
-        await self.__connector.user_data_set(self.__auth_key, **kwargs)
+        await self.__connector.user_data_save(self.__auth_key, **kwargs)
         return True
-
-    async def data_get(self):
-        """
-        Отримати дані користувача з серверів hiex.io
-
-        :return: dict
-        """
-        return await self.__connector.user_data_get(self.__auth_key)
 
 
 class Auth(types.Auth):
@@ -187,7 +179,7 @@ class Exchange(types.Exchange):
 
         :return: bool
         """
-        o = await self.__connector.exchange_details(self.exchange_id)
+        o = await self.__connector.exchange_get(self.exchange_id)
         super().__init__(**o.get_dict())
         return True
 
@@ -223,7 +215,7 @@ class Application(types.Application):
 
         :return: bool
         """
-        o = await self.__connector.application_details()
+        o = await self.__connector.application_get()
         super().__init__(**o.get_dict())
         return True
 
@@ -237,18 +229,28 @@ class Application(types.Application):
         :param group: Група обмінів (cancel, in_process, success)
         :return:
         """
-        return await self.__connector.application_exchanges_get(user_id, limit, offset, group)
+        return await self.__connector.application_exchanges_list(user_id, limit, offset, group)
+
+    async def users(self, limit=None, offset=None):
+        """
+        Отримати список користувачів додатку
+
+        :param limit: Скільки користувачів завантажувати
+        :param offset: Починати з рядку
+        :return:
+        """
+        return await self.__connector.application_users_list(limit, offset)
 
     async def stats(self, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
         :param limit: Кількість днів
-        :param offset: Скільки останніх днів пропустити
+        :param offset: Починати з рядку
 
         :return:
         """
-        o = await self.__connector.application_stats_get(limit, offset)
+        o = await self.__connector.application_stats_list(limit, offset)
         return [Stat(self.__connector, **i.get_dict()) for i in o]
 
     async def interest_set(self, interest):
