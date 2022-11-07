@@ -14,7 +14,7 @@ from ..exceptions import *
 class HiExConnectorBase:
     __private_key: str = ''
     __public_key: str = ''
-    __basic_url: str = 'https://api.hiex.io/'
+    __basic_url: str = 'http://127.0.0.1:8093/'
 
     def __init__(self, private_key, public_key):
         self.__private_key = private_key

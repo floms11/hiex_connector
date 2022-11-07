@@ -1,5 +1,6 @@
 from ..async_connector import AsyncHiExConnector
 from .. import magic_async_types
+from .. import types
 
 
 class AsyncHiExMagic:
@@ -21,10 +22,12 @@ class AsyncHiExMagic:
         :param currency1: Валюта яку купуємо
         :param currency2: Валюта яку продаємо
 
-        :return: list[Pair]
+        :return: ResponseList[Pair]
         """
         o = await self.__connector.pairs_list(currency1, currency2)
-        return [magic_async_types.Pair(self.__connector, **i.get_dict()) for i in o]
+        r = types.ResponseList(magic_async_types.Pair(self.__connector, **i.get_dict()) for i in o)
+        r.is_all = o.is_all
+        return r
 
     async def user_get(self, auth_key):
         """
@@ -103,10 +106,12 @@ class AsyncHiExMagic:
         :param group: Група обмінів (cancel, in_process, success)
 
 
-        :return: list[Exchange]
+        :return: ResponseList[Exchange]
         """
         o = await self.__connector.user_exchanges_list(auth_key, limit, offset, group)
-        return [magic_async_types.Exchange(self.__connector, auth_key, **i.get_dict()) for i in o]
+        r = types.ResponseList(magic_async_types.Exchange(self.__connector, auth_key, **i.get_dict()) for i in o)
+        r.is_all = o.is_all
+        return r
 
     async def user_data_save(self, auth_key, **kwargs):
         """
@@ -189,7 +194,7 @@ class AsyncHiExMagic:
         :param group: Група обмінів (cancel, in_process, success)
 
 
-        :return: list[Exchange]
+        :return: ResponseList[Exchange]
         """
         return await self.__connector.application_exchanges_list(user_id, limit, offset, group)
 
@@ -202,7 +207,7 @@ class AsyncHiExMagic:
         :param offset: Починати з рядку
 
 
-        :return: list[User]
+        :return: ResponseList[User]
         """
         return await self.__connector.application_users_list(limit, offset)
 
@@ -213,10 +218,9 @@ class AsyncHiExMagic:
         :param limit: Кількість днів
         :param offset: Скільки останніх днів пропустити
 
-        :return: list[Stat]
+        :return: ResponseList[Stat]
         """
-        o = await self.__connector.application_stats_list(limit, offset)
-        return [magic_async_types.Stat(self.__connector, **i.get_dict()) for i in o]
+        return await self.__connector.application_stats_list(limit, offset)
 
     async def application_get(self):
         """

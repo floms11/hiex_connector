@@ -14,13 +14,14 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param currency1: Валюта яку купуємо
         :param currency2: Валюта яку продаємо
 
-        :return: list[Pair]
+        :return: ResponseList[Pair]
         """
         resp = await self.get_async_request('pairs/list', {
             'currency1': currency1,
             'currency2': currency2,
         })
-        pairs = []
+        pairs = ResponseList()
+        pairs.is_all = resp['is_all']
         for pair in resp['pairs']:
             pairs.append(Pair(**pair))
         return pairs
@@ -72,7 +73,11 @@ class AsyncHiExConnector(HiExConnectorBase):
             'limit': limit,
             'offset': offset,
         })
-        return [Referral(**i) for i in resp['referrals']]
+        referrals = ResponseList()
+        referrals.is_all = resp['is_all']
+        for referral in resp['referrals']:
+            referrals.append(Referral(**referral))
+        return referrals
 
     async def user_logout(self, auth_key):
         """
@@ -140,7 +145,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param group: Група обмінів (cancel, in_process, success)
 
 
-        :return: list[Exchange]
+        :return: ResponseList[Exchange]
         """
         resp = await self.get_async_request('user/exchanges/list', {
             'auth_key': auth_key,
@@ -148,7 +153,8 @@ class AsyncHiExConnector(HiExConnectorBase):
             'offset': offset,
             'group': group,
         })
-        exchanges = []
+        exchanges = ResponseList()
+        exchanges.is_all = resp['is_all']
         for exchange in resp['exchanges']:
             exchanges.append(Exchange(**exchange))
         return exchanges
@@ -247,7 +253,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param group: Група обмінів (cancel, in_process, success)
 
 
-        :return: list[Exchange]
+        :return: ResponseList[Exchange]
         """
         resp = await self.get_async_request('application/exchanges/list', {
             'user_id': user_id,
@@ -255,7 +261,8 @@ class AsyncHiExConnector(HiExConnectorBase):
             'offset': offset,
             'group': group,
         })
-        exchanges = []
+        exchanges = ResponseList()
+        exchanges.is_all = resp['is_all']
         for exchange in resp['exchanges']:
             exchanges.append(Exchange(**exchange))
         return exchanges
@@ -268,13 +275,14 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param offset: Починати з рядку
 
 
-        :return: list[User]
+        :return: ResponseList[User]
         """
         resp = await self.get_async_request('application/users/list', {
             'limit': limit,
             'offset': offset,
         })
-        users = []
+        users = ResponseList()
+        users.is_all = resp['is_all']
         for user in resp['users']:
             users.append(User(**user))
         return users
@@ -286,13 +294,14 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param limit: Кількість днів
         :param offset: Скільки останніх днів пропустити
 
-        :return: list[Stat]
+        :return: ResponseList[Stat]
         """
         resp = await self.get_async_request('application/stats/list', {
             'limit': limit,
             'offset': offset,
         })
-        stats = []
+        stats = ResponseList()
+        stats.is_all = resp['is_all']
         for stat in resp['stats']:
             stats.append(Stat(**stat))
         return stats

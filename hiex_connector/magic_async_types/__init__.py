@@ -81,7 +81,9 @@ class User(types.User):
         :return:
         """
         o = await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, group)
-        return [Exchange(self.__connector, self.__auth_key, **i.get_dict()) for i in o]
+        r = types.ResponseList(Exchange(self.__connector, self.__auth_key, **i.get_dict()) for i in o)
+        r.is_all = o.is_all
+        return r
 
     async def exchange(self, exchange_id):
         """
@@ -250,8 +252,7 @@ class Application(types.Application):
 
         :return:
         """
-        o = await self.__connector.application_stats_list(limit, offset)
-        return [Stat(self.__connector, **i.get_dict()) for i in o]
+        return await self.__connector.application_stats_list(limit, offset)
 
     async def interest_set(self, interest):
         """
@@ -263,10 +264,3 @@ class Application(types.Application):
         """
         return await self.__connector.application_interest_set(interest)
 
-
-class Stat(types.Stat):
-    __connector: AsyncHiExConnector
-
-    def __init__(self, connector: AsyncHiExConnector, **kwargs):
-        super().__init__(**kwargs)
-        self.__connector = connector
