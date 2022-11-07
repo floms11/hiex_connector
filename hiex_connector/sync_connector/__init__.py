@@ -315,7 +315,7 @@ class HiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
-    def admin_application_user_details(self, application_id, user_id, email=None):
+    def admin_application_user_details(self, application_id, user_id=None, email=None):
         """
         Отримати інформацію про користувача в контексті додатку
 

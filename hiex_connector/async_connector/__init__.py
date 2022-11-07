@@ -315,7 +315,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
-    async def admin_application_user_details(self, application_id, user_id, email=None):
+    async def admin_application_user_details(self, application_id, user_id=None, email=None):
         """
         Отримати інформацію про користувача в контексті додатку
 
