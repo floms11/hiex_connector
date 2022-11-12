@@ -51,7 +51,7 @@ class User(types.User):
 
         :return: list
         """
-        return await self.__connector.user_referrals_get(self.__auth_key, limit, offset)
+        return await self.__connector.user_referrals_list(self.__auth_key, limit, offset)
 
     async def logout(self):
         """

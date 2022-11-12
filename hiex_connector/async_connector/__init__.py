@@ -60,7 +60,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(self, auth_key, **resp['user'])
 
-    async def user_referrals_get(self, auth_key, limit=None, offset=None):
+    async def user_referrals_list(self, auth_key, limit=None, offset=None):
         """
         Завантажити список рефералів
 
@@ -71,7 +71,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :return: list
         """
         from ..types import ResponseList, Referral
-        resp = await self.get_async_request('user/referrals/get', {
+        resp = await self.get_async_request('user/referrals/list', {
             'auth_key': auth_key,
             'limit': limit,
             'offset': offset,
