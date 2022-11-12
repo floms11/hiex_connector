@@ -13,7 +13,8 @@ class HiExConnector(HiExConnectorBase):
         :return: Currency
         """
         resp = self.get_request('admin/currencies/list', {})
-        currencies = []
+        currencies = ResponseList()
+        currencies.is_all = resp['is_all']
         for currency in resp['currencies']:
             currencies.append(Currency(**currency))
         return currencies
@@ -65,7 +66,8 @@ class HiExConnector(HiExConnectorBase):
             'offset': offset,
             'group': group,
         })
-        exchanges = []
+        exchanges = ResponseList()
+        exchanges.is_all = resp['is_all']
         for exchange in resp['exchanges']:
             exchanges.append(Exchange(**exchange))
         return exchanges
@@ -78,7 +80,8 @@ class HiExConnector(HiExConnectorBase):
         """
         resp = self.get_request('admin/logs/list', {
         })
-        logs = []
+        logs = ResponseList()
+        logs.is_all = resp['is_all']
         for log in resp['logs']:
             logs.append(Log(**log))
         return logs
@@ -96,7 +99,7 @@ class HiExConnector(HiExConnectorBase):
         })
         return resp[0]
 
-    def admin_stats_get(self, application_id=None, limit=None, offset=None):
+    def admin_stats_list(self, application_id=None, limit=None, offset=None):
         """
         Завантажити статистику (за вибіркою)
 
@@ -106,25 +109,32 @@ class HiExConnector(HiExConnectorBase):
 
         :return: list[Stat]
         """
-        resp = self.get_request('admin/stats/get', {
+        resp = self.get_request('admin/stats/list', {
             'application_id': application_id,
             'limit': limit,
             'offset': offset,
         })
-        stats = []
+        stats = ResponseList()
+        stats.is_all = resp['is_all']
         for stat in resp['stats']:
             stats.append(Stat(**stat))
         return stats
 
-    def admin_applications_list(self):
+    def admin_applications_list(self, limit=None, offset=None):
         """
         Завантажити список додатків у системі
+
+        :param limit: Скільки обмінів завантажувати
+        :param offset: Починати з рядку
 
         :return: list[Application]
         """
         resp = self.get_request('admin/applications/list', {
+            'limit': limit,
+            'offset': offset,
         })
-        applications = []
+        applications = ResponseList()
+        applications.is_all = resp['is_all']
         for application in resp['applications']:
             applications.append(Application(**application))
         return applications
@@ -146,7 +156,7 @@ class HiExConnector(HiExConnectorBase):
         })
         return Application(**resp['application'])
 
-    def admin_application_details(self, application_id):
+    def admin_application_get(self, application_id):
         """
         Завантажити інформацію додатку
 
@@ -154,7 +164,7 @@ class HiExConnector(HiExConnectorBase):
 
         :return: Application
         """
-        resp = self.get_request('admin/application/details', {
+        resp = self.get_request('admin/application/get', {
             'application_id': application_id,
         })
         return Application(**resp['application'])
@@ -210,7 +220,8 @@ class HiExConnector(HiExConnectorBase):
             'currency1': currency1,
             'currency2': currency2,
         })
-        pairs = []
+        pairs = ResponseList()
+        pairs.is_all = resp['is_all']
         for pair in resp['pairs']:
             pairs.append(Pair(**pair))
         return pairs
@@ -300,24 +311,30 @@ class HiExConnector(HiExConnectorBase):
         })
         return True
 
-    def admin_user_details(self, user_id=None, email=None):
+    def admin_users_list(self, application_id=None, limit=None, offset=None):
+        """
+        Отримати список користувачів (за вибіркою)
+
+        :param application_id: Номер додатку
+        :param limit: Скільки обмінів завантажувати
+        :param offset: Починати з рядку
+
+        :return: list[User]
+        """
+        resp = self.get_request('admin/users/list', {
+            'application_id': application_id,
+            'limit': limit,
+            'offset': offset,
+        })
+        users = ResponseList()
+        users.is_all = resp['is_all']
+        for user in resp['users']:
+            users.append(User(**user))
+        return users
+
+    def admin_user_get(self, application_id=None, user_id=None, email=None):
         """
         Отримати інформацію про користувача
-
-        :param user_id: Номер користувача
-        :param email: Пошта користувача
-
-        :return: User
-        """
-        resp = self.get_request('admin/user/details', {
-            'user_id': user_id,
-            'email': email,
-        })
-        return User(**resp['user'])
-
-    def admin_application_user_details(self, application_id, user_id=None, email=None):
-        """
-        Отримати інформацію про користувача в контексті додатку
 
         :param application_id: Номер додатку
         :param user_id: Номер користувача
@@ -325,66 +342,58 @@ class HiExConnector(HiExConnectorBase):
 
         :return: User
         """
-        resp = self.get_request('admin/application/user/details', {
+        resp = self.get_request('admin/user/get', {
             'application_id': application_id,
             'user_id': user_id,
             'email': email,
         })
         return User(**resp['user'])
 
-    async def admin_application_user_referrals(self, application_id, user_id):
+    def admin_user_referrals_list(self, application_id, user_id, limit=None, offset=None):
         """
         Отримати інформацію про рефералів користувача
 
         :param application_id: Номер додатку
         :param user_id: Номер користувача
+        :param limit: Скільки обмінів завантажувати
+        :param offset: Починати з рядку
 
         :return: list[Referral]
         """
-        resp = self.get_request('admin/application/user/referrals', {
+        resp = self.get_request('admin/user/referrals/list', {
             'application_id': application_id,
             'user_id': user_id,
+            'limit': limit,
+            'offset': offset,
         })
-        referrals = []
+        referrals = ResponseList()
+        referrals.is_all = resp['is_all']
         for referral in resp['referrals']:
             referrals.append(Referral(**referral))
         return referrals
 
-    async def admin_application_user_update(self, application_id, user_id, balance=None):
-        """
-        Змінити інформацію про користувача в контексті додатку
-
-        :param application_id: Номер додатку
-        :param user_id: Номер користувача
-        :param balance: Баланс
-
-        :return: User
-        """
-        resp = self.get_request('admin/application/user/update', {
-            'application_id': application_id,
-            'user_id': user_id,
-            'balance': balance,
-        })
-        return User(**resp['user'])
-
-    def admin_user_update(self, user_id=None, email=None, name=None, lastname=None, kyc=None):
+    def admin_user_update(self, user_id, application_id=None, email=None, name=None, lastname=None, kyc=None, balance=None):
         """
         Змінити інформацію про користувача
 
         :param user_id: Номер користувача
+        :param application_id: Номер додатку
         :param email: Нова пошта
         :param name: Нове ім'я
         :param lastname: Нове прізвище
         :param kyc: KYC
+        :param balance: Баланс
 
         :return: User
         """
         resp = self.get_request('admin/user/update', {
             'user_id': user_id,
+            'application_id': application_id,
             'email': email,
             'name': name,
             'lastname': lastname,
             'kyc': kyc,
+            'balance': balance,
         })
         return User(**resp['user'])
 
