@@ -1,6 +1,10 @@
 from decimal import Decimal
 
 
+class ResponseList(list):
+    is_all: bool = False
+
+
 class BaseType:
     def __repr__(self):
         return (
