@@ -80,10 +80,7 @@ class User(types.User):
         :param group: Група обмінів (cancel, in_process, success)
         :return:
         """
-        o = await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, group)
-        r = types.ResponseList(Exchange(self.__connector, self.__auth_key, **i.get_dict()) for i in o)
-        r.is_all = o.is_all
-        return r
+        return await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, group)
 
     async def exchange(self, exchange_id):
         """
@@ -92,8 +89,7 @@ class User(types.User):
         :param exchange_id: Номер обміну
         :return: Exchange
         """
-        o = await self.__connector.exchange_get(exchange_id)
-        return Exchange(self.__connector, self.__auth_key, **o.get_dict())
+        return await self.__connector.exchange_get(exchange_id, auth_key=self.__auth_key)
 
     async def exchange_create(self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None, return_url: str = None):
         """
@@ -107,7 +103,7 @@ class User(types.User):
         :param return_url: URL на який користувач повернеться після оплати карткою
         :return: Exchange
         """
-        o = await self.__connector.exchange_create(
+        return await self.__connector.exchange_create(
             self.__auth_key,
             pair.currency1.code,
             pair.currency2.code,
@@ -117,7 +113,6 @@ class User(types.User):
             amount2,
             return_url,
         )
-        return Exchange(self.__connector, self.__auth_key, **o.get_dict())
 
     async def data_save(self, **kwargs):
         """
@@ -153,8 +148,7 @@ class Auth(types.Auth):
 
         :return: User
         """
-        o = await self.__connector.user_get(self.auth_key)
-        return User(self.__connector, self.auth_key, **o.get_dict())
+        return await self.__connector.user_get(self.auth_key)
 
 
 class Exchange(types.Exchange):
@@ -172,8 +166,7 @@ class Exchange(types.Exchange):
 
         :return: User
         """
-        o = await self.__connector.user_get(self.__auth_key)
-        return User(self.__connector, self.__auth_key, **o.get_dict())
+        return await self.__connector.user_get(self.__auth_key)
 
     async def reload(self):
         """

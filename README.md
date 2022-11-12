@@ -11,9 +11,9 @@
 * для `mac/linux`: `pip3 install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`;
 * для `windows`: `pip install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`.
 
-Далі можна використовувати біблітеоку в точності, як описано в [https://docs.hiex.io](тут), або використовувати "магічний конектор"
+Далі можна використовувати біблітеоку в точності, як описано в [https://docs.hiex.io](тут), та використовувати "магічні типи"
 
-## Розглянемо базовий метод
+## Перейдемо до коду
 
 Імпортуємо конектор
 `
@@ -35,24 +35,7 @@ exchange = await hiex.exchange_get('<EXCHANGE_ID>')
 
 Для перегляду детальнішої інформації див. `types/` та `async_connector/`
 
-## Розглянемо метод з "магічним конектором"
-
-Імпортуємо конектор
-`
-from hiex_connector import AsyncHiExMagic
-`
-
-Створемо екземпляр 
-`
-hiex = AsyncHiExMagic('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
-`
-
-Всі [запити](https://docs.hiex.io) здійснюються за прикладом: 
-`
-exchange = await hiex.exchange_get('<EXCHANGE_ID>', '<AUTH_KEY>')
-`
-
-#### І тепер найцікавіше. 
+### Магічні типи
 
 #### З типом `exchange` (та іншими) можна взаємодіяти. Наведу кілька прикладів:
 
@@ -62,7 +45,7 @@ exchange = await hiex.exchange_get('<EXCHANGE_ID>', '<AUTH_KEY>')
 * Щоб завантажити користувача який виконав обмін, достатньо виконати: `user = await exchange.user()`
 * Щоб завантажити історію обмінів, достатньо виконати: `exchanges = await user.exchanges()`
 
-Для перегляду детальнішої інформації про "магічні" типи див. `magic_async_types/` та `magic_async_connector/`
+Для перегляду детальнішої інформації про "магічні" типи див. `magic_async_types/`
 
 ## Сповіщення (webhooks)
 
@@ -119,7 +102,7 @@ if __name__ == '__main__':
 ```
 
 У `AsyncHiExNotifications` є два обов'язкових параметри:
-* `connector` – конектор типу `AsyncHiExConnector` чи `AsyncHiExMagic`
+* `connector` – конектор типу `AsyncHiExConnector`
 * `handlers` – список обробників подій
 
 #### На цьому все. Для роботи з `webhooks` потрібно тільки створити та зареєструвати обробники

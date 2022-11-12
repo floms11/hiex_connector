@@ -1,12 +1,12 @@
 import asyncio
-from hiex_connector import AsyncHiExMagic
+from hiex_connector import AsyncHiExConnector
 
 PRIVATE_KEY = '<ПРИВАТНИЙ КЛЮЧ>'
 PUBLIC_KEY = '<ПУБЛІЧНИЙ КЛЮЧ>'
 
 
 async def main():
-    hiex = AsyncHiExMagic(PRIVATE_KEY, PUBLIC_KEY)
+    hiex = AsyncHiExConnector(PRIVATE_KEY, PUBLIC_KEY)
 
     email = input('Введи свою пошту ->')
     auth = await hiex.user_auth(email)

@@ -1,5 +1,4 @@
 from ..base import HiExConnectorBase
-from ..types import *
 from decimal import Decimal
 
 
@@ -20,10 +19,12 @@ class AsyncHiExConnector(HiExConnectorBase):
             'currency1': currency1,
             'currency2': currency2,
         })
+        from ..types import ResponseList
+        from ..magic_async_types import Pair
         pairs = ResponseList()
         pairs.is_all = resp['is_all']
         for pair in resp['pairs']:
-            pairs.append(Pair(**pair))
+            pairs.append(Pair(self, **pair))
         return pairs
 
     async def pair_amount(self, currency1, currency2, amount1=None, amount2=None):
@@ -53,10 +54,11 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: User
         """
+        from ..magic_async_types import User
         resp = await self.get_async_request('user/get', {
             'auth_key': auth_key,
         })
-        return User(**resp['user'])
+        return User(self, auth_key, **resp['user'])
 
     async def user_referrals_get(self, auth_key, limit=None, offset=None):
         """
@@ -68,6 +70,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: list
         """
+        from ..types import ResponseList, Referral
         resp = await self.get_async_request('user/referrals/get', {
             'auth_key': auth_key,
             'limit': limit,
@@ -114,11 +117,12 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: Auth
         """
+        from ..magic_async_types import Auth
         resp = await self.get_async_request('user/auth', {
             'email': email,
             'referral_token': referral_token,
         })
-        return Auth(**resp['auth'])
+        return Auth(self, **resp['auth'])
 
     async def user_auth_code(self, auth_key, code):
         """
@@ -129,11 +133,12 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: Auth
         """
+        from ..magic_async_types import Auth
         resp = await self.get_async_request('user/auth/code', {
             'auth_key': auth_key,
             'code': code,
         })
-        return Auth(**resp['auth'])
+        return Auth(self, **resp['auth'])
 
     async def user_exchanges_list(self, auth_key, limit=None, offset=None, group=None):
         """
@@ -147,6 +152,8 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: ResponseList[Exchange]
         """
+        from ..types import ResponseList
+        from ..magic_async_types import Exchange
         resp = await self.get_async_request('user/exchanges/list', {
             'auth_key': auth_key,
             'limit': limit,
@@ -156,7 +163,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         exchanges = ResponseList()
         exchanges.is_all = resp['is_all']
         for exchange in resp['exchanges']:
-            exchanges.append(Exchange(**exchange))
+            exchanges.append(Exchange(self, auth_key, **exchange))
         return exchanges
 
     async def user_data_save(self, auth_key, **kwargs):
@@ -188,6 +195,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: Exchange
         """
+        from ..magic_async_types import Exchange
         resp = await self.get_async_request('exchange/create', {
             'auth_key': auth_key,
             'currency1': currency1,
@@ -198,7 +206,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'amount2': amount2,
             'return_url': return_url,
         })
-        return Exchange(**resp['exchange'])
+        return Exchange(self, auth_key, **resp['exchange'])
 
     async def exchange_confirm(self, auth_key, exchange_id):
         """
@@ -209,24 +217,32 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: Exchange
         """
+        from ..magic_async_types import Exchange
         resp = await self.get_async_request('exchange/confirm', {
             'auth_key': auth_key,
             'exchange_id': exchange_id,
         })
-        return Exchange(**resp['exchange'])
+        return Exchange(self, auth_key, **resp['exchange'])
 
-    async def exchange_get(self, exchange_id):
+    async def exchange_get(self, exchange_id, auth_key=None):
         """
         Отримати інформацію по обміну
 
         :param exchange_id: Номер обміну
+        :param auth_key: Ключ користувача
 
         :return: Exchange
         """
         resp = await self.get_async_request('exchange/get', {
             'exchange_id': exchange_id,
+            'auth_key': auth_key,
         })
-        return Exchange(**resp['exchange'])
+        if auth_key is None:
+            from ..types import Exchange
+            return Exchange(**resp['exchange'])
+        else:
+            from ..magic_async_types import Exchange
+            return Exchange(self, auth_key, **resp['exchange'])
 
     async def exchange_cancel(self, auth_key, exchange_id):
         """
@@ -255,6 +271,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: ResponseList[Exchange]
         """
+        from ..types import ResponseList, Exchange
         resp = await self.get_async_request('application/exchanges/list', {
             'user_id': user_id,
             'limit': limit,
@@ -277,6 +294,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: ResponseList[User]
         """
+        from ..types import ResponseList, User
         resp = await self.get_async_request('application/users/list', {
             'limit': limit,
             'offset': offset,
@@ -296,6 +314,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: ResponseList[Stat]
         """
+        from ..types import ResponseList, Stat
         resp = await self.get_async_request('application/stats/list', {
             'limit': limit,
             'offset': offset,
@@ -312,8 +331,9 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: Application
         """
+        from ..magic_async_types import Application
         resp = await self.get_async_request('application/get', {})
-        return Application(**resp['application'])
+        return Application(self, **resp['application'])
 
     async def application_interest_set(self, interest):
         """

@@ -1,12 +1,12 @@
 import asyncio
-from hiex_connector import AsyncHiExMagic
+from hiex_connector import AsyncHiExConnector
 
 PRIVATE_KEY = '<ПРИВАТНИЙ КЛЮЧ>'
 PUBLIC_KEY = '<ПУБЛІЧНИЙ КЛЮЧ>'
 
 
 async def main():
-    hiex = AsyncHiExMagic(PRIVATE_KEY, PUBLIC_KEY)
+    hiex = AsyncHiExConnector(PRIVATE_KEY, PUBLIC_KEY)
     application = await hiex.application_get()
     print("{:<20} {}".format("Назва:", application.name))
     print("{:<20} {}".format("Баланс:", application.balance))

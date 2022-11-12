@@ -4,7 +4,6 @@ from aiohttp.web_request import Request
 from aiohttp.web_response import json_response
 
 from ..async_connector import AsyncHiExConnector
-from ..magic_async_connector import AsyncHiExMagic
 from ..types import Exchange, User
 
 
@@ -32,8 +31,6 @@ class AsyncHiExNotifications:
             url: str = '/'):
         if isinstance(connector, AsyncHiExConnector):
             self.connector = connector
-        elif isinstance(connector, AsyncHiExMagic):
-            self.connector = connector.get_connector()
         else:
             ValueError('connector not AsyncHiExConnector')
         self.host = host
