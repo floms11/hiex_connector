@@ -51,61 +51,59 @@ class Currency(BaseType):
 
 
 class Payment(BaseType):
-    payment_address: str
-    payment_address_qr: str
-    payment_tag: str
-    payment_amount: Decimal
-    payment_url: str
+    payment_id: str
+    address: str
+    address_qr: str
+    tag: str
+    amount: Decimal
+    url: str
 
     def __init__(self, **kwargs):
-        self.payment_address = kwargs['payment_address']
-        self.payment_address_qr = kwargs['payment_address_qr']
-        self.payment_tag = kwargs['payment_tag']
-        self.payment_amount = Decimal(kwargs['payment_amount'])
-        self.payment_url = kwargs['payment_url']
+        self.payment_id = kwargs['payment_id']
+        self.address = kwargs['address']
+        self.address_qr = kwargs['address_qr']
+        self.tag = kwargs['tag']
+        self.amount = Decimal(kwargs['amount'])
+        self.url = kwargs['url']
 
 
 class Exchange(BaseType):
     exchange_id: str
+    payment_id: str
     application_id: int
     user_id: int
     status: int
-    step: int
-    is_fail: bool
     amount1: Decimal
     amount2: Decimal
+    amount_usdt: Decimal
     currency1: Currency
     currency2: Currency
     address: str
     tag: str
     created_at: int
     closed_at: int
+    referral_income: Decimal
     application_income: Decimal
     application_interest: Decimal
     return_url: str
-    error_count: int
-    payment: Payment
-    merchant_data = {}
-    currency_swap_auxiliary: Currency = None
 
     def __init__(self, **kwargs):
         self.exchange_id = kwargs['exchange_id']
+        self.payment_id = kwargs['payment_id']
         self.application_id = kwargs['application_id']
         self.user_id = kwargs['user_id']
         self.status = kwargs['status']
-        self.step = kwargs['step']
-        self.is_fail = kwargs['is_fail']
         self.amount1 = Decimal(kwargs['amount1'])
         self.amount2 = Decimal(kwargs['amount2'])
+        self.amount_usdt = Decimal(kwargs['amount_usdt'])
         self.address = kwargs['address']
         self.tag = kwargs['tag']
         self.created_at = kwargs['created_at']
         self.closed_at = kwargs['closed_at']
-        self.application_income = Decimal(kwargs['application_income'])
-        self.application_interest = Decimal(kwargs['application_interest'])
+        self.referral_income = Decimal(kwargs['referral_income']) if kwargs['referral_income'] else None
+        self.application_income = Decimal(kwargs['application_income']) if kwargs['application_income'] else None
+        self.application_interest = Decimal(kwargs['application_interest']) if kwargs['application_interest'] else None
         self.return_url = kwargs['return_url']
-        self.error_count = kwargs['error_count']
-        self.merchant_data = kwargs['merchant_data']
 
         if isinstance(kwargs['currency1'], Currency):
             self.currency1 = kwargs['currency1']
@@ -115,16 +113,6 @@ class Exchange(BaseType):
             self.currency2 = kwargs['currency2']
         else:
             self.currency2 = Currency(**kwargs['currency2'])
-        if kwargs['currency_swap_auxiliary'] is not None:
-            if isinstance(kwargs['currency_swap_auxiliary'], Currency):
-                self.currency_swap_auxiliary = kwargs['currency_swap_auxiliary']
-            else:
-                self.currency_swap_auxiliary = Currency(**kwargs['currency_swap_auxiliary'])
-
-        if isinstance(kwargs['payment'], Payment):
-            self.payment = kwargs['payment']
-        else:
-            self.payment = Payment(**kwargs['payment'])
 
 
 class Pair(BaseType):

@@ -19,18 +19,18 @@ class AsyncHiExConnector(HiExConnectorBase):
             currencies.append(Currency(**currency))
         return currencies
 
-    async def admin_exchange_update(self, exchange_id, step: int = None):
+    async def admin_exchange_update(self, exchange_id, status: int = None):
         """
         Редагувати обмін
 
         :param exchange_id: Номер обміну
-        :param step: Крок який потрібно встановити на обмін
+        :param status: Статус який потрібно встановити на обмін
 
         :return: Exchange
         """
         resp = await self.get_async_request('admin/exchange/update', {
             'exchange_id': exchange_id,
-            'step': step,
+            'status': status,
         })
         return Exchange(**resp['exchange'])
 
@@ -47,7 +47,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
-    async def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, offset=None, group=None):
+    async def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, offset=None, status_list=None):
         """
         Отримати список обмінів (за вибіркою)
 
@@ -55,7 +55,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
-        :param group: Група обмінів (fail, cancel, in_process, success)
+        :param status_list: Статуси обмінів
 
         :return: list[Exchange]
         """
@@ -64,13 +64,26 @@ class AsyncHiExConnector(HiExConnectorBase):
             'user_id': user_id,
             'limit': limit,
             'offset': offset,
-            'group': group,
+            'status_list': status_list,
         })
         exchanges = ResponseList()
         exchanges.is_all = resp['is_all']
         for exchange in resp['exchanges']:
             exchanges.append(Exchange(**exchange))
         return exchanges
+
+    async def admin_payment_get(self, payment_id):
+        """
+        Отримати обмін
+
+        :param payment_id: Номер оплати
+
+        :return: Payment
+        """
+        resp = await self.get_async_request('admin/payment/get', {
+            'payment_id': payment_id,
+        })
+        return Payment(**resp['payment'])
 
     async def admin_logs_list(self):
         """
