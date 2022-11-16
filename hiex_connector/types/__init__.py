@@ -80,11 +80,6 @@ class Exchange(BaseType):
         else:
             self.currency2 = Currency(**kwargs['currency2'])
 
-        if isinstance(kwargs['payment'], Payment):
-            self.payment = kwargs['payment']
-        else:
-            self.payment = Payment(**kwargs['payment'])
-
 
 class Pair(BaseType):
     currency1: Currency
