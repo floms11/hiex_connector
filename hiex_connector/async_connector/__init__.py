@@ -140,14 +140,14 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Auth(self, **resp['auth'])
 
-    async def user_exchanges_list(self, auth_key, limit=None, offset=None, group=None):
+    async def user_exchanges_list(self, auth_key, limit=None, offset=None, status_list=None):
         """
         Отримати список обмінів користувача (за вибіркою)
 
         :param auth_key: Ключ користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
-        :param group: Група обмінів (cancel, in_process, success)
+        :param status_list: Список статусів
 
 
         :return: ResponseList[Exchange]
@@ -158,7 +158,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'auth_key': auth_key,
             'limit': limit,
             'offset': offset,
-            'group': group,
+            'status_list': status_list,
         })
         exchanges = ResponseList()
         exchanges.is_all = resp['is_all']
@@ -208,21 +208,21 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Exchange(self, auth_key, **resp['exchange'])
 
-    async def exchange_confirm(self, auth_key, exchange_id):
+    async def exchange_payment_get(self, auth_key, exchange_id):
         """
-        Підтвердження обміну
+        Отримати реквізити для сплати обміну
 
         :param auth_key: Ключ користувача
         :param exchange_id: Номер обміну
 
-        :return: Exchange
+        :return: Payment
         """
-        from ..magic_async_types import Exchange
-        resp = await self.get_async_request('exchange/confirm', {
+        from ..types import Payment
+        resp = await self.get_async_request('exchange/payment/get', {
             'auth_key': auth_key,
             'exchange_id': exchange_id,
         })
-        return Exchange(self, auth_key, **resp['exchange'])
+        return Payment(**resp['payment'])
 
     async def exchange_get(self, exchange_id, auth_key=None):
         """
@@ -259,14 +259,14 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def application_exchanges_list(self, user_id=None, limit=None, offset=None, group=None):
+    async def application_exchanges_list(self, user_id=None, limit=None, offset=None, status_list=None):
         """
         Отримати список обмінів додатку (за вибіркою)
 
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
-        :param group: Група обмінів (cancel, in_process, success)
+        :param status_list: Список статусів
 
 
         :return: ResponseList[Exchange]
@@ -276,7 +276,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'user_id': user_id,
             'limit': limit,
             'offset': offset,
-            'group': group,
+            'status_list': status_list,
         })
         exchanges = ResponseList()
         exchanges.is_all = resp['is_all']

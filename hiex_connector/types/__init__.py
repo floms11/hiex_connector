@@ -33,18 +33,18 @@ class Currency(BaseType):
 
 
 class Payment(BaseType):
-    payment_address: str
-    payment_address_qr: str
-    payment_tag: str
-    payment_amount: Decimal
-    payment_url: str
+    address: str
+    address_qr: str
+    tag: str
+    amount: Decimal
+    url: str
 
     def __init__(self, **kwargs):
-        self.payment_address = kwargs['payment_address']
-        self.payment_address_qr = kwargs['payment_address_qr']
-        self.payment_tag = kwargs['payment_tag']
-        self.payment_amount = Decimal(kwargs['payment_amount'])
-        self.payment_url = kwargs['payment_url']
+        self.address = kwargs['address']
+        self.address_qr = kwargs['address_qr']
+        self.tag = kwargs['tag']
+        self.amount = Decimal(kwargs['amount'])
+        self.url = kwargs['url']
 
 
 class Exchange(BaseType):
@@ -57,7 +57,6 @@ class Exchange(BaseType):
     currency2: Currency
     address: str
     tag: str
-    payment: Payment
     created_at: int
     closed_at: int
 

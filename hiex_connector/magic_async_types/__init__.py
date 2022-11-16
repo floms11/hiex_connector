@@ -65,22 +65,20 @@ class User(types.User):
         """
         Отримати лінк для проходження KYC (верифікації)
 
-        :param auth_key: Ключ користувача
-
         :return: str
         """
         return await self.__connector.user_kyc_get(self.__auth_key)
 
-    async def exchanges(self, limit=None, offset=None, group=None):
+    async def exchanges(self, limit=None, offset=None, status_list=None):
         """
         Отримати історію обмінів користувача
 
         :param limit: Скільки обмінів завантажувати
         :param offset Починати з рядку
-        :param group: Група обмінів (cancel, in_process, success)
+        :param status_list: Список статусів
         :return:
         """
-        return await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, group)
+        return await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, status_list)
 
     async def exchange(self, exchange_id):
         """
@@ -178,13 +176,13 @@ class Exchange(types.Exchange):
         super().__init__(**o.get_dict())
         return True
 
-    async def confirm(self):
+    async def payment(self):
         """
-        Підтвердити обмін
+        Отримати реквізити для сплати обміну
 
-        :return: bool
+        :return: Payment
         """
-        o = await self.__connector.exchange_confirm(self.__auth_key, self.exchange_id)
+        o = await self.__connector.exchange_payment_get(self.__auth_key, self.exchange_id)
         super().__init__(**o.get_dict())
         return True
 
@@ -214,17 +212,17 @@ class Application(types.Application):
         super().__init__(**o.get_dict())
         return True
 
-    async def exchanges(self, user_id=None, limit=None, offset=None, group=None):
+    async def exchanges(self, user_id=None, limit=None, offset=None, status_list=None):
         """
         Отримати список обмінів додатку (за вибіркою)
 
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
-        :param group: Група обмінів (cancel, in_process, success)
+        :param status_list: Список статусів
         :return:
         """
-        return await self.__connector.application_exchanges_list(user_id, limit, offset, group)
+        return await self.__connector.application_exchanges_list(user_id, limit, offset, status_list)
 
     async def users(self, limit=None, offset=None):
         """
