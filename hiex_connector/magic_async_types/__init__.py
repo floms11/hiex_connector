@@ -182,9 +182,7 @@ class Exchange(types.Exchange):
 
         :return: Payment
         """
-        o = await self.__connector.exchange_payment_get(self.__auth_key, self.exchange_id)
-        super().__init__(**o.get_dict())
-        return True
+        return await self.__connector.exchange_payment_get(self.__auth_key, self.exchange_id)
 
     async def cancel(self):
         """
