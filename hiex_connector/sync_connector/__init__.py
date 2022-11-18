@@ -72,19 +72,18 @@ class HiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    def admin_payment_get(self, payment_id):
+    def admin_payment_get(self, unique_id):
         """
         Отримати обмін
 
-        :param payment_id: Номер оплати
+        :param unique_id: Ідентифікатор оплати
 
         :return: Payment
         """
         resp = self.get_request('admin/payment/get', {
-            'payment_id': payment_id,
+            'unique_id': unique_id,
         })
         return Payment(**resp['payment'])
-
 
     def admin_logs_list(self):
         """

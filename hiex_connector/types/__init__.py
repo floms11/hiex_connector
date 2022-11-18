@@ -51,7 +51,7 @@ class Currency(BaseType):
 
 
 class Payment(BaseType):
-    payment_id: str
+    unique_id: str
     address: str
     address_qr: str
     tag: str
@@ -59,7 +59,7 @@ class Payment(BaseType):
     url: str
 
     def __init__(self, **kwargs):
-        self.payment_id = kwargs['payment_id']
+        self.unique_id = kwargs['unique_id']
         self.address = kwargs['address']
         self.address_qr = kwargs['address_qr']
         self.tag = kwargs['tag']
@@ -69,7 +69,6 @@ class Payment(BaseType):
 
 class Exchange(BaseType):
     exchange_id: str
-    payment_id: str
     application_id: int
     user_id: int
     status: int
@@ -89,7 +88,6 @@ class Exchange(BaseType):
 
     def __init__(self, **kwargs):
         self.exchange_id = kwargs['exchange_id']
-        self.payment_id = kwargs['payment_id']
         self.application_id = kwargs['application_id']
         self.user_id = kwargs['user_id']
         self.status = kwargs['status']

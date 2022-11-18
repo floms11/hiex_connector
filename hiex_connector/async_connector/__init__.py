@@ -72,16 +72,16 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    async def admin_payment_get(self, payment_id):
+    async def admin_payment_get(self, unique_id):
         """
         Отримати обмін
 
-        :param payment_id: Номер оплати
+        :param unique_id: Ідентифікатор оплати
 
         :return: Payment
         """
         resp = await self.get_async_request('admin/payment/get', {
-            'payment_id': payment_id,
+            'unique_id': unique_id,
         })
         return Payment(**resp['payment'])
 
