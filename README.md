@@ -13,8 +13,7 @@
 ## Встановлення
 Тут все так само просто як з `partner`:
 
-* Завантаж архів з https://git.floms.cc/hiex/connector/-/archive/admin/connector-admin.zip
-* Встанови бібліотеку: `pip3 install connector-admin.zip`
+* Встанови бібліотеку: `pip3 install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`
 
 
 ## Взаємодія
