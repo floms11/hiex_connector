@@ -385,6 +385,23 @@ class AsyncHiExConnector(HiExConnectorBase):
             referrals.append(Referral(**referral))
         return referrals
 
+    async def admin_user_applications_list(self, user_id):
+        """
+        Отримати список додатків, з якими взаємодіяв користувач
+
+        :param user_id: Номер користувача
+
+        :return: list[Application]
+        """
+        resp = await self.get_async_request('admin/user/applications/list', {
+            'user_id': user_id,
+        })
+        applications = ResponseList()
+        applications.is_all = resp['is_all']
+        for application in resp['applications']:
+            applications.append(Application(**application))
+        return applications
+
     async def admin_user_update(self, user_id, application_id=None, email=None, name=None, lastname=None, kyc=None, balance=None):
         """
         Змінити інформацію про користувача
