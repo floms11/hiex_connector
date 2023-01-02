@@ -47,7 +47,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
-    async def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, offset=None, status_list=None):
+    async def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, offset=None, status_list=None, short_exchange_id=None):
         """
         Отримати список обмінів (за вибіркою)
 
@@ -56,6 +56,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
         :param status_list: Статуси обмінів
+        :param short_exchange_id: Перші символи з exchange_id
 
         :return: list[Exchange]
         """
@@ -65,6 +66,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'limit': limit,
             'offset': offset,
             'status_list': status_list,
+            'short_exchange_id': short_exchange_id,
         })
         exchanges = ResponseList()
         exchanges.is_all = resp['is_all']
