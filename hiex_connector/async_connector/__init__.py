@@ -140,7 +140,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Auth(self, **resp['auth'])
 
-    async def user_exchanges_list(self, auth_key, limit=None, offset=None, status_list=None):
+    async def user_exchanges_list(self, auth_key, limit=None, offset=None, status_list=None, short_exchange_id=None):
         """
         Отримати список обмінів користувача (за вибіркою)
 
@@ -148,6 +148,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
         :param status_list: Список статусів
+        :param short_exchange_id: Перші символи з exchange_id
 
 
         :return: ResponseList[Exchange]
@@ -159,6 +160,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'limit': limit,
             'offset': offset,
             'status_list': status_list,
+            'short_exchange_id': short_exchange_id,
         })
         exchanges = ResponseList()
         exchanges.is_all = resp['is_all']
@@ -259,7 +261,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def application_exchanges_list(self, user_id=None, limit=None, offset=None, status_list=None):
+    async def application_exchanges_list(self, user_id=None, limit=None, offset=None, status_list=None, short_exchange_id=None):
         """
         Отримати список обмінів додатку (за вибіркою)
 
@@ -267,6 +269,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
         :param status_list: Список статусів
+        :param short_exchange_id: Перші символи з exchange_id
 
 
         :return: ResponseList[Exchange]
@@ -277,6 +280,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'limit': limit,
             'offset': offset,
             'status_list': status_list,
+            'short_exchange_id': short_exchange_id,
         })
         exchanges = ResponseList()
         exchanges.is_all = resp['is_all']

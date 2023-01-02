@@ -69,16 +69,17 @@ class User(types.User):
         """
         return await self.__connector.user_kyc_get(self.__auth_key)
 
-    async def exchanges(self, limit=None, offset=None, status_list=None):
+    async def exchanges(self, limit=None, offset=None, status_list=None, short_exchange_id=None):
         """
         Отримати історію обмінів користувача
 
         :param limit: Скільки обмінів завантажувати
         :param offset Починати з рядку
         :param status_list: Список статусів
+        :param short_exchange_id: Перші символи з exchange_id
         :return:
         """
-        return await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, status_list)
+        return await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, status_list, short_exchange_id)
 
     async def exchange(self, exchange_id):
         """
@@ -210,7 +211,7 @@ class Application(types.Application):
         super().__init__(**o.get_dict())
         return True
 
-    async def exchanges(self, user_id=None, limit=None, offset=None, status_list=None):
+    async def exchanges(self, user_id=None, limit=None, offset=None, status_list=None, short_exchange_id=None):
         """
         Отримати список обмінів додатку (за вибіркою)
 
@@ -218,9 +219,10 @@ class Application(types.Application):
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
         :param status_list: Список статусів
+        :param short_exchange_id: Перші символи з exchange_id
         :return:
         """
-        return await self.__connector.application_exchanges_list(user_id, limit, offset, status_list)
+        return await self.__connector.application_exchanges_list(user_id, limit, offset, status_list, short_exchange_id)
 
     async def users(self, limit=None, offset=None):
         """
