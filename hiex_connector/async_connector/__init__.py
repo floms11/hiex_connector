@@ -391,7 +391,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             referrals.append(Referral(**referral))
         return referrals
 
-    async def admin_user_applications_list(self, user_id):
+    async def admin_user_auth_applications_list(self, user_id):
         """
         Отримати список додатків, з якими взаємодіяв користувач
 
@@ -399,7 +399,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: list[Application]
         """
-        resp = await self.get_async_request('admin/user/applications/list', {
+        resp = await self.get_async_request('admin/user/auth/applications/list', {
             'user_id': user_id,
         })
         applications = ResponseList()

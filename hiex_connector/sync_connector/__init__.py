@@ -391,7 +391,7 @@ class HiExConnector(HiExConnectorBase):
             referrals.append(Referral(**referral))
         return referrals
 
-    def admin_user_applications_list(self, user_id):
+    def admin_user_auth_applications_list(self, user_id):
         """
         Отримати список додатків, з якими взаємодіяв користувач
 
@@ -399,7 +399,7 @@ class HiExConnector(HiExConnectorBase):
 
         :return: list[Application]
         """
-        resp = self.get_request('admin/user/applications/list', {
+        resp = self.get_request('admin/user/auth/applications/list', {
             'user_id': user_id,
         })
         applications = ResponseList()
