@@ -154,13 +154,14 @@ class HiExConnector(HiExConnectorBase):
             applications.append(Application(**application))
         return applications
 
-    def admin_application_create(self, name, available_methods, interest):
+    def admin_application_create(self, name, available_methods, interest, user_id):
         """
         Створити новий додаток
 
         :param name: Ім'я додатку
         :param available_methods: Список методів, які будуть доступні додатку
         :param interest: % від обмінів
+        :param user_id: ID власника додатку
 
         :return: Application
         """
@@ -168,6 +169,7 @@ class HiExConnector(HiExConnectorBase):
             'name': name,
             'available_methods': available_methods,
             'interest': interest,
+            'user_id': user_id,
         })
         return Application(**resp['application'])
 
@@ -197,7 +199,7 @@ class HiExConnector(HiExConnectorBase):
         })
         return True
 
-    def admin_application_update(self, application_id, available_methods=None, balance=None, interest=None, update_keys=None, name=None, notification_url=None):
+    def admin_application_update(self, application_id, available_methods=None, balance=None, interest=None, update_keys=None, name=None, notification_url=None, user_id=None):
         """
         Редагувати додаток
 
@@ -208,6 +210,7 @@ class HiExConnector(HiExConnectorBase):
         :param update_keys: True, якщо потрібно згенерувати нові ключі
         :param name: Ім'я додатку
         :param notification_url: URL для отримання сповіщень
+        :param user_id: ID власника додатку
 
         :return: Application
         """
@@ -219,6 +222,7 @@ class HiExConnector(HiExConnectorBase):
             'update_keys': update_keys,
             'name': name,
             'notification_url': notification_url,
+            'user_id': user_id,
         })
         return Application(**resp['application'])
 
