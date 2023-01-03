@@ -102,7 +102,7 @@ class User(types.User):
         :param return_url: URL на який користувач повернеться після оплати карткою
         :return: Exchange
         """
-        return await self.__connector.exchange_create(
+        return await self.__connector.user_exchange_create(
             self.__auth_key,
             pair.currency1.code,
             pair.currency2.code,
@@ -191,7 +191,7 @@ class Exchange(types.Exchange):
 
         :return: bool
         """
-        return await self.__connector.exchange_cancel(self.__auth_key, self.exchange_id)
+        return await self.__connector.user_exchange_cancel(self.__auth_key, self.exchange_id)
 
 
 class Application(types.Application):

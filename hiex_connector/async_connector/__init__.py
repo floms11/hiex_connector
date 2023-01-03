@@ -182,7 +182,33 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('user/data/save', data)
         return resp['saved']
 
-    async def exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
+    async def exchange_create(self, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
+        """
+        Створити новий обмін
+
+        :param currency1: Валюта яку купуємо
+        :param currency2: Валюта яку продаємо
+        :param address: Адреса на яку відправляємо currency2
+        :param tag: Тег до адреси (якщо потрібен)
+        :param amount1: Сума currency1
+        :param amount2: Сума currency2
+        :param return_url: URL на який користувач повернеться після оплати карткою
+
+        :return: Exchange
+        """
+        from ..types import Exchange
+        resp = await self.get_async_request('exchange/create', {
+            'currency1': currency1,
+            'currency2': currency2,
+            'address': address,
+            'tag': tag,
+            'amount1': amount1,
+            'amount2': amount2,
+            'return_url': return_url,
+        })
+        return Exchange(**resp['exchange'])
+
+    async def user_exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
         """
         Створити новий обмін
 
@@ -198,7 +224,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :return: Exchange
         """
         from ..magic_async_types import Exchange
-        resp = await self.get_async_request('exchange/create', {
+        resp = await self.get_async_request('user/exchange/create', {
             'auth_key': auth_key,
             'currency1': currency1,
             'currency2': currency2,
@@ -246,7 +272,20 @@ class AsyncHiExConnector(HiExConnectorBase):
             from ..magic_async_types import Exchange
             return Exchange(self, auth_key, **resp['exchange'])
 
-    async def exchange_cancel(self, auth_key, exchange_id):
+    async def exchange_cancel(self, exchange_id):
+        """
+        Відмінити обмін
+
+        :param exchange_id: Номер обміну
+
+        :return: Exchange
+        """
+        await self.get_async_request('exchange/cancel', {
+            'exchange_id': exchange_id,
+        })
+        return True
+
+    async def user_exchange_cancel(self, auth_key, exchange_id):
         """
         Відмінити обмін
 
@@ -255,7 +294,7 @@ class AsyncHiExConnector(HiExConnectorBase):
 
         :return: Exchange
         """
-        await self.get_async_request('exchange/cancel', {
+        await self.get_async_request('user/exchange/cancel', {
             'auth_key': auth_key,
             'exchange_id': exchange_id,
         })
