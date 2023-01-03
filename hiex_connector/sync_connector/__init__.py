@@ -391,6 +391,27 @@ class HiExConnector(HiExConnectorBase):
             referrals.append(Referral(**referral))
         return referrals
 
+    def admin_user_applications_list(self, user_id, limit=None, offset=None):
+        """
+        Отримати список додатків, якими володіє користувач
+
+        :param user_id: Номер користувача
+        :param limit: Скільки обмінів завантажувати
+        :param offset: Починати з рядку
+
+        :return: list[Application]
+        """
+        resp = self.get_request('admin/user/applications/list', {
+            'user_id': user_id,
+            'limit': limit,
+            'offset': offset,
+        })
+        applications = ResponseList()
+        applications.is_all = resp['is_all']
+        for application in resp['applications']:
+            applications.append(Application(**application))
+        return applications
+
     def admin_user_auth_applications_list(self, user_id):
         """
         Отримати список додатків, з якими взаємодіяв користувач
