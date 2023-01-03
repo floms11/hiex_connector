@@ -168,6 +168,7 @@ class Auth(BaseType):
 
 class Application(BaseType):
     application_id: int
+    user_id: int
     name: str
     public_key: str
     interest: Decimal
@@ -176,6 +177,7 @@ class Application(BaseType):
 
     def __init__(self, **kwargs):
         self.application_id = kwargs['application_id']
+        self.user_id = kwargs['user_id']
         self.name = kwargs['name']
         self.public_key = kwargs['public_key']
         self.interest = Decimal(kwargs['interest'])
