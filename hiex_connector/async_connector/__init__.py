@@ -125,7 +125,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         """
         from ..types import ResponseList
         from ..types import VerificationService
-        resp = await self.get_async_request('user/methods/list', {
+        resp = await self.get_async_request('user/kyc/methods/list', {
             'auth_key': auth_key,
         })
         verification_services = ResponseList()
