@@ -16,9 +16,11 @@ class HiExConnectorBase:
     __public_key: str = ''
     __basic_url: str = 'https://api.hiex.io/'
 
-    def __init__(self, private_key, public_key):
+    def __init__(self, private_key, public_key, base_url=None):
         self.__private_key = private_key
         self.__public_key = public_key
+        if base_url is not None:
+            self.__basic_url = base_url
 
     def get_request(self, method, data):
         text, headers = self.get_request_data(method, data)
