@@ -198,3 +198,25 @@ class Referral(BaseType):
         self.created_at = kwargs['created_at']
         self.amount = Decimal(kwargs['amount'])
         self.kyc = kwargs['kyc']
+
+
+class VerificationService(BaseType):
+    name: str
+    options: list
+
+    def __init__(self, **kwargs):
+        self.name = kwargs['name']
+        self.options = kwargs['options']
+
+
+class Verification(BaseType):
+    method: str
+    option: str
+    url: str
+    qr: str
+
+    def __init__(self, **kwargs):
+        self.method = kwargs['method']
+        self.option = kwargs['option']
+        self.url = kwargs['url']
+        self.qr = kwargs['qr']

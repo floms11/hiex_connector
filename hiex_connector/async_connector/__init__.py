@@ -95,18 +95,44 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def user_kyc_get(self, auth_key):
+    async def user_kyc_get(self, auth_key, method, option=None, return_url=None):
         """
         Отримати лінк для проходження KYC (верифікації)
 
         :param auth_key: Ключ користувача
+        :param method: Спосіб проходження верифікації
+        :param option: Додатковий параметр верифікації
+        :param return_url: URL куди повернуто користувача після проходження KYC
 
-        :return: str
+        :return: Verification
         """
+        from ..types import Verification
         resp = await self.get_async_request('user/kyc/get', {
             'auth_key': auth_key,
+            'method': method,
+            'option': option,
+            'return_url': return_url,
         })
-        return resp['kyc_url']
+        return Verification(**resp['verification'])
+
+    async def user_kyc_methods_list(self, auth_key):
+        """
+        Завантажити можливі способи проходження верифікації
+
+        :param auth_key: Ключ користувача
+
+        :return: ResponseList[VerificationService]
+        """
+        from ..types import ResponseList
+        from ..types import VerificationService
+        resp = await self.get_async_request('user/methods/list', {
+            'auth_key': auth_key,
+        })
+        verification_services = ResponseList()
+        verification_services.is_all = resp['is_all']
+        for method in resp['methods']:
+            verification_services.append(VerificationService(**method))
+        return verification_services
 
     async def user_auth(self, email, referral_token=None):
         """
