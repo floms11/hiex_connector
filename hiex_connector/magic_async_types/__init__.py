@@ -61,13 +61,21 @@ class User(types.User):
         """
         return await self.__connector.user_logout(self.__auth_key)
 
-    async def kyc_link(self):
+    async def kyc_get(self, method, option=None, return_url=None):
         """
         Отримати лінк для проходження KYC (верифікації)
 
-        :return: str
+        :return: Verification
         """
-        return await self.__connector.user_kyc_get(self.__auth_key)
+        return await self.__connector.user_kyc_get(self.__auth_key, method, option, return_url)
+
+    async def kyc_methods_list(self):
+        """
+        Завантажити можливі способи проходження верифікації
+
+        :return: ResponseList[VerificationService]
+        """
+        return await self.__connector.user_kyc_methods_list(self.__auth_key)
 
     async def exchanges(self, limit=None, offset=None, status_list=None, short_exchange_id=None):
         """
