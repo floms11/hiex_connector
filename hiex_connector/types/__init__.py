@@ -50,6 +50,19 @@ class Currency(BaseType):
         self.round_ndigits = kwargs['round_ndigits']
 
 
+class AdditionalFields(BaseType):
+    beneficiary_first_name: str
+    beneficiary_last_name: str
+    beneficiary_tin: str
+    beneficiary_phone: str
+
+    def __init__(self, **kwargs):
+        self.beneficiary_first_name = kwargs['beneficiary_first_name']
+        self.beneficiary_last_name = kwargs['beneficiary_last_name']
+        self.beneficiary_tin = kwargs['beneficiary_tin']
+        self.beneficiary_phone = kwargs['beneficiary_phone']
+
+
 class Payment(BaseType):
     unique_id: str
     address: str
@@ -79,6 +92,7 @@ class Exchange(BaseType):
     currency2: Currency
     address: str
     tag: str
+    additional_fields: AdditionalFields
     created_at: int
     closed_at: int
     referral_income: Decimal
@@ -107,10 +121,16 @@ class Exchange(BaseType):
             self.currency1 = kwargs['currency1']
         else:
             self.currency1 = Currency(**kwargs['currency1'])
+
         if isinstance(kwargs['currency2'], Currency):
             self.currency2 = kwargs['currency2']
         else:
             self.currency2 = Currency(**kwargs['currency2'])
+
+        if isinstance(kwargs['additional_fields'], AdditionalFields):
+            self.additional_fields = kwargs['additional_fields']
+        else:
+            self.additional_fields = AdditionalFields(**kwargs['additional_fields'])
 
 
 class Pair(BaseType):
@@ -126,6 +146,8 @@ class Pair(BaseType):
     active: bool
     interest: Decimal
     kyc_required: bool
+    available_tag: bool
+    additional_fields_list: list
     swap_deposit: bool
     last_update: int
     currency_swap_auxiliary: Currency = None
@@ -141,6 +163,8 @@ class Pair(BaseType):
         self.active = kwargs['active']
         self.interest = Decimal(kwargs['interest'])
         self.kyc_required = kwargs['kyc_required']
+        self.available_tag = kwargs['available_tag']
+        self.additional_fields_list = kwargs['additional_fields_list']
         self.swap_deposit = kwargs['swap_deposit']
         self.last_update = kwargs['last_update']
 
@@ -178,8 +202,8 @@ class User(BaseType):
     user_id: int
     kyc: bool
     email: str
-    name: str
-    lastname: str
+    first_name: str
+    last_name: str
     created_at: int
     balance: Decimal = 0
     referral_token: str = None
@@ -193,8 +217,8 @@ class User(BaseType):
         self.user_id = kwargs['user_id']
         self.kyc = kwargs['kyc']
         self.email = kwargs['email']
-        self.name = kwargs['name']
-        self.lastname = kwargs['lastname']
+        self.first_name = kwargs['first_name']
+        self.last_name = kwargs['last_name']
         self.created_at = kwargs['created_at']
         self.balance = Decimal(kwargs['balance'])
         self.referral_token = kwargs['referral_token']

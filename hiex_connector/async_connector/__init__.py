@@ -429,15 +429,15 @@ class AsyncHiExConnector(HiExConnectorBase):
             applications.append(Application(**application))
         return applications
 
-    async def admin_user_update(self, user_id, application_id=None, email=None, name=None, lastname=None, kyc=None, balance=None):
+    async def admin_user_update(self, user_id, application_id=None, email=None, first_name=None, last_name=None, kyc=None, balance=None):
         """
         Змінити інформацію про користувача
 
         :param user_id: Номер користувача
         :param application_id: Номер додатку
         :param email: Нова пошта
-        :param name: Нове ім'я
-        :param lastname: Нове прізвище
+        :param first_name: Нове ім'я
+        :param last_name: Нове прізвище
         :param kyc: KYC
         :param balance: Баланс
 
@@ -447,8 +447,8 @@ class AsyncHiExConnector(HiExConnectorBase):
             'user_id': user_id,
             'application_id': application_id,
             'email': email,
-            'name': name,
-            'lastname': lastname,
+            'first_name': first_name,
+            'last_name': last_name,
             'kyc': kyc,
             'balance': balance,
         })
