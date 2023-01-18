@@ -208,7 +208,10 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('user/data/save', data)
         return resp['saved']
 
-    async def exchange_create(self, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
+    async def exchange_create(
+            self, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None,
+            beneficiary_first_name=None, beneficiary_last_name=None, beneficiary_tin=None, beneficiary_phone=None,
+    ):
         """
         Створити новий обмін
 
@@ -219,6 +222,10 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param amount1: Сума currency1
         :param amount2: Сума currency2
         :param return_url: URL на який користувач повернеться після оплати карткою
+        :param beneficiary_first_name: Інформація по запиту мерчанта. Ім'я отримувача
+        :param beneficiary_last_name: Інформація по запиту мерчанта. Прізвище отримувача
+        :param beneficiary_tin: Інформація по запиту мерчанта. Номер платника податку отримувача
+        :param beneficiary_phone: Інформація по запиту мерчанта. Номер телефону отримувача
 
         :return: Exchange
         """
@@ -231,10 +238,17 @@ class AsyncHiExConnector(HiExConnectorBase):
             'amount1': amount1,
             'amount2': amount2,
             'return_url': return_url,
+            'beneficiary_first_name': beneficiary_first_name,
+            'beneficiary_last_name': beneficiary_last_name,
+            'beneficiary_tin': beneficiary_tin,
+            'beneficiary_phone': beneficiary_phone,
         })
         return Exchange(**resp['exchange'])
 
-    async def user_exchange_create(self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None):
+    async def user_exchange_create(
+            self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None,
+            beneficiary_first_name=None, beneficiary_last_name=None, beneficiary_tin=None, beneficiary_phone=None,
+    ):
         """
         Створити новий обмін
 
@@ -246,6 +260,10 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param amount1: Сума currency1
         :param amount2: Сума currency2
         :param return_url: URL на який користувач повернеться після оплати карткою
+        :param beneficiary_first_name: Інформація по запиту мерчанта. Ім'я отримувача
+        :param beneficiary_last_name: Інформація по запиту мерчанта. Прізвище отримувача
+        :param beneficiary_tin: Інформація по запиту мерчанта. Номер платника податку отримувача
+        :param beneficiary_phone: Інформація по запиту мерчанта. Номер телефону отримувача
 
         :return: Exchange
         """
@@ -259,6 +277,10 @@ class AsyncHiExConnector(HiExConnectorBase):
             'amount1': amount1,
             'amount2': amount2,
             'return_url': return_url,
+            'beneficiary_first_name': beneficiary_first_name,
+            'beneficiary_last_name': beneficiary_last_name,
+            'beneficiary_tin': beneficiary_tin,
+            'beneficiary_phone': beneficiary_phone,
         })
         return Exchange(self, auth_key, **resp['exchange'])
 

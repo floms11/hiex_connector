@@ -32,6 +32,19 @@ class Currency(BaseType):
         self.img = kwargs['img']
 
 
+class AdditionalFields(BaseType):
+    beneficiary_first_name: str
+    beneficiary_last_name: str
+    beneficiary_tin: str
+    beneficiary_phone: str
+
+    def __init__(self, **kwargs):
+        self.beneficiary_first_name = kwargs['beneficiary_first_name']
+        self.beneficiary_last_name = kwargs['beneficiary_last_name']
+        self.beneficiary_tin = kwargs['beneficiary_tin']
+        self.beneficiary_phone = kwargs['beneficiary_phone']
+
+
 class Payment(BaseType):
     address: str
     address_qr: str
@@ -57,6 +70,7 @@ class Exchange(BaseType):
     currency2: Currency
     address: str
     tag: str
+    additional_fields: AdditionalFields
     created_at: int
     closed_at: int
 
@@ -75,10 +89,16 @@ class Exchange(BaseType):
             self.currency1 = kwargs['currency1']
         else:
             self.currency1 = Currency(**kwargs['currency1'])
+
         if isinstance(kwargs['currency2'], Currency):
             self.currency2 = kwargs['currency2']
         else:
             self.currency2 = Currency(**kwargs['currency2'])
+
+        if isinstance(kwargs['additional_fields'], AdditionalFields):
+            self.additional_fields = kwargs['additional_fields']
+        else:
+            self.additional_fields = AdditionalFields(**kwargs['additional_fields'])
 
 
 class Pair(BaseType):
@@ -91,6 +111,8 @@ class Pair(BaseType):
     price_factor: Decimal
     price: Decimal
     kyc_required: bool
+    available_tag: bool
+    additional_fields_list: list
     comment: str
 
     def __init__(self, **kwargs):
@@ -101,6 +123,8 @@ class Pair(BaseType):
         self.price_factor = Decimal(kwargs['price_factor'])
         self.price = Decimal(kwargs['price'])
         self.kyc_required = kwargs['kyc_required']
+        self.available_tag = kwargs['available_tag']
+        self.additional_fields_list = kwargs['additional_fields_list']
         self.comment = kwargs['comment']
 
         if isinstance(kwargs['currency1'], Currency):
@@ -130,8 +154,8 @@ class User(BaseType):
     user_id: int
     kyc: bool
     email: str
-    name: str
-    lastname: str
+    first_name: str
+    last_name: str
     balance: Decimal
     referral_token: str
     referral_id: int
@@ -143,8 +167,8 @@ class User(BaseType):
         self.user_id = kwargs['user_id']
         self.kyc = kwargs['kyc']
         self.email = kwargs['email']
-        self.name = kwargs['name']
-        self.lastname = kwargs['lastname']
+        self.first_name = kwargs['first_name']
+        self.last_name = kwargs['last_name']
         self.balance = Decimal(kwargs['balance'])
         self.referral_token = kwargs['referral_token']
         self.referral_id = kwargs['referral_id']
