@@ -40,7 +40,7 @@ class Currency(BaseType):
         self.img = kwargs['img']
         self.deposit_merchant = kwargs['deposit_merchant']
         self.withdrawal_merchant = kwargs['withdrawal_merchant']
-        self.use_tag = kwargs['use_tag']
+        self.available_tag = kwargs['available_tag']
         self.kyc_required = kwargs['kyc_required']
         self.min_deposit = Decimal(kwargs['min_deposit'])
         self.max_deposit = Decimal(kwargs['max_deposit'])
