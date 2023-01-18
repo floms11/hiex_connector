@@ -23,12 +23,12 @@ class BaseType:
 
 class Currency(BaseType):
     code: str
-    use_tag: bool = False
+    available_tag: bool = False
     img: str = None
 
     def __init__(self, **kwargs):
         self.code = kwargs['code']
-        self.use_tag = kwargs['use_tag']
+        self.available_tag = kwargs['available_tag']
         self.img = kwargs['img']
 
 
