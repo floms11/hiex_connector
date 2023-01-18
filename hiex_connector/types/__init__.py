@@ -26,7 +26,7 @@ class Currency(BaseType):
     img: str
     deposit_merchant: str
     withdrawal_merchant: str
-    use_tag: bool
+    available_tag: bool
     kyc_required: bool
     min_deposit: Decimal
     max_deposit: Decimal
