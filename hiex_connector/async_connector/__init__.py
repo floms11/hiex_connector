@@ -87,6 +87,19 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Payment(**resp['payment'])
 
+    async def admin_withdrawal_get(self, unique_id):
+        """
+        Отримати виплату
+
+        :param unique_id: Ідентифікатор виплати
+
+        :return: Withdrawal
+        """
+        resp = await self.get_async_request('admin/withdrawal/get', {
+            'unique_id': unique_id,
+        })
+        return Withdrawal(**resp['withdrawal'])
+
     async def admin_logs_list(self):
         """
         Отримати список логів

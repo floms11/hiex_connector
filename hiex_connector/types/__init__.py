@@ -65,19 +65,82 @@ class AdditionalFields(BaseType):
 
 class Payment(BaseType):
     unique_id: str
+    status: int
+    currency: Currency
     address: str
     address_qr: str
     tag: str
     amount: Decimal
+    available_amount: Decimal
     url: str
+    merchant: str
+    additional_fields: AdditionalFields
+    data_create: dict
+    data_status: dict
+    created_at: int
+    closed_at: int
 
     def __init__(self, **kwargs):
         self.unique_id = kwargs['unique_id']
+        self.status = kwargs['status']
         self.address = kwargs['address']
         self.address_qr = kwargs['address_qr']
         self.tag = kwargs['tag']
         self.amount = Decimal(kwargs['amount'])
+        self.available_amount = Decimal(kwargs['available_amount'])
         self.url = kwargs['url']
+        self.merchant = kwargs['merchant']
+        self.data_create = kwargs['data_create']
+        self.data_status = kwargs['data_status']
+        self.created_at = kwargs['created_at']
+        self.closed_at = kwargs['closed_at']
+
+        if isinstance(kwargs['currency'], Currency):
+            self.currency = kwargs['currency']
+        else:
+            self.currency = Currency(**kwargs['currency'])
+
+        if isinstance(kwargs['additional_fields'], AdditionalFields):
+            self.additional_fields = kwargs['additional_fields']
+        else:
+            self.additional_fields = AdditionalFields(**kwargs['additional_fields'])
+
+
+class Withdrawal(BaseType):
+    unique_id: str
+    status: int
+    currency: Currency
+    address: str
+    tag: str
+    amount: Decimal
+    amount_processed: Decimal
+    merchant: str
+    additional_fields: AdditionalFields
+    data_create: dict
+    data_status: dict
+    created_at: int
+
+    def __init__(self, **kwargs):
+        self.unique_id = kwargs['unique_id']
+        self.status = kwargs['status']
+        self.address = kwargs['address']
+        self.tag = kwargs['tag']
+        self.amount = Decimal(kwargs['amount'])
+        self.amount_processed = Decimal(kwargs['amount_processed'])
+        self.merchant = kwargs['merchant']
+        self.data_create = kwargs['data_create']
+        self.data_status = kwargs['data_status']
+        self.created_at = kwargs['created_at']
+
+        if isinstance(kwargs['currency'], Currency):
+            self.currency = kwargs['currency']
+        else:
+            self.currency = Currency(**kwargs['currency'])
+
+        if isinstance(kwargs['additional_fields'], AdditionalFields):
+            self.additional_fields = kwargs['additional_fields']
+        else:
+            self.additional_fields = AdditionalFields(**kwargs['additional_fields'])
 
 
 class Exchange(BaseType):
