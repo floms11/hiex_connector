@@ -46,6 +46,7 @@ class AdditionalFields(BaseType):
 
 
 class Payment(BaseType):
+    currency: Currency
     address: str
     address_qr: str
     tag: str
@@ -58,6 +59,11 @@ class Payment(BaseType):
         self.tag = kwargs['tag']
         self.amount = Decimal(kwargs['amount'])
         self.url = kwargs['url']
+
+        if isinstance(kwargs['currency'], Currency):
+            self.currency = kwargs['currency']
+        else:
+            self.currency = Currency(**kwargs['currency'])
 
 
 class Exchange(BaseType):
