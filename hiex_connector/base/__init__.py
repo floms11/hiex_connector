@@ -109,8 +109,9 @@ class HiExConnectorBase:
     def check_version(version):
         version_num = version.split('_')[1]
         version_nums = version_num.split('.')
+        api_version_nums = __version__.split('.')
         _version = Decimal(f"{version_nums[0]}.{version_nums[1]}")
-        _api_version = Decimal(__version__)
+        _api_version = Decimal(f"{api_version_nums[0]}.{api_version_nums[1]}")
         if _api_version >= _version:
             return True
         else:
