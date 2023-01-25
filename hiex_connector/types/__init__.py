@@ -24,11 +24,13 @@ class BaseType:
 class Currency(BaseType):
     code: str
     available_tag: bool = False
+    round_ndigits: int = 0
     img: str = None
 
     def __init__(self, **kwargs):
         self.code = kwargs['code']
         self.available_tag = kwargs['available_tag']
+        self.round_ndigits = kwargs['round_ndigits']
         self.img = kwargs['img']
 
 
