@@ -477,3 +477,26 @@ class HiExConnector(HiExConnectorBase):
         """
         resp = self.get_request('admin/setting', kwargs)
         return resp['hisettings']
+
+    def admin_user_auth_list(self, application_id=None, user_id=None, limit=None, offset=None):
+        """
+        Отримати відправлені коди авторизації
+
+        :param application_id: Номер Додатку
+        :param user_id: Номер користувача
+        :param limit: Скільки обмінів завантажувати
+        :param offset: Починати з рядку
+
+        :return: list[UserAuth]
+        """
+        resp = self.get_request('admin/user/auth/list', {
+            'application_id': application_id,
+            'user_id': user_id,
+            'limit': limit,
+            'offset': offset,
+        })
+        user_auth_list = ResponseList()
+        user_auth_list.is_all = resp['is_all']
+        for user_auth in resp['user_auth_list']:
+            user_auth_list.append(UserAuth(**user_auth))
+        return user_auth_list

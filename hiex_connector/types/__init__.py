@@ -311,12 +311,16 @@ class UserAuth(BaseType):
     allow: bool
     auth_key: str
     application_id: int
+    user_id: int
+    code: int
     code_attempt: int
 
     def __init__(self, **kwargs):
         self.allow = kwargs['allow']
         self.auth_key = kwargs['auth_key']
         self.application_id = kwargs['application_id']
+        self.user_id = kwargs['user_id']
+        self.code = kwargs['code']
         self.code_attempt = kwargs['code_attempt']
 
 
