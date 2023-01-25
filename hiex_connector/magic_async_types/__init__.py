@@ -85,6 +85,7 @@ class User(types.User):
         :param offset Починати з рядку
         :param status_list: Список статусів
         :param short_exchange_id: Перші символи з exchange_id
+
         :return:
         """
         return await self.__connector.user_exchanges_list(self.__auth_key, limit, offset, status_list, short_exchange_id)
@@ -94,11 +95,15 @@ class User(types.User):
         Завантажити обмін
 
         :param exchange_id: Номер обміну
+
         :return: Exchange
         """
         return await self.__connector.exchange_get(exchange_id, auth_key=self.__auth_key)
 
-    async def exchange_create(self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None, return_url: str = None):
+    async def exchange_create(
+            self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None, return_url: str = None,
+            beneficiary_first_name=None, beneficiary_last_name=None, beneficiary_tin=None, beneficiary_phone=None,
+    ):
         """
         Створити новий обмін
 
@@ -108,6 +113,11 @@ class User(types.User):
         :param amount1: Сума currency1
         :param amount2: Сума currency2
         :param return_url: URL на який користувач повернеться після оплати карткою
+        :param beneficiary_first_name: Інформація по запиту мерчанта. Ім'я отримувача
+        :param beneficiary_last_name: Інформація по запиту мерчанта. Прізвище отримувача
+        :param beneficiary_tin: Інформація по запиту мерчанта. Номер платника податку отримувача
+        :param beneficiary_phone: Інформація по запиту мерчанта. Номер телефону отримувача
+
         :return: Exchange
         """
         return await self.__connector.user_exchange_create(
@@ -119,6 +129,10 @@ class User(types.User):
             amount1,
             amount2,
             return_url,
+            beneficiary_first_name,
+            beneficiary_last_name,
+            beneficiary_tin,
+            beneficiary_phone,
         )
 
     async def data_save(self, **kwargs):
@@ -126,6 +140,7 @@ class User(types.User):
         Записати дані користувача на серверах hiex.io
 
         :param kwargs: Зміні які потрібно записати
+
         :return: bool
         """
         await self.__connector.user_data_save(self.__auth_key, **kwargs)
@@ -144,6 +159,7 @@ class Auth(types.Auth):
         Реєстрація коду авторизації
 
         :param code: Код з email
+
         :return:
         """
         o = await self.__connector.user_auth_code(self.auth_key, code)
@@ -228,6 +244,7 @@ class Application(types.Application):
         :param offset: Починати з рядку
         :param status_list: Список статусів
         :param short_exchange_id: Перші символи з exchange_id
+
         :return:
         """
         return await self.__connector.application_exchanges_list(user_id, limit, offset, status_list, short_exchange_id)
@@ -238,6 +255,7 @@ class Application(types.Application):
 
         :param limit: Скільки користувачів завантажувати
         :param offset: Починати з рядку
+
         :return:
         """
         return await self.__connector.application_users_list(limit, offset)
