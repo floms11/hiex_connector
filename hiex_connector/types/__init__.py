@@ -5,6 +5,11 @@ class ResponseList(list):
     is_all: bool = False
 
 
+class Empty:
+    def __init__(self):
+        pass
+
+
 class BaseType:
     def __repr__(self):
         return (
