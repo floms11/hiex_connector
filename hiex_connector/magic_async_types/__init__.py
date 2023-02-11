@@ -11,7 +11,7 @@ class Pair(types.Pair):
         super().__init__(**kwargs)
         self.__connector = connector
 
-    async def amount(self, amount1=None, amount2=None):
+    async def amount(self, amount1=types.Empty, amount2=types.Empty):
         """
         Порахувати суми обміну
 
@@ -42,7 +42,7 @@ class User(types.User):
         super().__init__(**o.get_dict())
         return True
 
-    async def referrals(self, limit=None, offset=None):
+    async def referrals(self, limit=types.Empty, offset=types.Empty):
         """
         Завантажити список рефералів
 
@@ -61,7 +61,7 @@ class User(types.User):
         """
         return await self.__connector.user_logout(self.__auth_key)
 
-    async def kyc_get(self, method, option=None, return_url=None):
+    async def kyc_get(self, method, option=types.Empty, return_url=types.Empty):
         """
         Отримати лінк для проходження KYC (верифікації)
 
@@ -77,7 +77,7 @@ class User(types.User):
         """
         return await self.__connector.user_kyc_methods_list(self.__auth_key)
 
-    async def exchanges(self, limit=None, offset=None, status_list=None, short_exchange_id=None):
+    async def exchanges(self, limit=types.Empty, offset=types.Empty, status_list=types.Empty, short_exchange_id=types.Empty):
         """
         Отримати історію обмінів користувача
 
@@ -101,8 +101,8 @@ class User(types.User):
         return await self.__connector.exchange_get(exchange_id, auth_key=self.__auth_key)
 
     async def exchange_create(
-            self, pair: Pair, address: str, tag: str = None, amount1: Decimal = None, amount2: Decimal = None, return_url: str = None,
-            beneficiary_first_name=None, beneficiary_last_name=None, beneficiary_tin=None, beneficiary_phone=None,
+            self, pair: Pair, address: str, tag: str = types.Empty, amount1: Decimal = types.Empty, amount2: Decimal = types.Empty, return_url: str = types.Empty,
+            beneficiary_first_name=types.Empty, beneficiary_last_name=types.Empty, beneficiary_tin=types.Empty, beneficiary_phone=types.Empty,
     ):
         """
         Створити новий обмін
@@ -154,7 +154,7 @@ class Auth(types.Auth):
         super().__init__(**kwargs)
         self.__connector = connector
 
-    async def code(self, code=None):
+    async def code(self, code=types.Empty):
         """
         Реєстрація коду авторизації
 
@@ -235,7 +235,7 @@ class Application(types.Application):
         super().__init__(**o.get_dict())
         return True
 
-    async def exchanges(self, user_id=None, limit=None, offset=None, status_list=None, short_exchange_id=None):
+    async def exchanges(self, user_id=types.Empty, limit=types.Empty, offset=types.Empty, status_list=types.Empty, short_exchange_id=types.Empty):
         """
         Отримати список обмінів додатку (за вибіркою)
 
@@ -249,7 +249,7 @@ class Application(types.Application):
         """
         return await self.__connector.application_exchanges_list(user_id, limit, offset, status_list, short_exchange_id)
 
-    async def users(self, limit=None, offset=None):
+    async def users(self, limit=types.Empty, offset=types.Empty):
         """
         Отримати список користувачів додатку
 
@@ -260,7 +260,7 @@ class Application(types.Application):
         """
         return await self.__connector.application_users_list(limit, offset)
 
-    async def stats(self, limit=None, offset=None):
+    async def stats(self, limit=types.Empty, offset=types.Empty):
         """
         Завантажити статистику (за вибіркою)
 

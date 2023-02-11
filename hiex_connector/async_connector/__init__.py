@@ -1,4 +1,5 @@
 from ..base import HiExConnectorBase
+from ..types import Empty
 from decimal import Decimal
 
 
@@ -6,7 +7,7 @@ class AsyncHiExConnector(HiExConnectorBase):
     """
     Асинхронна бібліотека для роботи з api.hiex.io
     """
-    async def pairs_list(self, currency1=None, currency2=None):
+    async def pairs_list(self, currency1=Empty, currency2=Empty):
         """
         Отримати список валютних пар
 
@@ -27,7 +28,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             pairs.append(Pair(self, **pair))
         return pairs
 
-    async def pair_amount(self, currency1, currency2, amount1=None, amount2=None):
+    async def pair_amount(self, currency1, currency2, amount1=Empty, amount2=Empty):
         """
         Порахувати суми обміну
 
@@ -60,7 +61,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(self, auth_key, **resp['user'])
 
-    async def user_referrals_list(self, auth_key, limit=None, offset=None):
+    async def user_referrals_list(self, auth_key, limit=Empty, offset=Empty):
         """
         Завантажити список рефералів
 
@@ -95,7 +96,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def user_kyc_get(self, auth_key, method, option=None, return_url=None):
+    async def user_kyc_get(self, auth_key, method, option=Empty, return_url=Empty):
         """
         Отримати лінк для проходження KYC (верифікації)
 
@@ -134,7 +135,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             verification_services.append(VerificationService(**method))
         return verification_services
 
-    async def user_auth(self, email, referral_token=None):
+    async def user_auth(self, email, referral_token=Empty):
         """
         Запит на авторизацію користувача
 
@@ -166,7 +167,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Auth(self, **resp['auth'])
 
-    async def user_exchanges_list(self, auth_key, limit=None, offset=None, status_list=None, short_exchange_id=None):
+    async def user_exchanges_list(self, auth_key, limit=Empty, offset=Empty, status_list=Empty, short_exchange_id=Empty):
         """
         Отримати список обмінів користувача (за вибіркою)
 
@@ -209,8 +210,8 @@ class AsyncHiExConnector(HiExConnectorBase):
         return resp['saved']
 
     async def exchange_create(
-            self, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None,
-            beneficiary_first_name=None, beneficiary_last_name=None, beneficiary_tin=None, beneficiary_phone=None,
+            self, currency1, currency2, address, tag=Empty, amount1=Empty, amount2=Empty, return_url=Empty,
+            beneficiary_first_name=Empty, beneficiary_last_name=Empty, beneficiary_tin=Empty, beneficiary_phone=Empty,
     ):
         """
         Створити новий обмін
@@ -246,8 +247,8 @@ class AsyncHiExConnector(HiExConnectorBase):
         return Exchange(**resp['exchange'])
 
     async def user_exchange_create(
-            self, auth_key, currency1, currency2, address, tag=None, amount1=None, amount2=None, return_url=None,
-            beneficiary_first_name=None, beneficiary_last_name=None, beneficiary_tin=None, beneficiary_phone=None,
+            self, auth_key, currency1, currency2, address, tag=Empty, amount1=Empty, amount2=Empty, return_url=Empty,
+            beneficiary_first_name=Empty, beneficiary_last_name=Empty, beneficiary_tin=Empty, beneficiary_phone=Empty,
     ):
         """
         Створити новий обмін
@@ -348,7 +349,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def application_exchanges_list(self, user_id=None, limit=None, offset=None, status_list=None, short_exchange_id=None):
+    async def application_exchanges_list(self, user_id=Empty, limit=Empty, offset=Empty, status_list=Empty, short_exchange_id=Empty):
         """
         Отримати список обмінів додатку (за вибіркою)
 
@@ -375,7 +376,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    async def application_users_list(self, limit=None, offset=None):
+    async def application_users_list(self, limit=Empty, offset=Empty):
         """
         Отримати список користувачів
 
@@ -396,7 +397,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             users.append(User(**user))
         return users
 
-    async def application_stats_list(self, limit=None, offset=None):
+    async def application_stats_list(self, limit=Empty, offset=Empty):
         """
         Завантажити статистику (за вибіркою)
 
