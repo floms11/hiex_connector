@@ -19,7 +19,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             currencies.append(Currency(**currency))
         return currencies
 
-    async def admin_exchange_update(self, exchange_id, status: int = None):
+    async def admin_exchange_update(self, exchange_id, status: int = Empty):
         """
         Редагувати обмін
 
@@ -47,7 +47,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
-    async def admin_exchanges_list(self, application_id=None, user_id=None, limit=None, offset=None, status_list=None, short_exchange_id=None):
+    async def admin_exchanges_list(self, application_id=Empty, user_id=Empty, limit=Empty, offset=Empty, status_list=Empty, short_exchange_id=Empty):
         """
         Отримати список обмінів (за вибіркою)
 
@@ -127,7 +127,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return resp[0]
 
-    async def admin_stats_list(self, application_id=None, limit=None, offset=None):
+    async def admin_stats_list(self, application_id=Empty, limit=Empty, offset=Empty):
         """
         Завантажити статистику (за вибіркою)
 
@@ -148,7 +148,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             stats.append(Stat(**stat))
         return stats
 
-    async def admin_applications_list(self, limit=None, offset=None):
+    async def admin_applications_list(self, limit=Empty, offset=Empty):
         """
         Завантажити список додатків у системі
 
@@ -212,7 +212,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def admin_application_update(self, application_id, available_methods=None, balance=None, interest=None, update_keys=None, name=None, notification_url=None, user_id=None):
+    async def admin_application_update(self, application_id, available_methods=Empty, balance=Empty, interest=Empty, update_keys=Empty, name=Empty, notification_url=Empty, user_id=Empty):
         """
         Редагувати додаток
 
@@ -239,7 +239,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Application(**resp['application'])
 
-    async def admin_pairs_list(self, currency1=None, currency2=None):
+    async def admin_pairs_list(self, currency1=Empty, currency2=Empty):
         """
         Отримати список доступних пар обміну
 
@@ -258,7 +258,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             pairs.append(Pair(**pair))
         return pairs
 
-    async def admin_pair_create(self, currency1, currency2, comment, kyc_required, swap_deposit, active=None, interest=None, max_amount1=None, max_amount2=None, min_amount1=None, min_amount2=None, currency_swap_auxiliary: Currency = None):
+    async def admin_pair_create(self, currency1, currency2, comment, kyc_required, swap_deposit, active=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, currency_swap_auxiliary: Currency = Empty):
         """
         Створити валютну пару
 
@@ -293,7 +293,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Pair(**resp['pair'])
 
-    async def admin_pair_update(self, currency1, currency2, active=None, comment=None, interest=None, max_amount1=None, max_amount2=None, min_amount1=None, min_amount2=None, kyc_required=None, swap_deposit=None, currency_swap_auxiliary: Currency = None):
+    async def admin_pair_update(self, currency1, currency2, active=Empty, comment=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, kyc_required=Empty, swap_deposit=Empty, currency_swap_auxiliary: Currency = Empty):
         """
         Змінити валютну пару
 
@@ -328,7 +328,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Pair(**resp['pair'])
 
-    async def admin_pair_delete(self, currency1=None, currency2=None):
+    async def admin_pair_delete(self, currency1=Empty, currency2=Empty):
         """
         Видалити валютну пару
 
@@ -343,7 +343,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def admin_users_list(self, application_id=None, limit=None, offset=None):
+    async def admin_users_list(self, application_id=Empty, limit=Empty, offset=Empty):
         """
         Отримати список користувачів (за вибіркою)
 
@@ -364,7 +364,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             users.append(User(**user))
         return users
 
-    async def admin_user_get(self, application_id=None, user_id=None, email=None):
+    async def admin_user_get(self, application_id=Empty, user_id=Empty, email=Empty):
         """
         Отримати інформацію про користувача
 
@@ -381,7 +381,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return User(**resp['user'])
 
-    async def admin_user_referrals_list(self, application_id, user_id, limit=None, offset=None):
+    async def admin_user_referrals_list(self, application_id, user_id, limit=Empty, offset=Empty):
         """
         Отримати інформацію про рефералів користувача
 
@@ -404,7 +404,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             referrals.append(Referral(**referral))
         return referrals
 
-    async def admin_user_applications_list(self, user_id, limit=None, offset=None):
+    async def admin_user_applications_list(self, user_id, limit=Empty, offset=Empty):
         """
         Отримати список додатків, якими володіє користувач
 
@@ -442,7 +442,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             applications.append(Application(**application))
         return applications
 
-    async def admin_user_update(self, user_id, application_id=None, email=None, first_name=None, last_name=None, kyc=None, balance=None):
+    async def admin_user_update(self, user_id, application_id=Empty, email=Empty, first_name=Empty, last_name=Empty, kyc=Empty, balance=Empty):
         """
         Змінити інформацію про користувача
 
@@ -478,7 +478,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('admin/setting', kwargs)
         return resp['hisettings']
 
-    async def admin_user_auth_list(self, application_id=None, user_id=None, limit=None, offset=None):
+    async def admin_user_auth_list(self, application_id=Empty, user_id=Empty, limit=Empty, offset=Empty):
         """
         Отримати відправлені коди авторизації
 
