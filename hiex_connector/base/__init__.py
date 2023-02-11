@@ -5,10 +5,10 @@ import hashlib
 import hmac
 import simplejson
 import time
-import asyncio
 import aiohttp
 from ..version import __version__
 from ..exceptions import *
+from ..types import Empty
 
 
 class HiExConnectorBase:
@@ -68,7 +68,7 @@ class HiExConnectorBase:
     def _pre_request_data(data):
         new_data = {}
         for key in data:
-            if data[key] is not None:
+            if data[key] is not Empty:
                 new_data[key] = data[key]
         return simplejson.dumps(new_data)
 
