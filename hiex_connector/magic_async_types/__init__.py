@@ -18,7 +18,7 @@ class Pair(types.Pair):
         :param amount1: Сума в currency1
         :param amount2: Сума в currency2
 
-        :return: list[amount1, amount2]
+        :return: list[amount1, amount2, rate]
         """
         return await self.__connector.pair_amount(self.currency1.code, self.currency2.code, amount1, amount2)
 

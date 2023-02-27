@@ -7,18 +7,22 @@ class AsyncHiExConnector(HiExConnectorBase):
     """
     Асинхронна бібліотека для роботи з api.hiex.io
     """
-    async def pairs_list(self, currency1=Empty, currency2=Empty):
+    async def pairs_list(self, currency1=Empty, currency2=Empty, search1=Empty, search2=Empty):
         """
         Отримати список валютних пар
 
         :param currency1: Валюта яку купуємо
         :param currency2: Валюта яку продаємо
+        :param search1: Пошук валют які купуємо
+        :param search2: Пошук валют які продаємо
 
         :return: ResponseList[Pair]
         """
         resp = await self.get_async_request('pairs/list', {
             'currency1': currency1,
             'currency2': currency2,
+            'search1': search1,
+            'search2': search2,
         })
         from ..types import ResponseList
         from ..magic_async_types import Pair
@@ -37,7 +41,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param amount1: Сума в currency1
         :param amount2: Сума в currency2
 
-        :return: list[amount1, amount2]
+        :return: list[amount1, amount2, rate]
         """
         resp = await self.get_async_request('pair/amount', {
             'currency1': currency1,
@@ -45,7 +49,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'amount1': amount1,
             'amount2': amount2,
         })
-        return Decimal(resp['amount1']), Decimal(resp['amount2'])
+        return Decimal(resp['amount1']), Decimal(resp['amount2']), Decimal(resp['rate'])
 
     async def user_get(self, auth_key):
         """
