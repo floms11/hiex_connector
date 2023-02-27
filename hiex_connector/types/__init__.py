@@ -28,6 +28,9 @@ class BaseType:
 
 class Currency(BaseType):
     code: str
+    short_name: str
+    name: str
+    full_name: str
     img: str
     deposit_merchant: str
     withdrawal_merchant: str
@@ -42,6 +45,9 @@ class Currency(BaseType):
 
     def __init__(self, **kwargs):
         self.code = kwargs['code']
+        self.short_name = kwargs['short_name']
+        self.name = kwargs['name']
+        self.full_name = kwargs['full_name']
         self.img = kwargs['img']
         self.deposit_merchant = kwargs['deposit_merchant']
         self.withdrawal_merchant = kwargs['withdrawal_merchant']
