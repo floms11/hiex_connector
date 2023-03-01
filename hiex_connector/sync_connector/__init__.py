@@ -501,16 +501,18 @@ class HiExConnector(HiExConnectorBase):
             user_auth_list.append(UserAuth(**user_auth))
         return user_auth_list
 
-    def admin_withdrawals_list(self, limit=Empty, offset=Empty):
+    def admin_withdrawals_list(self, short_withdrawal_id=Empty, limit=Empty, offset=Empty):
         """
         Отримати список виплат
 
+        :param short_withdrawal_id: Короткий ID виплати
         :param limit: Скільки виплат завантажувати
         :param offset: Починати з рядку
 
         :return: list[Withdrawal]
         """
         resp = self.get_request('admin/withdrawals/list', {
+            'short_withdrawal_id': short_withdrawal_id,
             'limit': limit,
             'offset': offset,
         })
