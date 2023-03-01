@@ -42,6 +42,13 @@ class Currency(BaseType):
     max_withdrawal: Decimal
     fee_withdrawal: Decimal
     round_ndigits: int
+    deposit_first_name_required: bool
+    deposit_last_name_required: bool
+    deposit_email_required: bool
+    withdrawal_first_name_required: bool
+    withdrawal_last_name_required: bool
+    withdrawal_tin_required: bool
+    withdrawal_phone_required: bool
 
     def __init__(self, **kwargs):
         self.code = kwargs['code']
@@ -59,6 +66,13 @@ class Currency(BaseType):
         self.max_withdrawal = Decimal(kwargs['max_withdrawal'])
         self.fee_withdrawal = Decimal(kwargs['fee_withdrawal'])
         self.round_ndigits = kwargs['round_ndigits']
+        self.deposit_first_name_required = kwargs['deposit_first_name_required']
+        self.deposit_last_name_required = kwargs['deposit_last_name_required']
+        self.deposit_email_required = kwargs['deposit_email_required']
+        self.withdrawal_first_name_required = kwargs['withdrawal_first_name_required']
+        self.withdrawal_last_name_required = kwargs['withdrawal_last_name_required']
+        self.withdrawal_tin_required = kwargs['withdrawal_tin_required']
+        self.withdrawal_phone_required = kwargs['withdrawal_phone_required']
 
 
 class AdditionalFields(BaseType):
@@ -75,7 +89,7 @@ class AdditionalFields(BaseType):
 
 
 class Payment(BaseType):
-    unique_id: str
+    payment_id: str
     status: int
     currency: Currency
     address: str
@@ -92,7 +106,7 @@ class Payment(BaseType):
     closed_at: int
 
     def __init__(self, **kwargs):
-        self.unique_id = kwargs['unique_id']
+        self.payment_id = kwargs['payment_id']
         self.status = kwargs['status']
         self.address = kwargs['address']
         self.address_qr = kwargs['address_qr']
@@ -118,7 +132,7 @@ class Payment(BaseType):
 
 
 class Withdrawal(BaseType):
-    unique_id: str
+    withdrawal_id: str
     status: int
     currency: Currency
     address: str
@@ -130,9 +144,10 @@ class Withdrawal(BaseType):
     data_create: dict
     data_status: dict
     created_at: int
+    description: str
 
     def __init__(self, **kwargs):
-        self.unique_id = kwargs['unique_id']
+        self.withdrawal_id = kwargs['withdrawal_id']
         self.status = kwargs['status']
         self.address = kwargs['address']
         self.tag = kwargs['tag']
@@ -142,6 +157,7 @@ class Withdrawal(BaseType):
         self.data_create = kwargs['data_create']
         self.data_status = kwargs['data_status']
         self.created_at = kwargs['created_at']
+        self.description = kwargs['description']
 
         if isinstance(kwargs['currency'], Currency):
             self.currency = kwargs['currency']
@@ -173,6 +189,9 @@ class Exchange(BaseType):
     application_income: Decimal
     application_interest: Decimal
     return_url: str
+    payment_id: str
+    swap_id: str
+    withdrawal_id: str
 
     def __init__(self, **kwargs):
         self.exchange_id = kwargs['exchange_id']
@@ -190,6 +209,9 @@ class Exchange(BaseType):
         self.application_income = Decimal(kwargs['application_income']) if kwargs['application_income'] else None
         self.application_interest = Decimal(kwargs['application_interest']) if kwargs['application_interest'] else None
         self.return_url = kwargs['return_url']
+        self.payment_id = kwargs['payment_id']
+        self.swap_id = kwargs['swap_id']
+        self.withdrawal_id = kwargs['withdrawal_id']
 
         if isinstance(kwargs['currency1'], Currency):
             self.currency1 = kwargs['currency1']

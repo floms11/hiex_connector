@@ -74,29 +74,29 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
-    async def admin_payment_get(self, unique_id):
+    async def admin_payment_get(self, payment_id):
         """
         Отримати обмін
 
-        :param unique_id: Ідентифікатор оплати
+        :param payment_id: Ідентифікатор оплати
 
         :return: Payment
         """
         resp = await self.get_async_request('admin/payment/get', {
-            'unique_id': unique_id,
+            'payment_id': payment_id,
         })
         return Payment(**resp['payment'])
 
-    async def admin_withdrawal_get(self, unique_id):
+    async def admin_withdrawal_get(self, withdrawal_id):
         """
         Отримати виплату
 
-        :param unique_id: Ідентифікатор виплати
+        :param withdrawal_id: Ідентифікатор виплати
 
         :return: Withdrawal
         """
         resp = await self.get_async_request('admin/withdrawal/get', {
-            'unique_id': unique_id,
+            'withdrawal_id': withdrawal_id,
         })
         return Withdrawal(**resp['withdrawal'])
 
@@ -501,3 +501,42 @@ class AsyncHiExConnector(HiExConnectorBase):
             user_auth_list.append(UserAuth(**user_auth))
         return user_auth_list
 
+    async def admin_withdrawals_list(self, limit=Empty, offset=Empty):
+        """
+        Отримати список виплат
+
+        :param limit: Скільки виплат завантажувати
+        :param offset: Починати з рядку
+
+        :return: list[Withdrawal]
+        """
+        resp = await self.get_async_request('admin/withdrawals/list', {
+            'limit': limit,
+            'offset': offset,
+        })
+        withdrawals = ResponseList()
+        withdrawals.is_all = resp['is_all']
+        for withdrawal in resp['withdrawals']:
+            withdrawals.append(Withdrawal(**withdrawal))
+        return withdrawals
+
+    async def admin_withdrawal_create(self, currency, address, amount, tag=Empty, description=Empty):
+        """
+        Створити нову виплату
+
+        :param currency: Код валюти
+        :param address: Адреса для виплати
+        :param amount: Сума виплати
+        :param tag: Тег для виплати
+        :param description: Опис виплати
+
+        :return: Withdrawal
+        """
+        resp = await self.get_async_request('admin/withdrawal/create', {
+            'currency': currency,
+            'address': address,
+            'amount': amount,
+            'tag': tag,
+            'description': description,
+        })
+        return Withdrawal(**resp['withdrawal'])
