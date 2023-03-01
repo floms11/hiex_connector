@@ -522,7 +522,10 @@ class HiExConnector(HiExConnectorBase):
             withdrawals.append(Withdrawal(**withdrawal))
         return withdrawals
 
-    def admin_withdrawal_create(self, currency, address, amount, tag=Empty, description=Empty):
+    def admin_withdrawal_create(
+            self, currency, address, amount, tag=Empty, description=Empty,
+            beneficiary_first_name=Empty, beneficiary_last_name=Empty, beneficiary_tin=Empty, beneficiary_phone=Empty,
+    ):
         """
         Створити нову виплату
 
@@ -531,6 +534,10 @@ class HiExConnector(HiExConnectorBase):
         :param amount: Сума виплати
         :param tag: Тег для виплати
         :param description: Опис виплати
+        :param beneficiary_first_name: Ім'я отримувача
+        :param beneficiary_last_name: Прізвище отримувача
+        :param beneficiary_tin: ЄДРПОУ отримувача
+        :param beneficiary_phone: Телефон отримувача
 
         :return: Withdrawal
         """
@@ -540,5 +547,9 @@ class HiExConnector(HiExConnectorBase):
             'amount': amount,
             'tag': tag,
             'description': description,
+            'beneficiary_first_name': beneficiary_first_name,
+            'beneficiary_last_name': beneficiary_last_name,
+            'beneficiary_tin': beneficiary_tin,
+            'beneficiary_phone': beneficiary_phone,
         })
         return Withdrawal(**resp['withdrawal'])
