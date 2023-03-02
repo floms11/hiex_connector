@@ -82,10 +82,11 @@ class HiExConnectorBase:
         data = simplejson.loads(body)
         if data['code'] < 0:
             code = data['code']
+            param = data['param']
             detail = ''
             if 'detail' in data:
                 detail = data['detail']
-            raise ResponseError(detail, code)
+            raise ResponseError(detail, code, param)
         return data
 
     def _get_sign(self, body, timestamp):
