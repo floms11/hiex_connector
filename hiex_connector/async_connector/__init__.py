@@ -251,7 +251,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'beneficiary_phone': beneficiary_phone,
             'validation': validation,
         })
-        return Exchange(**resp['exchange'])
+        return Exchange(**resp['exchange']) if resp['exchange'] else None
 
     async def user_exchange_create(
             self, auth_key, currency1, currency2, address, tag=Empty, amount1=Empty, amount2=Empty, return_url=Empty,
@@ -293,7 +293,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'beneficiary_phone': beneficiary_phone,
             'validation': validation,
         })
-        return Exchange(self, auth_key, **resp['exchange'])
+        return Exchange(**resp['exchange']) if resp['exchange'] else None
 
     async def exchange_payment_get(self, auth_key, exchange_id):
         """
