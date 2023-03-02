@@ -216,6 +216,7 @@ class AsyncHiExConnector(HiExConnectorBase):
     async def exchange_create(
             self, currency1, currency2, address, tag=Empty, amount1=Empty, amount2=Empty, return_url=Empty,
             beneficiary_first_name=Empty, beneficiary_last_name=Empty, beneficiary_tin=Empty, beneficiary_phone=Empty,
+            validation=Empty,
     ):
         """
         Створити новий обмін
@@ -231,6 +232,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param beneficiary_last_name: Інформація по запиту мерчанта. Прізвище отримувача
         :param beneficiary_tin: Інформація по запиту мерчанта. Номер платника податку отримувача
         :param beneficiary_phone: Інформація по запиту мерчанта. Номер телефону отримувача
+        :param validation: Тільки перевірити, чи можливо створити такий обмін
 
         :return: Exchange
         """
@@ -247,12 +249,14 @@ class AsyncHiExConnector(HiExConnectorBase):
             'beneficiary_last_name': beneficiary_last_name,
             'beneficiary_tin': beneficiary_tin,
             'beneficiary_phone': beneficiary_phone,
+            'validation': validation,
         })
         return Exchange(**resp['exchange'])
 
     async def user_exchange_create(
             self, auth_key, currency1, currency2, address, tag=Empty, amount1=Empty, amount2=Empty, return_url=Empty,
             beneficiary_first_name=Empty, beneficiary_last_name=Empty, beneficiary_tin=Empty, beneficiary_phone=Empty,
+            validation=Empty,
     ):
         """
         Створити новий обмін
@@ -269,6 +273,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param beneficiary_last_name: Інформація по запиту мерчанта. Прізвище отримувача
         :param beneficiary_tin: Інформація по запиту мерчанта. Номер платника податку отримувача
         :param beneficiary_phone: Інформація по запиту мерчанта. Номер телефону отримувача
+        :param validation: Тільки перевірити, чи можливо створити такий обмін
 
         :return: Exchange
         """
@@ -286,6 +291,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             'beneficiary_last_name': beneficiary_last_name,
             'beneficiary_tin': beneficiary_tin,
             'beneficiary_phone': beneficiary_phone,
+            'validation': validation,
         })
         return Exchange(self, auth_key, **resp['exchange'])
 
