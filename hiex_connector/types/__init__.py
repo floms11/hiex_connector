@@ -246,7 +246,7 @@ class Pair(BaseType):
     additional_fields_list: list
     swap_deposit: bool
     last_update: int
-    currency_swap_auxiliary: Currency = None
+    swap_service_info: str = None
 
     def __init__(self, **kwargs):
         self.min_amount1 = Decimal(kwargs['min_amount1'])
@@ -263,6 +263,7 @@ class Pair(BaseType):
         self.additional_fields_list = kwargs['additional_fields_list']
         self.swap_deposit = kwargs['swap_deposit']
         self.last_update = kwargs['last_update']
+        self.swap_service_info = kwargs['swap_service_info']
 
         if isinstance(kwargs['currency1'], Currency):
             self.currency1 = kwargs['currency1']
@@ -272,11 +273,6 @@ class Pair(BaseType):
             self.currency2 = kwargs['currency2']
         else:
             self.currency2 = Currency(**kwargs['currency2'])
-        if kwargs['currency_swap_auxiliary'] is not None:
-            if isinstance(kwargs['currency_swap_auxiliary'], Currency):
-                self.currency_swap_auxiliary = kwargs['currency_swap_auxiliary']
-            else:
-                self.currency_swap_auxiliary = Currency(**kwargs['currency_swap_auxiliary'])
 
 
 class Stat(BaseType):

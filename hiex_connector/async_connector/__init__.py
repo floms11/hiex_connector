@@ -258,7 +258,7 @@ class AsyncHiExConnector(HiExConnectorBase):
             pairs.append(Pair(**pair))
         return pairs
 
-    async def admin_pair_create(self, currency1, currency2, comment, kyc_required, swap_deposit, active=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, currency_swap_auxiliary: Currency = Empty):
+    async def admin_pair_create(self, currency1, currency2, comment, kyc_required, swap_deposit, active=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, swap_service_info: str = Empty):
         """
         Створити валютну пару
 
@@ -273,14 +273,14 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param max_amount2: Максимальна сума виплати
         :param min_amount1: Мінімальна сума депозиту
         :param min_amount2: Мінімальна сума виплати
-        :param currency_swap_auxiliary: Допоміжна валюта. Використовується для обміну
+        :param swap_service_info: Інформація про валюти обміну
 
         :return: Pair
         """
         resp = await self.get_async_request('admin/pair/create', {
             'currency1': currency1,
             'currency2': currency2,
-            'currency_swap_auxiliary': currency_swap_auxiliary,
+            'swap_service_info': swap_service_info,
             'comment': comment,
             'kyc_required': kyc_required,
             'swap_deposit': swap_deposit,
@@ -293,7 +293,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Pair(**resp['pair'])
 
-    async def admin_pair_update(self, currency1, currency2, active=Empty, comment=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, kyc_required=Empty, swap_deposit=Empty, currency_swap_auxiliary: Currency = Empty):
+    async def admin_pair_update(self, currency1, currency2, active=Empty, comment=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, kyc_required=Empty, swap_deposit=Empty, swap_service_info: str = Empty):
         """
         Змінити валютну пару
 
@@ -308,14 +308,14 @@ class AsyncHiExConnector(HiExConnectorBase):
         :param min_amount2: Мінімальна сума виплати
         :param kyc_required: Чи потрібен KYC для обміну
         :param swap_deposit: Чи потрібно робити автоматичний обмін
-        :param currency_swap_auxiliary: Допоміжна валюта. Використовується для обміну
+        :param swap_service_info: Інформація про валюти обміну
 
         :return: Pair
         """
         resp = await self.get_async_request('admin/pair/update', {
             'currency1': currency1,
             'currency2': currency2,
-            'currency_swap_auxiliary': currency_swap_auxiliary,
+            'swap_service_info': swap_service_info,
             'active': active,
             'comment': comment,
             'interest': interest,
