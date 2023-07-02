@@ -240,6 +240,7 @@ class Pair(BaseType):
     price: Decimal
     comment: str
     active: bool
+    available: bool
     interest: Decimal
     kyc_required: bool
     available_tag: bool
@@ -257,6 +258,7 @@ class Pair(BaseType):
         self.price = Decimal(kwargs['price'])
         self.comment = kwargs['comment']
         self.active = kwargs['active']
+        self.available = kwargs['available']
         self.interest = Decimal(kwargs['interest'])
         self.kyc_required = kwargs['kyc_required']
         self.available_tag = kwargs['available_tag']
