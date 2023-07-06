@@ -258,13 +258,12 @@ class AsyncHiExConnector(HiExConnectorBase):
             pairs.append(Pair(**pair))
         return pairs
 
-    async def admin_pair_create(self, currency1, currency2, comment, kyc_required, swap_deposit, active=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, swap_service_info: str = Empty):
+    async def admin_pair_create(self, currency1, currency2, kyc_required, swap_deposit, active=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, swap_service_info: str = Empty):
         """
         Створити валютну пару
 
         :param currency1: Валюта яку купуємо
         :param currency2: Валюта яку продаємо
-        :param comment: Коротний коментар
         :param kyc_required: Чи потрібен KYC для обміну
         :param swap_deposit: Чи потрібно робити автоматичний обмін
         :param active: Чи активний обмін
@@ -281,7 +280,6 @@ class AsyncHiExConnector(HiExConnectorBase):
             'currency1': currency1,
             'currency2': currency2,
             'swap_service_info': swap_service_info,
-            'comment': comment,
             'kyc_required': kyc_required,
             'swap_deposit': swap_deposit,
             'active': active,
@@ -293,14 +291,13 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return Pair(**resp['pair'])
 
-    async def admin_pair_update(self, currency1, currency2, active=Empty, comment=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, kyc_required=Empty, swap_deposit=Empty, swap_service_info: str = Empty):
+    async def admin_pair_update(self, currency1, currency2, active=Empty, interest=Empty, max_amount1=Empty, max_amount2=Empty, min_amount1=Empty, min_amount2=Empty, kyc_required=Empty, swap_deposit=Empty, swap_service_info: str = Empty):
         """
         Змінити валютну пару
 
         :param currency1: Валюта яку купуємо
         :param currency2: Валюта яку продаємо
         :param active: Чи активний обмін
-        :param comment: Коротний коментар
         :param interest: % нашого інтересу
         :param max_amount1: Максимальна сума депозиту
         :param max_amount2: Максимальна сума виплати
@@ -317,7 +314,6 @@ class AsyncHiExConnector(HiExConnectorBase):
             'currency2': currency2,
             'swap_service_info': swap_service_info,
             'active': active,
-            'comment': comment,
             'interest': interest,
             'max_amount1': max_amount1,
             'max_amount2': max_amount2,
