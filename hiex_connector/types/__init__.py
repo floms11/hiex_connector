@@ -345,6 +345,9 @@ class User(BaseType):
 
 
 class Referral(BaseType):
+    application_id: int
+    consumer_id: int
+    user_id: int
     user_id: int
     email: str
     kyc: bool
@@ -352,6 +355,8 @@ class Referral(BaseType):
     amount: Decimal = 0
 
     def __init__(self, **kwargs):
+        self.application_id = kwargs['application_id']
+        self.consumer_id = kwargs['consumer_id']
         self.user_id = kwargs['user_id']
         self.email = kwargs['email']
         self.kyc = kwargs['kyc']
