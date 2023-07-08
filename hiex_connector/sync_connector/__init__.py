@@ -402,6 +402,25 @@ class HiExConnector(HiExConnectorBase):
             referrals.append(Referral(**referral))
         return referrals
 
+    def admin_consumers_list(self, limit=Empty, offset=Empty):
+        """
+        Отримати список користувачів
+
+        :param limit: Скільки обмінів завантажувати
+        :param offset: Починати з рядку
+
+        :return: list[User]
+        """
+        resp = self.get_request('admin/users/list', {
+            'limit': limit,
+            'offset': offset,
+        })
+        consumers = ResponseList()
+        consumers.is_all = resp['is_all']
+        for consumer in resp['consumers']:
+            consumers.append(Consumer(**consumer))
+        return consumers
+
     def admin_consumer_get(self, consumer_id=Empty, email=Empty):
         """
         Отримати інформацію про користувача
@@ -414,6 +433,27 @@ class HiExConnector(HiExConnectorBase):
         resp = self.get_request('admin/consumer/get', {
             'consumer_id': consumer_id,
             'email': email,
+        })
+        return Consumer(**resp['consumer'])
+
+    def admin_consumer_update(self, consumer_id, email=Empty, first_name=Empty, last_name=Empty, kyc=Empty):
+        """
+        Змінити інформацію про користувача
+
+        :param consumer_id: Номер користувача
+        :param email: Нова пошта
+        :param first_name: Нове ім'я
+        :param last_name: Нове прізвище
+        :param kyc: KYC
+
+        :return: Consumer
+        """
+        resp = self.get_request('admin/consumer/update', {
+            'consumer_id': consumer_id,
+            'email': email,
+            'first_name': first_name,
+            'last_name': last_name,
+            'kyc': kyc,
         })
         return Consumer(**resp['consumer'])
 
