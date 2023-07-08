@@ -508,18 +508,20 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('admin/setting', kwargs)
         return resp['hisettings']
 
-    async def admin_user_auth_list(self, user_id=Empty, limit=Empty, offset=Empty):
+    async def admin_user_auth_list(self, consumer_id=Empty, application_id=Empty, limit=Empty, offset=Empty):
         """
         Отримати відправлені коди авторизації
 
-        :param user_id: Номер користувача
+        :param consumer_id: Номер користувача
+        :param application_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
 
         :return: list[UserAuth]
         """
         resp = await self.get_async_request('admin/user/auth/list', {
-            'user_id': user_id,
+            'consumer_id': consumer_id,
+            'application_id': application_id,
             'limit': limit,
             'offset': offset,
         })
