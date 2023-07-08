@@ -173,7 +173,7 @@ class Withdrawal(BaseType):
 class Exchange(BaseType):
     exchange_id: str
     application_id: int
-    user_id: int
+    consumer_id: int
     status: int
     amount1: Decimal
     amount2: Decimal
@@ -196,7 +196,7 @@ class Exchange(BaseType):
     def __init__(self, **kwargs):
         self.exchange_id = kwargs['exchange_id']
         self.application_id = kwargs['application_id']
-        self.user_id = kwargs['user_id']
+        self.consumer_id = kwargs['consumer_id']
         self.status = kwargs['status']
         self.amount1 = Decimal(kwargs['amount1'])
         self.amount2 = Decimal(kwargs['amount2'])
@@ -292,8 +292,26 @@ class Stat(BaseType):
         self.application_income = Decimal(kwargs['application_income'])
 
 
+class Consumer(BaseType):
+    consumer_id: int
+    kyc: bool
+    email: str
+    first_name: str
+    last_name: str
+    created_at: int
+
+    def __init__(self, **kwargs):
+        self.consumer_id = kwargs['consumer_id']
+        self.kyc = kwargs['kyc']
+        self.email = kwargs['email']
+        self.first_name = kwargs['first_name']
+        self.last_name = kwargs['last_name']
+        self.created_at = kwargs['created_at']
+
+
 class User(BaseType):
     user_id: int
+    consumer_id: int
     kyc: bool
     email: str
     first_name: str
@@ -310,6 +328,7 @@ class User(BaseType):
 
     def __init__(self, **kwargs):
         self.user_id = kwargs['user_id']
+        self.consumer_id = kwargs['consumer_id']
         self.kyc = kwargs['kyc']
         self.email = kwargs['email']
         self.first_name = kwargs['first_name']
@@ -344,7 +363,7 @@ class UserAuth(BaseType):
     allow: bool
     auth_key: str
     application_id: int
-    user_id: int
+    consumer_id: int
     code: int
     code_attempt: int
 
@@ -352,7 +371,7 @@ class UserAuth(BaseType):
         self.allow = kwargs['allow']
         self.auth_key = kwargs['auth_key']
         self.application_id = kwargs['application_id']
-        self.user_id = kwargs['user_id']
+        self.consumer_id = kwargs['consumer_id']
         self.code = kwargs['code']
         self.code_attempt = kwargs['code_attempt']
 
@@ -368,7 +387,7 @@ class Log(BaseType):
 
 class Application(BaseType):
     application_id: int
-    user_id: int
+    consumer_id: int
     name: str
     private_key: str
     public_key: str
@@ -379,7 +398,7 @@ class Application(BaseType):
 
     def __init__(self, **kwargs):
         self.application_id = kwargs['application_id']
-        self.user_id = kwargs['user_id']
+        self.consumer_id = kwargs['consumer_id']
         self.name = kwargs['name']
         self.private_key = kwargs['private_key']
         self.public_key = kwargs['public_key']

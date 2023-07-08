@@ -47,12 +47,12 @@ class HiExConnector(HiExConnectorBase):
         })
         return Exchange(**resp['exchange'])
 
-    def admin_exchanges_list(self, application_id=Empty, user_id=Empty, limit=Empty, offset=Empty, status_list=Empty, short_exchange_id=Empty):
+    def admin_exchanges_list(self, application_id=Empty, consumer_id=Empty, limit=Empty, offset=Empty, status_list=Empty, short_exchange_id=Empty):
         """
         Отримати список обмінів (за вибіркою)
 
         :param application_id: Номер додатку
-        :param user_id: Номер користувача
+        :param consumer_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
         :param status_list: Статуси обмінів
@@ -62,7 +62,7 @@ class HiExConnector(HiExConnectorBase):
         """
         resp = self.get_request('admin/exchanges/list', {
             'application_id': application_id,
-            'user_id': user_id,
+            'consumer_id': consumer_id,
             'limit': limit,
             'offset': offset,
             'status_list': status_list,
@@ -148,16 +148,18 @@ class HiExConnector(HiExConnectorBase):
             stats.append(Stat(**stat))
         return stats
 
-    def admin_applications_list(self, limit=Empty, offset=Empty):
+    def admin_applications_list(self, consumer_id=Empty, limit=Empty, offset=Empty):
         """
         Завантажити список додатків у системі
 
+        :param consumer_id: ID власника додатку
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
 
         :return: list[Application]
         """
         resp = self.get_request('admin/applications/list', {
+            'consumer_id': consumer_id,
             'limit': limit,
             'offset': offset,
         })
@@ -167,14 +169,14 @@ class HiExConnector(HiExConnectorBase):
             applications.append(Application(**application))
         return applications
 
-    def admin_application_create(self, name, available_methods, interest, user_id):
+    def admin_application_create(self, name, available_methods, interest, consumer_id):
         """
         Створити новий додаток
 
         :param name: Ім'я додатку
         :param available_methods: Список методів, які будуть доступні додатку
         :param interest: % від обмінів
-        :param user_id: ID власника додатку
+        :param consumer_id: ID власника додатку
 
         :return: Application
         """
@@ -182,7 +184,7 @@ class HiExConnector(HiExConnectorBase):
             'name': name,
             'available_methods': available_methods,
             'interest': interest,
-            'user_id': user_id,
+            'consumer_id': consumer_id,
         })
         return Application(**resp['application'])
 
@@ -212,7 +214,7 @@ class HiExConnector(HiExConnectorBase):
         })
         return True
 
-    def admin_application_update(self, application_id, available_methods=Empty, balance=Empty, interest=Empty, update_keys=Empty, name=Empty, notification_url=Empty, user_id=Empty):
+    def admin_application_update(self, application_id, available_methods=Empty, balance=Empty, interest=Empty, update_keys=Empty, name=Empty, notification_url=Empty, consumer_id=Empty):
         """
         Редагувати додаток
 
@@ -223,7 +225,7 @@ class HiExConnector(HiExConnectorBase):
         :param update_keys: True, якщо потрібно згенерувати нові ключі
         :param name: Ім'я додатку
         :param notification_url: URL для отримання сповіщень
-        :param user_id: ID власника додатку
+        :param consumer_id: ID власника додатку
 
         :return: Application
         """
@@ -235,7 +237,7 @@ class HiExConnector(HiExConnectorBase):
             'update_keys': update_keys,
             'name': name,
             'notification_url': notification_url,
-            'user_id': user_id,
+            'consumer_id': consumer_id,
         })
         return Application(**resp['application'])
 
@@ -360,11 +362,12 @@ class HiExConnector(HiExConnectorBase):
             users.append(User(**user))
         return users
 
-    def admin_user_get(self, application_id=Empty, user_id=Empty, email=Empty):
+    def admin_user_get(self, application_id=Empty, consumer_id=Empty, user_id=Empty, email=Empty):
         """
         Отримати інформацію про користувача
 
         :param application_id: Номер додатку
+        :param consumer_id: Номер користувача
         :param user_id: Номер користувача
         :param email: Пошта користувача
 
@@ -372,16 +375,16 @@ class HiExConnector(HiExConnectorBase):
         """
         resp = self.get_request('admin/user/get', {
             'application_id': application_id,
+            'consumer_id': consumer_id,
             'user_id': user_id,
             'email': email,
         })
         return User(**resp['user'])
 
-    def admin_user_referrals_list(self, application_id, user_id, limit=Empty, offset=Empty):
+    def admin_user_referrals_list(self, user_id, limit=Empty, offset=Empty):
         """
         Отримати інформацію про рефералів користувача
 
-        :param application_id: Номер додатку
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
@@ -389,7 +392,6 @@ class HiExConnector(HiExConnectorBase):
         :return: list[Referral]
         """
         resp = self.get_request('admin/user/referrals/list', {
-            'application_id': application_id,
             'user_id': user_id,
             'limit': limit,
             'offset': offset,
@@ -400,37 +402,31 @@ class HiExConnector(HiExConnectorBase):
             referrals.append(Referral(**referral))
         return referrals
 
-    def admin_user_applications_list(self, user_id, limit=Empty, offset=Empty):
+    def admin_consumer_get(self, consumer_id=Empty, email=Empty):
         """
-        Отримати список додатків, якими володіє користувач
+        Отримати інформацію про користувача
 
-        :param user_id: Номер користувача
-        :param limit: Скільки обмінів завантажувати
-        :param offset: Починати з рядку
+        :param consumer_id: Номер користувача
+        :param email: Пошта користувача
 
-        :return: list[Application]
+        :return: Consumer
         """
-        resp = self.get_request('admin/user/applications/list', {
-            'user_id': user_id,
-            'limit': limit,
-            'offset': offset,
+        resp = self.get_request('admin/consumer/get', {
+            'consumer_id': consumer_id,
+            'email': email,
         })
-        applications = ResponseList()
-        applications.is_all = resp['is_all']
-        for application in resp['applications']:
-            applications.append(Application(**application))
-        return applications
+        return Consumer(**resp['consumer'])
 
-    def admin_user_auth_applications_list(self, user_id):
+    def admin_consumer_auth_applications_list(self, consumer_id):
         """
         Отримати список додатків, з якими взаємодіяв користувач
 
-        :param user_id: Номер користувача
+        :param consumer_id: Номер користувача
 
         :return: list[Application]
         """
-        resp = self.get_request('admin/user/auth/applications/list', {
-            'user_id': user_id,
+        resp = self.get_request('admin/consumer/auth/applications/list', {
+            'consumer_id': consumer_id,
         })
         applications = ResponseList()
         applications.is_all = resp['is_all']
@@ -438,12 +434,11 @@ class HiExConnector(HiExConnectorBase):
             applications.append(Application(**application))
         return applications
 
-    def admin_user_update(self, user_id, application_id=Empty, email=Empty, first_name=Empty, last_name=Empty, kyc=Empty, balance=Empty):
+    def admin_user_update(self, user_id, email=Empty, first_name=Empty, last_name=Empty, kyc=Empty, balance=Empty):
         """
         Змінити інформацію про користувача
 
         :param user_id: Номер користувача
-        :param application_id: Номер додатку
         :param email: Нова пошта
         :param first_name: Нове ім'я
         :param last_name: Нове прізвище
@@ -454,7 +449,6 @@ class HiExConnector(HiExConnectorBase):
         """
         resp = self.get_request('admin/user/update', {
             'user_id': user_id,
-            'application_id': application_id,
             'email': email,
             'first_name': first_name,
             'last_name': last_name,
@@ -474,11 +468,10 @@ class HiExConnector(HiExConnectorBase):
         resp = self.get_request('admin/setting', kwargs)
         return resp['hisettings']
 
-    def admin_user_auth_list(self, application_id=Empty, user_id=Empty, limit=Empty, offset=Empty):
+    def admin_user_auth_list(self, user_id=Empty, limit=Empty, offset=Empty):
         """
         Отримати відправлені коди авторизації
 
-        :param application_id: Номер Додатку
         :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
@@ -486,7 +479,6 @@ class HiExConnector(HiExConnectorBase):
         :return: list[UserAuth]
         """
         resp = self.get_request('admin/user/auth/list', {
-            'application_id': application_id,
             'user_id': user_id,
             'limit': limit,
             'offset': offset,
