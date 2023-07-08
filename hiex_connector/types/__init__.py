@@ -174,6 +174,7 @@ class Exchange(BaseType):
     exchange_id: str
     application_id: int
     consumer_id: int
+    user_id: int
     status: int
     amount1: Decimal
     amount2: Decimal
@@ -197,6 +198,7 @@ class Exchange(BaseType):
         self.exchange_id = kwargs['exchange_id']
         self.application_id = kwargs['application_id']
         self.consumer_id = kwargs['consumer_id']
+        self.user_id = kwargs['user_id']
         self.status = kwargs['status']
         self.amount1 = Decimal(kwargs['amount1'])
         self.amount2 = Decimal(kwargs['amount2'])
