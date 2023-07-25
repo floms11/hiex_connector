@@ -6,6 +6,7 @@ import hmac
 import simplejson
 import time
 import aiohttp
+from contextvars import ContextVar
 from ..version import __version__
 from ..exceptions import *
 from ..types import Empty
@@ -15,12 +16,16 @@ class HiExConnectorBase:
     __private_key: str = ''
     __public_key: str = ''
     __basic_url: str = 'https://api.hiex.io/'
+    __lang: str = None
+    __lang_context_var: ContextVar = None
 
-    def __init__(self, private_key, public_key, base_url=None):
+    def __init__(self, private_key, public_key, base_url=None, lang=None, lang_context_var: ContextVar = None):
         self.__private_key = private_key
         self.__public_key = public_key
         if base_url is not None:
             self.__basic_url = base_url
+        self.__lang = lang
+        self.__lang_context_var = lang_context_var
 
     def get_request(self, method, data):
         text, headers = self.get_request_data(method, data)
@@ -64,12 +69,19 @@ class HiExConnectorBase:
                 text = await resp.text()
                 return text, resp.headers
 
-    @staticmethod
-    def _pre_request_data(data):
+    def _pre_request_data(self, data):
+        lang = None
+        if self.__lang:
+            lang = self.__lang
+        if self.__lang_context_var:
+            _lang = self.__lang_context_var.get()
+            if _lang:
+                lang = _lang
         new_data = {}
         for key in data:
             if data[key] is not Empty:
                 new_data[key] = data[key]
+        new_data['lang'] = lang
         return simplejson.dumps(new_data)
 
     def get_valid_response(self, body, headers):
