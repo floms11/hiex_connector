@@ -7,6 +7,20 @@ class AsyncHiExConnector(HiExConnectorBase):
     """
     Асинхронна бібліотека для роботи з api.hiex.io
     """
+    async def currencies_list(self):
+        """
+        Отримати список валют
+
+        :return: ResponseList[Currency]
+        """
+        resp = await self.get_async_request('currencies/list', {})
+        from ..types import ResponseList, Currency
+        currencies = ResponseList()
+        currencies.is_all = resp['is_all']
+        for currency in resp['currencies']:
+            currencies.append(Currency(**currency))
+        return currencies
+
     async def pairs_list(self, currency1=Empty, currency2=Empty, search1=Empty, search2=Empty):
         """
         Отримати список валютних пар
