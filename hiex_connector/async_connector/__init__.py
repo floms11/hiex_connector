@@ -373,11 +373,10 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def application_exchanges_list(self, user_id=Empty, limit=Empty, offset=Empty, status_list=Empty, short_exchange_id=Empty):
+    async def exchanges_list(self, limit=Empty, offset=Empty, status_list=Empty, short_exchange_id=Empty):
         """
-        Отримати список обмінів додатку (за вибіркою)
+        Отримати список обмінів
 
-        :param user_id: Номер користувача
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
         :param status_list: Список статусів
@@ -387,8 +386,7 @@ class AsyncHiExConnector(HiExConnectorBase):
         :return: ResponseList[Exchange]
         """
         from ..types import ResponseList, Exchange
-        resp = await self.get_async_request('application/exchanges/list', {
-            'user_id': user_id,
+        resp = await self.get_async_request('exchanges/list', {
             'limit': limit,
             'offset': offset,
             'status_list': status_list,
@@ -399,27 +397,6 @@ class AsyncHiExConnector(HiExConnectorBase):
         for exchange in resp['exchanges']:
             exchanges.append(Exchange(**exchange))
         return exchanges
-
-    async def application_users_list(self, limit=Empty, offset=Empty):
-        """
-        Отримати список користувачів
-
-        :param limit: Скільки користувачів завантажувати
-        :param offset: Починати з рядку
-
-
-        :return: ResponseList[User]
-        """
-        from ..types import ResponseList, User
-        resp = await self.get_async_request('application/users/list', {
-            'limit': limit,
-            'offset': offset,
-        })
-        users = ResponseList()
-        users.is_all = resp['is_all']
-        for user in resp['users']:
-            users.append(User(**user))
-        return users
 
     async def application_stats_list(self, limit=Empty, offset=Empty):
         """

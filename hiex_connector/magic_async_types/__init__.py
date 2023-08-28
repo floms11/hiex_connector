@@ -235,31 +235,6 @@ class Application(types.Application):
         super().__init__(**o.get_dict())
         return True
 
-    async def exchanges(self, user_id=types.Empty, limit=types.Empty, offset=types.Empty, status_list=types.Empty, short_exchange_id=types.Empty):
-        """
-        Отримати список обмінів додатку (за вибіркою)
-
-        :param user_id: Номер користувача
-        :param limit: Скільки обмінів завантажувати
-        :param offset: Починати з рядку
-        :param status_list: Список статусів
-        :param short_exchange_id: Перші символи з exchange_id
-
-        :return:
-        """
-        return await self.__connector.application_exchanges_list(user_id, limit, offset, status_list, short_exchange_id)
-
-    async def users(self, limit=types.Empty, offset=types.Empty):
-        """
-        Отримати список користувачів додатку
-
-        :param limit: Скільки користувачів завантажувати
-        :param offset: Починати з рядку
-
-        :return:
-        """
-        return await self.__connector.application_users_list(limit, offset)
-
     async def stats(self, limit=types.Empty, offset=types.Empty):
         """
         Завантажити статистику (за вибіркою)
