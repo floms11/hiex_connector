@@ -173,7 +173,6 @@ class Withdrawal(BaseType):
 class Exchange(BaseType):
     exchange_id: str
     application_id: int
-    consumer_id: int
     user_id: int
     status: int
     amount1: Decimal
@@ -197,7 +196,6 @@ class Exchange(BaseType):
     def __init__(self, **kwargs):
         self.exchange_id = kwargs['exchange_id']
         self.application_id = kwargs['application_id']
-        self.consumer_id = kwargs['consumer_id']
         self.user_id = kwargs['user_id']
         self.status = kwargs['status']
         self.amount1 = Decimal(kwargs['amount1'])
@@ -294,26 +292,8 @@ class Stat(BaseType):
         self.application_income = Decimal(kwargs['application_income'])
 
 
-class Consumer(BaseType):
-    consumer_id: int
-    kyc: bool
-    email: str
-    first_name: str
-    last_name: str
-    created_at: int
-
-    def __init__(self, **kwargs):
-        self.consumer_id = kwargs['consumer_id']
-        self.kyc = kwargs['kyc']
-        self.email = kwargs['email']
-        self.first_name = kwargs['first_name']
-        self.last_name = kwargs['last_name']
-        self.created_at = kwargs['created_at']
-
-
 class User(BaseType):
     user_id: int
-    consumer_id: int
     kyc: bool
     email: str
     first_name: str
@@ -322,7 +302,6 @@ class User(BaseType):
     balance: Decimal = 0
     referral_token: str = None
     referral_id: int = None
-    application_id: int = None
     referrals_count: int = None
     referrals_sum_amount: Decimal = None
     referral_interest: Decimal = None
@@ -330,7 +309,6 @@ class User(BaseType):
 
     def __init__(self, **kwargs):
         self.user_id = kwargs['user_id']
-        self.consumer_id = kwargs['consumer_id']
         self.kyc = kwargs['kyc']
         self.email = kwargs['email']
         self.first_name = kwargs['first_name']
@@ -339,7 +317,6 @@ class User(BaseType):
         self.balance = Decimal(kwargs['balance'])
         self.referral_token = kwargs['referral_token']
         self.referral_id = kwargs['referral_id']
-        self.application_id = kwargs['application_id']
         self.data = kwargs['data']
         self.referrals_count = kwargs['referrals_count']
         self.referrals_sum_amount = Decimal(kwargs['referrals_sum_amount'])
@@ -347,9 +324,6 @@ class User(BaseType):
 
 
 class Referral(BaseType):
-    application_id: int
-    consumer_id: int
-    user_id: int
     user_id: int
     email: str
     kyc: bool
@@ -357,8 +331,6 @@ class Referral(BaseType):
     amount: Decimal = 0
 
     def __init__(self, **kwargs):
-        self.application_id = kwargs['application_id']
-        self.consumer_id = kwargs['consumer_id']
         self.user_id = kwargs['user_id']
         self.email = kwargs['email']
         self.kyc = kwargs['kyc']
@@ -370,7 +342,7 @@ class UserAuth(BaseType):
     allow: bool
     auth_key: str
     application_id: int
-    consumer_id: int
+    user_id: int
     code: int
     code_attempt: int
 
@@ -378,7 +350,7 @@ class UserAuth(BaseType):
         self.allow = kwargs['allow']
         self.auth_key = kwargs['auth_key']
         self.application_id = kwargs['application_id']
-        self.consumer_id = kwargs['consumer_id']
+        self.user_id = kwargs['user_id']
         self.code = kwargs['code']
         self.code_attempt = kwargs['code_attempt']
 
@@ -395,7 +367,6 @@ class Log(BaseType):
 class Application(BaseType):
     application_id: int
     user_id: int
-    consumer_id: int
     name: str
     private_key: str
     public_key: str
@@ -407,7 +378,6 @@ class Application(BaseType):
     def __init__(self, **kwargs):
         self.application_id = kwargs['application_id']
         self.user_id = kwargs['user_id']
-        self.consumer_id = kwargs['consumer_id']
         self.name = kwargs['name']
         self.private_key = kwargs['private_key']
         self.public_key = kwargs['public_key']
