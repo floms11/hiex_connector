@@ -215,7 +215,7 @@ class Application(BaseType):
     name: str
     public_key: str
     interest: Decimal
-    balance: Decimal
+    income: Decimal
     notification_url: str
 
     def __init__(self, **kwargs):
@@ -224,7 +224,7 @@ class Application(BaseType):
         self.name = kwargs['name']
         self.public_key = kwargs['public_key']
         self.interest = Decimal(kwargs['interest'])
-        self.balance = Decimal(kwargs['balance'])
+        self.income = Decimal(kwargs['balance'])
         self.notification_url = kwargs['notification_url']
 
 
