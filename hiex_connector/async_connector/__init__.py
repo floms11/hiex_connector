@@ -214,13 +214,12 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def admin_application_update(self, application_id, available_methods=Empty, balance=Empty, interest=Empty, update_keys=Empty, name=Empty, notification_url=Empty, user_id=Empty):
+    async def admin_application_update(self, application_id, available_methods=Empty, interest=Empty, update_keys=Empty, name=Empty, notification_url=Empty, user_id=Empty):
         """
         Редагувати додаток
 
         :param application_id: Номер додатку
         :param available_methods: Список методів, які будуть доступні додатку
-        :param balance: Кількість грошей на рахунку додатку
         :param interest: % від обмінів
         :param update_keys: True, якщо потрібно згенерувати нові ключі
         :param name: Ім'я додатку
@@ -232,7 +231,6 @@ class AsyncHiExConnector(HiExConnectorBase):
         resp = await self.get_async_request('admin/application/update', {
             'application_id': application_id,
             'available_methods': available_methods,
-            'balance': balance,
             'interest': interest,
             'update_keys': update_keys,
             'name': name,

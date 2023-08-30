@@ -371,7 +371,7 @@ class Application(BaseType):
     private_key: str
     public_key: str
     interest: Decimal
-    balance: Decimal
+    income: Decimal
     notification_url: str
     available_methods: list
 
@@ -382,6 +382,6 @@ class Application(BaseType):
         self.private_key = kwargs['private_key']
         self.public_key = kwargs['public_key']
         self.interest = Decimal(kwargs['interest'])
-        self.balance = Decimal(kwargs['balance'])
+        self.income = Decimal(kwargs['income'])
         self.notification_url = kwargs['notification_url']
         self.available_methods = kwargs['available_methods']
