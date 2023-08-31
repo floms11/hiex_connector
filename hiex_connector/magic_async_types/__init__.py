@@ -260,6 +260,17 @@ class Application(types.Application):
         """
         return await self.__connector.application_exchanges_list(limit, offset, user_id, status_list, short_exchange_id)
 
+    async def users(self, limit=types.Empty, offset=types.Empty):
+        """
+        Отримати користувачів додатку
+
+        :param limit: Скільки обмінів завантажувати
+        :param offset Починати з рядку
+
+        :return:
+        """
+        return await self.__connector.application_users_list(limit, offset)
+
     async def interest_set(self, interest):
         """
         Змінити % від обмінів
