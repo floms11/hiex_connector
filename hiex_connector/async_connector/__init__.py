@@ -398,6 +398,33 @@ class AsyncHiExConnector(HiExConnectorBase):
             exchanges.append(Exchange(**exchange))
         return exchanges
 
+    async def application_exchanges_list(self, limit=Empty, offset=Empty, user_id=Empty, status_list=Empty, short_exchange_id=Empty):
+        """
+        Отримати список обмінів
+
+        :param limit: Скільки обмінів завантажувати
+        :param offset: Починати з рядку
+        :param user_id: ID користувача
+        :param status_list: Список статусів
+        :param short_exchange_id: Перші символи з exchange_id
+
+
+        :return: ResponseList[Exchange]
+        """
+        from ..types import ResponseList, Exchange
+        resp = await self.get_async_request('application/exchanges/list', {
+            'limit': limit,
+            'offset': offset,
+            'user_id': user_id,
+            'status_list': status_list,
+            'short_exchange_id': short_exchange_id,
+        })
+        exchanges = ResponseList()
+        exchanges.is_all = resp['is_all']
+        for exchange in resp['exchanges']:
+            exchanges.append(Exchange(**exchange))
+        return exchanges
+
     async def application_stats_list(self, limit=Empty, offset=Empty):
         """
         Завантажити статистику (за вибіркою)

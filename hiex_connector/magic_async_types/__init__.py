@@ -246,6 +246,20 @@ class Application(types.Application):
         """
         return await self.__connector.application_stats_list(limit, offset)
 
+    async def exchanges(self, limit=types.Empty, offset=types.Empty, user_id=types.Empty, status_list=types.Empty, short_exchange_id=types.Empty):
+        """
+        Отримати історію обмінів додатку
+
+        :param limit: Скільки обмінів завантажувати
+        :param offset Починати з рядку
+        :param user_id: ID користувача
+        :param status_list: Список статусів
+        :param short_exchange_id: Перші символи з exchange_id
+
+        :return:
+        """
+        return await self.__connector.application_exchanges_list(limit, offset, user_id, status_list, short_exchange_id)
+
     async def interest_set(self, interest):
         """
         Змінити % від обмінів
