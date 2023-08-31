@@ -339,16 +339,18 @@ class AsyncHiExConnector(HiExConnectorBase):
         })
         return True
 
-    async def admin_users_list(self, limit=Empty, offset=Empty):
+    async def admin_users_list(self, application_id=Empty, limit=Empty, offset=Empty):
         """
         Отримати список користувачів (за вибіркою)
 
+        :param application_id: Користувачі авторизовані в додатку
         :param limit: Скільки обмінів завантажувати
         :param offset: Починати з рядку
 
         :return: list[User]
         """
         resp = await self.get_async_request('admin/users/list', {
+            'application_id': application_id,
             'limit': limit,
             'offset': offset,
         })
