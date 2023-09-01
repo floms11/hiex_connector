@@ -13,7 +13,7 @@
 
 ## До коду!
 
-#### Імпортуємо конектор
+### Імпортуємо конектор
 
 `
 from hiex_connector import HiExConnector
@@ -25,7 +25,7 @@ _Або асинхронний варіант:_
 from hiex_connector import AsyncHiExConnector
 `
 
-#### Створюємо екземпляр
+### Створюємо екземпляр
 
 `
 hiex = HiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
@@ -40,7 +40,7 @@ hiex = AsyncHiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
 
 **Ключі потрібно отримати у [підтримки](https://t.me/hiexio) hiex.io**
 
-#### Далі всі [запити](https://docs.hiex.io) виконуються за прикладом: 
+### Далі всі [запити](https://docs.hiex.io) виконуються за прикладом: 
 
 `
 pairs = hiex.exchange_pairs_list()
@@ -52,9 +52,9 @@ _Або асинхронний варіант:_
 pairs = await hiex.exchange_pairs_list()
 `
 
-### Контекст
+## Контекст
 
-#### З типами можна взаємодіяти в їх контексті. Деякі приклади:
+### З типами можна взаємодіяти в їх контексті. Деякі приклади:
 
 * Щоб оновити інформацію про обмін, достатньо виконати: `await exchange.reload()`
 * Щоб отримати реквізити обміну, достатньо виконати: `await exchange.payment()`
