@@ -13,7 +13,7 @@
 
 ## До коду!
 
-**Імпортуємо конектор**
+#### Імпортуємо конектор
 
 `
 from hiex_connector import HiExConnector
@@ -25,7 +25,7 @@ _Або асинхронний варіант:_
 from hiex_connector import AsyncHiExConnector
 `
 
-**Створюємо екземпляр** 
+#### Створюємо екземпляр
 
 `
 hiex = HiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
@@ -36,9 +36,11 @@ _Або асинхронний варіант:_
 `
 hiex = AsyncHiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
 `
- (ключі потрібно отримати у [підтримки](https://t.me/hiexio) hiex.io)
 
-**Далі всі [запити](https://docs.hiex.io) виконуються за прикладом:** 
+
+**Ключі потрібно отримати у [підтримки](https://t.me/hiexio) hiex.io**
+
+#### Далі всі [запити](https://docs.hiex.io) виконуються за прикладом: 
 
 `
 pairs = hiex.exchange_pairs_list()
