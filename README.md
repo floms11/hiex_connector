@@ -11,9 +11,9 @@
 * для `mac/linux`: `pip3 install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`;
 * для `windows`: `pip install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`.
 
-## Перейдемо до коду
+## До коду!
 
-Імпортуємо конектор
+**Імпортуємо конектор**
 
 `
 from hiex_connector import HiExConnector
@@ -25,7 +25,7 @@ _Або асинхронний варіант:_
 from hiex_connector import AsyncHiExConnector
 `
 
-Створемо екземпляр 
+**Створюємо екземпляр** 
 
 `
 hiex = HiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
@@ -38,7 +38,7 @@ hiex = AsyncHiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
 `
  (ключі потрібно отримати у [підтримки](https://t.me/hiexio) hiex.io)
 
-Далі всі [запити](https://docs.hiex.io) здійснюються за прикладом: 
+**Далі всі [запити](https://docs.hiex.io) виконуються за прикладом:** 
 
 `
 pairs = hiex.exchange_pairs_list()
@@ -56,15 +56,15 @@ pairs = await hiex.exchange_pairs_list()
 
 * Щоб оновити інформацію про обмін, достатньо виконати: `await exchange.reload()`
 * Щоб отримати реквізити обміну, достатньо виконати: `await exchange.payment()`
-* Щоб відмініти обмін, достатньо виконати: `await exchange.cancel()`
+* Щоб відмінити обмін, достатньо виконати: `await exchange.cancel()`
 * Щоб завантажити користувача який виконав обмін, достатньо виконати: `user = await exchange.user()`
 * Щоб завантажити історію обмінів, достатньо виконати: `exchanges = await user.exchanges()`
 
-Для перегляду детальнішої інформації про контекст в типав див. вихідний код
+Для перегляду детальнішої інформації про контекст в типах див. вихідний код
 
 ## Сповіщення (webhooks)
 
-У біблітеці розроблений функціонал для обробки сповіщень від **hiex.io**.
+У бібліотеці розроблений функціонал для обробки сповіщень від **hiex.io**.
 
 Перед реалізацією рекомендую почитати [документацію](https://docs.hiex.io/webhooks/) про сповіщення
 
