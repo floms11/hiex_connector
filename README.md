@@ -11,41 +11,56 @@
 * для `mac/linux`: `pip3 install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`;
 * для `windows`: `pip install https://github.com/floms11/hiex_connector/archive/refs/heads/partner.zip`.
 
-Далі можна використовувати біблітеоку в точності, як описано в [https://docs.hiex.io](тут), та використовувати "магічні типи"
-
 ## Перейдемо до коду
 
 Імпортуємо конектор
+
+`
+from hiex_connector import HiExConnector
+`
+
+_Або асинхронний варіант:_
+
 `
 from hiex_connector import AsyncHiExConnector
 `
 
 Створемо екземпляр 
+
+`
+hiex = HiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
+`
+
+_Або асинхронний варіант:_
+
 `
 hiex = AsyncHiExConnector('<PRIVATE_KEY>', '<PUBLIC_KEY>'')
 `
  (ключі потрібно отримати у [підтримки](https://t.me/hiexio) hiex.io)
 
 Далі всі [запити](https://docs.hiex.io) здійснюються за прикладом: 
+
 `
-exchange = await hiex.exchange_get('<EXCHANGE_ID>')
-` (<EXCHANGE_ID> – при створені обміну)
+pairs = hiex.exchange_pairs_list()
+`
 
-`exchange` – це об'єкт типу Exchange. Всі типи описані на на сторінці: https://docs.hiex.io/types/
+_Або асинхронний варіант:_
 
-Для перегляду детальнішої інформації див. `types/` та `async_connector/`
+`
+pairs = await hiex.exchange_pairs_list()
+`
 
-### Магічні типи
+### Контекст
 
-#### З типом `exchange` (та іншими) можна взаємодіяти. Наведу кілька прикладів:
+#### З типами можна взаємодіяти в їх контексті. Деякі приклади:
 
 * Щоб оновити інформацію про обмін, достатньо виконати: `await exchange.reload()`
-* Щоб підтвердити обмін, достатньо виконати: `await exchange.confirm()`
+* Щоб отримати реквізити обміну, достатньо виконати: `await exchange.payment()`
 * Щоб відмініти обмін, достатньо виконати: `await exchange.cancel()`
 * Щоб завантажити користувача який виконав обмін, достатньо виконати: `user = await exchange.user()`
 * Щоб завантажити історію обмінів, достатньо виконати: `exchanges = await user.exchanges()`
 
-Для перегляду детальнішої інформації про "магічні" типи див. `magic_async_types/`
+Для перегляду детальнішої інформації про контекст в типав див. вихідний код
 
 ## Сповіщення (webhooks)
 

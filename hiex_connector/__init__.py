@@ -2,4 +2,3 @@ from .async_handlers import AsyncHiExNotifications, AsyncHiExExchangeUpdate, Asy
 from .async_connector import AsyncHiExConnector
 from .sync_connector import HiExConnector
 from .types import *
-from .magic_async_types import *
